@@ -1,0 +1,27 @@
+{
+    "name":"Sistema de tickets soporte técnico Alcomex",
+    "short_name":"Alcomex",
+    "start_url":"../index.php",
+    "display":"standalone",
+    "theme_color":"#fb5d14",
+    "background_color":"#fb5d14",
+    "icons":[
+        {
+            "src":"./icons/alcomex.png",
+            "sizes":"255x255",
+            "type":"image/png"
+        },
+        {
+            "src":"./icons/logo.png",
+            "sizes":"255x255",
+            "type":"image/png"
+        },
+        {
+        
+            "src":"./icons/carousel.png",
+            "sizes":"255x255",
+            "type":"image/png"
+        }
+        
+    ]
+}
