@@ -290,15 +290,10 @@
                                 //    var dropdownMenu = $(this).closest(".dropdown").find(".dropdown-menu");
                                 dropdownMenu.toggleClass("open");
                             });
-
-
-                          
                             // Evitar que se cierre el menú al hacer clic en un enlace interno
                             $(".dropdown-menu").on("click", function (e) {
                                 e.stopPropagation();
                             });
-
-
                             $(".inventario").click(function (e) {
                                 e.preventDefault();
                                 $(".principal, .secundario, .terciario").removeClass("show");
