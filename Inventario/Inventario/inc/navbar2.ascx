@@ -29,7 +29,7 @@
                                             <%
                                             if (Session["rol"].ToString() == "4046") { %>
                                          
-                                             <li class="dropdown">
+                                            <li class="dropdown">
                                                  <a href="#"><i class="fa fa-cog"  aria-hidden="true"> </i> <span class="fa arrow" ></span> Configuración </a>
                                             </li>
 

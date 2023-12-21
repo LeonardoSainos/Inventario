@@ -35,7 +35,7 @@
             <% if(Session["rol"] != null && Session["nombre"] != null) { %>
             <ul class="nav navbar-nav navbar-right" >
                 <li class="dropdown"  >
-                    <a id="expanded" href="#"  class="dropdown-toggle principal" data-toggle="dropdown">
+                    <a id="expanded" href="#"  class="dropdown-toggle nombre" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-user"></span> &nbsp; <%= Session["nombre"] %><b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -59,6 +59,7 @@
                         <li>
                             <a href="tecni.php?view=config"><i class="fa fa-cogs"></i> &nbsp; Configuración</a>
                         </li>
+
                             <% } %>
                          <!-- admins -->
                     <% if(Session["rol"].ToString() == "4046") { %>
@@ -81,82 +82,113 @@
                                             </li>
                                         </ul>
                                     </li>
-
-
-
-
-                                     <!--Inventario -->
-                                    <li  class="dropdown notdisplay">
-                                        <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                           &nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i>&nbsp;Inventario <b class="caret"></b>
+                                                                       <!-- Inventario -->
+                                    <li class="dropdown notdisplay">
+                                        <a href="#" class="inventario dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                            &nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i>&nbsp;Inventario <b class="caret"></b>
                                         </a>
                                         <ul class="dropdown-menu">
-                                                   <li class="dropdown notdisplay">
-                                                    <a id="otro" href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                                        &nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i>&nbsp;Inventario general <b class="caret"></b>
-                                                    </a>
-                                                    <ul class="dropdown-menu" id="inventarioSubMenu">
-                                                        <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
-                                                        <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
-                                                        <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
-                                                    </ul>
-                                                  </li>
-
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        $("#inventarioSubMenu").hide(); // Oculta el submenú inicialmente
-
-                                                        $("#otro").click(function (e) {
-                                                            e.preventDefault();
-                                                            $("#inventarioSubMenu").toggle(); // Muestra u oculta el submenú al hacer clic
-                                                        });
-                                                    });
-                                                </script>
+                                            <!-- Inventario general -->
+                                            <li class="dropdown notdisplay">
+                                                <a   href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-wpforms" aria-hidden="true"></i>&nbsp;Inventario general <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu principal"  >
+                                                    <li><a class="data" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
+                                                    <li><a class="data" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
+                                                    <li><a class="data" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
+                                                </ul>
+                                            </li>
+                                            <!-- B2 Taller -->
+                                            <li class="dropdown notdisplay">
+                                                <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-wpforms" aria-hidden="true"></i>&nbsp;B2 Taller <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu secundario">
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
+                                                </ul>
+                                            </li>
+                                            <!-- B3 Encierro -->
+                                            <li class="dropdown notdisplay">
+                                                <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-wpforms" aria-hidden="true"></i>&nbsp;B3 Encierro <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu terciario">
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
-
-
-
 
                                    <!-- Material -->
                                     <li  class="dropdown notdisplay">
                                       <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                             &nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;Material<b class="caret"></b>
+                                             &nbsp;&nbsp;<i class="fa fa-wrench" aria-hidden="true"></i> Material<b class="caret"></b>
                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="dropdown notdisplay">
+                                                <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-alt" aria-hidden="true"></i>&nbsp;Unidades de medida
+                                                </a>
+                                            </li>
+                                             <li class="dropdown notdisplay">
+                                                <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-archive" aria-hidden="true"></i>&nbsp;Productos
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                    <!-- Familia de material -->
                                     <li  class="dropdown notdisplay">
                                           <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                            &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;Familia<b class="caret"></b>
+                                            &nbsp;&nbsp;<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;Familia<b class="caret"></b>
                                         </a>
                                     </li>
                                    <!--  Usuarios -->
                                     <li  class="dropdown notdisplay">
                                           <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                             &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;Usuarios<b class="caret"></b>
+                                             &nbsp;&nbsp;<i class="fa fa-users" aria-hidden="true"></i>&nbsp;Usuarios<b class="caret"></b>
                                         </a>
                                     </li>
                                     <!--  Proveedores -->
                                      <li  class="dropdown notdisplay">
                                            <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                             &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;Proveedores<b class="caret"></b>
+                                             &nbsp;&nbsp;<i class="fa fa-handshake-o" aria-hidden="true"></i>&nbsp;Proveedores<b class="caret"></b>
                                         </a>
                                      </li>
                                      <!-- Vehiculos -->
-                                     <li  class="dropdown notdisplay">
-                                           <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                             &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;Vehiculos<b class="caret"></b>
+                                        <li  class="dropdown notdisplay">
+                                        <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                             &nbsp;&nbsp;<i class="fa fa-bus" aria-hidden="true"></i>&nbsp;Vehiculos<b class="caret"></b>
                                         </a>
+                                         <ul class="dropdown-menu">
+                                             <li class="dropdown notdisplay">
+                                                 <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-globe" aria-hidden="true"></i>&nbsp;Todos los vehiculos
+                                                 </a>
+                                             </li>
+                                              <li class="dropdown notdisplay">
+                                                 <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-car" aria-hidden="true"></i>&nbsp;Modelo de vehiculos  
+                                                 </a>
+                                             </li>
+                                              <li class="dropdown notdisplay">
+                                                 <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-taxi" aria-hidden="true"></i>&nbsp;Tipo de vehiculos 
+                                                 </a>
+                                             </li>
+                                              <li class="dropdown notdisplay">
+                                                 <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-ambulance" aria-hidden="true"></i>&nbsp;Marcas  
+                                                 </a>
+                                             </li>
+                                         </ul>
                                      </li>
-
-
-                                
-                                 
-
-    
-
- 
-</li>
+                       </li>
 
 <% } %>
                         <li class="divider"></li>
@@ -164,10 +196,11 @@
                             <a href="./Inventario/process/logout.aspx"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Cerrar sesión</a>
                         </li>
                     </ul>
-                 </li>
-            </ul>
+         
            
             <% } %>
+                    </li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a href="./index.aspx"><span class="glyphicon glyphicon-home"></span> &nbsp; Inicio</a>
@@ -251,18 +284,38 @@
                                 dropdownMenu.toggleClass("show");
                             });
                             // Evento clic para cerrar el menú desplegable al hacer clic fuera de él
-                          
-                            $(".principal").click(function (e) {
-                              e.preventDefault(); // Evita la acción predeterminada del enlace
-                            //    var dropdownMenu = $(this).closest(".dropdown").find(".dropdown-menu");
-                            dropdownMenu.toggleClass("open");
+
+                            $(".nombre").click(function (e) {
+                                e.preventDefault(); // Evita la acción predeterminada del enlace
+                                //    var dropdownMenu = $(this).closest(".dropdown").find(".dropdown-menu");
+                                dropdownMenu.toggleClass("open");
                             });
 
 
+                          
                             // Evitar que se cierre el menú al hacer clic en un enlace interno
                             $(".dropdown-menu").on("click", function (e) {
                                 e.stopPropagation();
                             });
 
-                          
+
+                            $(".inventario").click(function (e) {
+                                e.preventDefault();
+                                $(".principal, .secundario, .terciario").removeClass("show");
+                            });
+
+                            $(".principal, .secundario, .terciario").click(function (e) {
+                                e.preventDefault();
+                                $(this).addClass("show");
+                            });
+
+
+
+
+
+
+
+
                         });</script>
+
+                  
