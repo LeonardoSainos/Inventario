@@ -72,6 +72,9 @@
                                             </li>
                                             <li>
                                                  <a href="#"><i class="fa fa-users" aria-hidden="true"></i> <span class="fa arrow" ></span> Usuarios </a>
+                                                <ul class="nav nav-second-level">
+                                                    <li><a href="../../admin.aspx?view=admin" ><i class="fa fa-user" aria-hidden="true"></i>Administración de usuarios</a></li>
+                                                </ul>
                                             </li>
                                             <li>
                                                  <a href="#"><i class="fa fa-handshake-o" aria-hidden="true"></i> <span class="fa arrow" ></span> Provedores </a>
@@ -117,6 +120,3 @@
                                         </ul>          
                                         </div>
                                 </nav>
-
- 
-                                           

@@ -123,7 +123,6 @@
                                             </li>
                                         </ul>
                                     </li>
-
                                    <!-- Material -->
                                     <li  class="dropdown notdisplay">
                                       <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
@@ -152,7 +151,15 @@
                                     <li  class="dropdown notdisplay">
                                           <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
                                              &nbsp;&nbsp;<i class="fa fa-users" aria-hidden="true"></i>&nbsp;Usuarios<b class="caret"></b>
-                                        </a>
+                                          </a>
+                                          <ul class="dropdown-menu">
+                                              <li class="dropdown notdisplay">
+                                                  <a href="../../admin.aspx?view=admin" class="dropdown-toggle" data-toggle="dropdown">
+                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;Administración de usuarios
+                                                  </a>
+                           
+                                              </li>
+                                          </ul>
                                     </li>
                                     <!--  Proveedores -->
                                      <li  class="dropdown notdisplay">
@@ -218,63 +225,25 @@
                 </li>
                     <% } %>
             </ul>
-            <form   class="navbar-form navbar-right hidden-xs" role="search" >
-                <div class="form-group">
-                 
-                </div>
-
-                <button type="submit" class="btn btn-warning">Buscar</button>
-                <% if(Request.Form["buscar"] != null) {
-                    string buscar = Request.Form["buscar"].ToString();
-                    switch(buscar.ToLower()) {
-                        case "ticket":
-                            Response.Write("<script> window.open(\"/http://192.168.11.5:8888/TicketAlcomex/Ticket/index.php?view=ticket\");</script>");
-                            break;
-                        case "nuevo":
-                            Response.Write("<script> window.open(\"/TicketAlcomex/TICKET/index.php?view=ticket\");</script>");
-                            break;
-                    }
-                } %>
-            </form>
+        
         </div>
     </div>
   </nav>
-            <!-- /. PAGE WRAPPER  -->
-<div class="modal fade" tabindex="-1" role="dialog" id="modalLog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center text-primary" id="myModalLabel">Inventario Alcomex</h4>
-            </div>
-            <form  runat="server" style="margin: 20px;">
-                <div class="form-group">
-                    <label><span class="glyphicon glyphicon-user"></span>&nbsp;Usuario</label>
-                    <asp:TextBox class="form-control" name="nombre_login" runat="server" placeholder="Escribe tu nombre de usuario o correo electrónico" required="" ID="txtUsuario" ></asp:TextBox>
-                </div>
-                <div class="form-group">
-                    <label><span class="glyphicon glyphicon-lock"></span>&nbsp;Contraseña</label>
-                    <asp:TextBox runat="server" type="password" class="form-control" name="contrasena_login" placeholder="Escribe tu contraseña" required="" ID="txtPassword" ></asp:TextBox>
-                </div>
-                <p>¿Cómo iniciarás sesión?</p>
-                   <asp:RadioButtonList   ID="rblLogin" runat="server" Height="20px" Width="94px">
-                
-                      <asp:ListItem  class="radio" Text="Mecanico" Value="1"  Selected="True"></asp:ListItem>                
-                       <asp:ListItem  class="radio" Text="Almacenista" Value="2"></asp:ListItem>                                                         
-                        <asp:ListItem class="radio" Text="Administrador" Value="3"></asp:ListItem> 
-                   </asp:RadioButtonList>
-                <div class="modal-footer">
-                    <asp:button runat="server"   Text="Iniciar sesión" class="btn btn-warning btn-sm" OnClick="Iniciar"></asp:button>
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+          <% if (Session["rol"] == null || Session["nombre"] == null){ %>
+                    <uc:Login runat="server" /><%}
+          else if (Session["rol"] != null && Session["nombre"] != null) { %>
+                <script>
+                    // Obtener una referencia al modal por su ID y eliminarlo del DOM
+                    var modalElement = document.getElementById('modalLog');
+                    if (modalElement) {
+                        modalElement.parentNode.removeChild(modalElement);
+                        console.log("elemento eliminado");
+                    }
+                </script>
+<% } %>
 
-     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
                  <!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script> -->
-
                     <script>
                         $(document).ready(function () {
                             // Evento clic para abrir/cerrar el menú desplegable
@@ -284,7 +253,6 @@
                                 dropdownMenu.toggleClass("show");
                             });
                             // Evento clic para cerrar el menú desplegable al hacer clic fuera de él
-
                             $(".nombre").click(function (e) {
                                 e.preventDefault(); // Evita la acción predeterminada del enlace
                                 //    var dropdownMenu = $(this).closest(".dropdown").find(".dropdown-menu");
@@ -298,19 +266,17 @@
                                 e.preventDefault();
                                 $(".principal, .secundario, .terciario").removeClass("show");
                             });
-
                             $(".principal, .secundario, .terciario").click(function (e) {
                                 e.preventDefault();
                                 $(this).addClass("show");
                             });
+        
+                         
+                        });
 
 
 
-
-
-
-
-
-                        });</script>
+ 
+                    </script>
 
                   

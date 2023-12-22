@@ -3,7 +3,7 @@
 <%@ Import Namespace="System.Web"%>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
-<%  object idObject = Session["id"];
+<%  object idObject = Session["rol"];
     if (idObject != null && idObject is int)
     {
         int id = (int)idObject;
@@ -38,7 +38,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="page-header">
-                                                    <h1 class="animated lightSpeedIn">Alcomex <small>México</small></h1>
+                                                    <h1 class="animated lightSpeedIn">Panel Administrativo<small></small></h1>
                                                     <span class="label label-warning">Transporte de logística S.A de C.V</span>
                                                     <p class="pull-right text-primary">
                                                         <strong>
@@ -52,12 +52,20 @@
                                         <div class="container">
                                         <% switch(content){
                                                 case "index": {
-
                                                         %>  <uc:IndexView runat="server" />
                                                        <%
-                                                        break;
+                                                       break;
                                                 }
-                                                default:
+                                                case "admin": {
+                                                %>
+                                                   
+                                                    <uc:AdminView runat="server" />
+                                               
+                                                <%      
+                                                       break;
+                                                }
+
+                                                    default:
                                                               %> <script> window.history.go(-1);</script> <% 
                                                                    break;
                                                 }

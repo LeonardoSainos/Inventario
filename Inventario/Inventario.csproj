@@ -142,6 +142,8 @@
     <Content Include="includes\index.ascx" />
     <Content Include="Inventario\admin-view.ascx" />
     <Content Include="Inventario\admin\admin-view.ascx" />
+    <Content Include="Inventario\admin\almacenista-view.ascx" />
+    <Content Include="Inventario\admin\mecanico-view.ascx" />
     <Content Include="Inventario\almacenista\almacen-view.ascx" />
     <Content Include="Inventario\assets\demo\chart-area-demo.js" />
     <Content Include="Inventario\assets\demo\chart-bar-demo.js" />
@@ -232,6 +234,7 @@
     <Content Include="Inventario\inc\links2.ascx" />
     <Content Include="Inventario\inc\linksJS.ascx" />
     <Content Include="Inventario\inc\linksJS2.ascx" />
+    <Content Include="Inventario\process\Login.ascx" />
     <Content Include="Inventario\inc\navbar.ascx" />
     <Content Include="Inventario\inc\navbar2.ascx" />
     <Content Include="Inventario\inc\timezone.ascx" />
@@ -376,6 +379,20 @@
     <Compile Include="Inventario\admin\admin-view.ascx.designer.cs">
       <DependentUpon>admin-view.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Inventario\admin\almacenista-view.ascx.cs">
+      <DependentUpon>almacenista-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\almacenista-view.ascx.designer.cs">
+      <DependentUpon>almacenista-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\mecanico-view.ascx.cs">
+      <DependentUpon>mecanico-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\mecanico-view.ascx.designer.cs">
+      <DependentUpon>mecanico-view.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Inventario\almacenista\almacen-view.ascx.cs">
       <DependentUpon>almacen-view.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -417,6 +434,13 @@
     </Compile>
     <Compile Include="Inventario\inc\linksJS2.ascx.designer.cs">
       <DependentUpon>linksJS2.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\process\Login.ascx.cs">
+      <DependentUpon>Login.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\process\Login.ascx.designer.cs">
+      <DependentUpon>Login.ascx</DependentUpon>
     </Compile>
     <Compile Include="Inventario\inc\navbar.ascx.cs">
       <DependentUpon>navbar.ascx</DependentUpon>
