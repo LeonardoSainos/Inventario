@@ -141,8 +141,10 @@
     <Content Include="includes\almacenista.ascx" />
     <Content Include="includes\index.ascx" />
     <Content Include="Inventario\admin-view.ascx" />
+    <Content Include="Inventario\admin\Actions\AddUser.ascx" />
     <Content Include="Inventario\admin\admin-view.ascx" />
     <Content Include="Inventario\admin\almacenista-view.ascx" />
+    <Content Include="Inventario\admin\Actions\DeleteUser.ascx" />
     <Content Include="Inventario\admin\mecanico-view.ascx" />
     <Content Include="Inventario\almacenista\almacen-view.ascx" />
     <Content Include="Inventario\assets\demo\chart-area-demo.js" />
@@ -372,6 +374,13 @@
     <Compile Include="Inventario\admin-view.ascx.designer.cs">
       <DependentUpon>admin-view.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Inventario\admin\Actions\AddUser.ascx.cs">
+      <DependentUpon>AddUser.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\AddUser.ascx.designer.cs">
+      <DependentUpon>AddUser.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Inventario\admin\admin-view.ascx.cs">
       <DependentUpon>admin-view.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -385,6 +394,13 @@
     </Compile>
     <Compile Include="Inventario\admin\almacenista-view.ascx.designer.cs">
       <DependentUpon>almacenista-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteUser.ascx.cs">
+      <DependentUpon>DeleteUser.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteUser.ascx.designer.cs">
+      <DependentUpon>DeleteUser.ascx</DependentUpon>
     </Compile>
     <Compile Include="Inventario\admin\mecanico-view.ascx.cs">
       <DependentUpon>mecanico-view.ascx</DependentUpon>

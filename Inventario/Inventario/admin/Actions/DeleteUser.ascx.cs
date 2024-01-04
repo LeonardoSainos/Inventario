@@ -5,11 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Inventario.Inventario.mecanico
+namespace Inventario.Inventario.admin
 {
-    public partial class index_view : System.Web.UI.UserControl
-    { 
-
+    public partial class DeleteUser : System.Web.UI.UserControl
+    {
         protected void Page_Load(object sender, EventArgs e)
         {
 

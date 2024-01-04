@@ -35,26 +35,32 @@ namespace Inventario.Scripts
             }
             return conexion;
         }
-        public void Consulta(ref string mensaje, string sentenciaSQL)
+        public Tuple<List<object[]>, int> Consulta(ref string mensaje, string sentenciaSQL)
         {
             string texto = "";
+            int contador = 0;
             SqlConnection conexion = Conectar(ref texto);
+            List<object[]> registros = new List<object[]>();
             try
             {
                 using (conexion)
                 {
                     SqlCommand query = new SqlCommand(sentenciaSQL, conexion);
                     SqlDataReader reader = query.ExecuteReader();
+                    int columnCount = reader.FieldCount;
+                    List<object> columnValues = new List<object>();
+
                     while (reader.Read())
                     {
-
-                        /*
-                        string columna1 = reader.GetString(0);
-                        int columna2 = reader.GetInt32(1);
-                        // Utiliza los valores de las columnas como desees
-                        // Puedes asignarlos a variables, utilizarlos en cálculos, etc.
-                        Console.WriteLine($"Valor de columna1: {columna1}");
-                        Console.WriteLine($"Valor de columna2: {columna2}");*/
+                        contador++; // Incrementar el contador por cada registro
+                        columnValues.Clear();
+                        for (int i = 0; i < columnCount; i++)
+                        {
+                            object value = reader.GetValue(i);
+                            columnValues.Add(value);
+                        }
+                        object[] registro = columnValues.ToArray();
+                        registros.Add(registro);
                     }
                     reader.Close();
                 }
@@ -66,7 +72,10 @@ namespace Inventario.Scripts
                 conexion = null;
                 texto = "ERROR: " + ex.Message;
             }
+            Tuple<List<object[]>, int> resultado = new Tuple<List<object[]>, int>(registros, contador);
+            return resultado; // Devolver la lista de registros y el contador como una tupla
         }
+
         public SqlConnection Mostrar(System.Web.UI.WebControls.GridView grid, ref string mensaje, string sentenciaSQL)
         {
             string texto = "";

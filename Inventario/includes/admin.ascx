@@ -51,23 +51,14 @@
                                     </div>
                                         <div class="container">
                                         <% switch(content){
-                                                case "index": {
-                                                        %>  <uc:IndexView runat="server" />
-                                                       <%
+                                                case "index": { %>  <uc:IndexView runat="server" /> <%
                                                        break;
                                                 }
-                                                case "admin": {
-                                                %>
-                                                   
-                                                    <uc:AdminView runat="server" />
-                                               
-                                                <%      
+                                                case "admin": { %>  <uc:AdminView runat="server" />  <%      
                                                        break;
                                                 }
-
-                                                    default:
-                                                              %> <script> window.history.go(-1);</script> <% 
-                                                                   break;
+                                                default:  %> <script> window.history.go(-1); </script> <% 
+                                                       break;
                                                 }
                                             %>
                                             </div>
@@ -92,15 +83,12 @@
                                         <uc:Navbar2 runat="server" /> <!-- 19/09/2023 SINO FUNCIONA AÑADIR ID WRAPPER, PAGE-WRAPPER , ETC  -->
                                     <div class="container">
                                            <% switch(content){
-                                                case "index": {
-
-                                                        %>  <uc:IndexView runat="server" />
-                                                       <%
+                                                case "index": { %>  <uc:IndexView runat="server" /> <%
                                                         break;
                                                 }
                                                 default:
-                                                              %> <script> window.history.go(-1);</script> <% 
-                                                                   break;
+                                                %> <script> window.history.go(-1);</script> <% 
+                                                        break;
                                                 }
                                             %>
                                     </div>
@@ -134,12 +122,10 @@
                                                 </div>
                                 </div>
                                 <h1 class="text-center">Lo sentimos,la opción que ha seleccionado no se encuentra disponible</h1>
-
                             </div>
                             </div>
                         </div>
                     </div>
-                
                                       <uc:Script2 runat="server" />
                             </body>
                         </html>

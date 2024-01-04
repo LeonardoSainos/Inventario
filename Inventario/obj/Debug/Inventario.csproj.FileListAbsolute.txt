@@ -374,6 +374,8 @@ C:\Users\Administrator\source\repos\Inventario-main\Inventario\obj\Debug\Inventa
 C:\Users\Administrator\source\repos\Inventario-main\Inventario\obj\Debug\Inventario.dll
 C:\Users\Administrator\source\repos\Inventario-main\Inventario\obj\Debug\Inventario.pdb
 C:\Users\Administrator\source\repos\Inventario-main\Inventario\obj\Debug\Inventario.csproj.AssemblyReference.cache
+C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.csproj.AssemblyReference.cache
+C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.csproj.CoreCompileInputs.cache
 C:\Users\Administrator\source\repos\Inventario\Inventario\bin\Inventario.dll.config
 C:\Users\Administrator\source\repos\Inventario\Inventario\bin\Inventario.dll
 C:\Users\Administrator\source\repos\Inventario\Inventario\bin\Inventario.pdb
@@ -463,8 +465,6 @@ C:\Users\Administrator\source\repos\Inventario\Inventario\bin\es\System.Web.Webp
 C:\Users\Administrator\source\repos\Inventario\Inventario\bin\es\System.Web.Webpages.Razor.resources.dll
 C:\Users\Administrator\source\repos\Inventario\Inventario\bin\es\System.Web.Helpers.resources.dll
 C:\Users\Administrator\source\repos\Inventario\Inventario\bin\es\System.Web.Mvc.resources.dll
-C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.csproj.CoreCompileInputs.cache
 C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.csproj.CopyComplete
 C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.dll
 C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.pdb
-C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.csproj.AssemblyReference.cache
