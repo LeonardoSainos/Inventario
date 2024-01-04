@@ -24,10 +24,8 @@ namespace Inventario.Scripts
         public SqlConnection Conectar(ref String cad)
         {
             SqlConnection conexion = new SqlConnection();
-            SqlCommand querys = new SqlCommand();
             conexion.ConnectionString = "data source=" + ServidorSQL + "; Initial Catalog=" + BD + "; Integrated security=true";
-            try
-            {
+            try{
                 conexion.Open();
                 cad = "Conexion abierta";
             }
@@ -52,7 +50,6 @@ namespace Inventario.Scripts
                     SqlDataReader reader = query.ExecuteReader();
                     int columnCount = reader.FieldCount;
                     List<object> columnValues = new List<object>();
-
                     while (reader.Read())
                     {
                         contador++; // Incrementar el contador por cada registro

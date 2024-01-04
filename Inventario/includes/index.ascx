@@ -24,8 +24,6 @@
                      <div id="wrapper">
                       <uc:Navbar runat="server"/> 
                         <uc:Navbar2 runat="server" />
-
-                    
                     <div id="page-wrapper">
                     <div class="container">
                         <div class="row">
@@ -58,7 +56,8 @@
                         </div>
               </div>
                          </div>
-                    <uc:Script2 runat="server" />
+                      <uc:Footer runat="server" />
+                      <uc:Script2 runat="server" />
                 </body>
                 </html>
  
@@ -83,7 +82,8 @@
                     </div>
                           </div>
                          </div>
-                      <uc:Script2 runat="server" />
+                      <uc:Footer runat="server" />
+                              
                 </body>
                 </html>
                 <%
@@ -121,8 +121,8 @@
                                
                           </div><br/>      
                  
-                      <uc:Script2 runat="server" />
-                 
+                         <uc:Footer runat="server" />
+                         <uc:Script2 runat="server" />
                 </body>
                 </html>
                 <%
@@ -138,11 +138,7 @@
                                 <link rel="icon" href="favicon.png">
                             </head>
                             <body>   
-
-
                                 <% if(Session["id"]!=null){
-                                        
-                                        
                                         %>
                              <div id="wrapper">
                               <uc:Navbar runat="server"/>
@@ -166,12 +162,13 @@
                                             <div class="container">
                                            <uc:IndexView runat="server" />
                                                 </div>
+                                     <uc:Footer runat="server" />
                                   <uc:Script2 runat="server" />
+                 
                                  </div>
                                  </div>
                                 <% }
                                     else{%>
-                            
                               <uc:Navbar runat="server"/>
                                 <div class="container">
                                   <div class="row">
@@ -191,9 +188,8 @@
                                             <div class="container">
                                            <uc:IndexView runat="server" />
                                                 </div>
+                                <uc:Footer runat="server" />
                                   <uc:Script2 runat="server" />
-                               
-                                
 
                                 <%} %>
                                 </body>

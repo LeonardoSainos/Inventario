@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="admin-view.ascx.cs" Inherits="Inventario.Inventario.admin.WebUserControl1" %>
  <%@ Import Namespace="Inventario.Scripts" %>
-
 <% MySql AdminView = new MySql(); %>
 <div id="contenido">
     <div class="container">
@@ -15,6 +14,11 @@
     </div>
 </div>
 <br /><br />
+
+
+<div class="container">
+   
+
 <div class='btn-group'>
     <button class='btn dropdown-toggle btn-warning' data-toggle='dropdown' value='Más'>
         Más
@@ -22,10 +26,10 @@
     </button>
     <ul class='dropdown-menu'>
         <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span> <button   class="btn btn-link" style='text-decoration:none;' data-toggle='modal' data-target='#modal1'>Nuevo usuario</button> </li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button  class='btn btn-link' style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-ban-circle'></span> <button class='btn btn-link ' style='text-decoration:none;' name="Bloquear">Bloquear</button></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button class='btn btn-link ' style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button class='btn btn-link ' style='text-decoration:none;' name="Exportar">Exportar</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button  class='btn btn-link' form="acciones" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-ban-circle'></span> <button class='btn btn-link' form="acciones" style='text-decoration:none;' name="Bloquear">Bloquear</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button class='btn btn-link' form="acciones" style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button class='btn btn-link' form="pdf" style='text-decoration:none;' name="Exportar">Exportar</button></li>
           <li ><a href='#' class='btn btn-link '> <span class='glyphicon glyphicon-log-in'></span><input  form="acciones" class='btn btn-link ' style='text-decoration:none;'  type="submit" value=" Resetear contraseña" name="Resetear"/> </a></li>  
     </ul>
 </div> 
@@ -51,25 +55,22 @@
 <%      string consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046", mens = "";
     Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
     int row1 = 0;
-    if (resultado.Item2 > 0)
-    {
-        // Accede directamente al valor del recuento
+    if (resultado.Item2 > 0){
         row1 = Convert.ToInt32(resultado.Item1[0][0]);
     }
-
     consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 7845 ";
     Tuple<List<object[]>, int> resultado2 = AdminView.Consulta(ref mens, consulta);
     List<object[]> registros2 = resultado2.Item1;
     int row2 = 0;
-    foreach (object[] registro in registros2) {
-        row2 = (int)registro[0];
+    if (resultado2.Item2 > 0){
+        row2 = Convert.ToInt32(resultado2.Item1[0][0]);
     }
     consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 2736";
     Tuple<List<object[]>, int> resultado3 = AdminView.Consulta(ref mens, consulta);
     List<object[]> registros3 = resultado3.Item1;
     int row3 = 0;
-    foreach (object[] registro in registros3) {
-        row3 = (int)registro[0];
+    if (resultado3.Item2 > 0){
+        row3 = Convert.ToInt32(resultado3.Item1[0][0]);
     }
     %>
 
@@ -131,8 +132,56 @@
     <SelectedRowStyle Font-Bold="True" ForeColor="Navy" />  
 </asp:GridView>
 </form>
+
+<% if (numPagina >= 1) { %>
+    <nav arial-label="Page navigation" class="text-center">
+        <ul class="pagination">
+            <%if (pagina == 1)
+                { %>
+               <li class="disabled">
+                   <a aria-label="Previous">
+                       <span aria-hidden="true">&laquo;</span>
+                   </a>
+               </li>
+            <%}
+              else {%>
+              <li>
+                  <a href="./admin.aspx?view=admin&pagina=<%Response.Write(pagina-1); %>" aria-label="Previous">
+                      <span aria-hidden="true">&laquo</span>
+                  </a>
+              </li>
+              <%}
+                  for(int i=1; i<=numPagina; i++)
+                  {
+                      if (pagina == i){
+                          Response.Write("<li class='active'><a href='./admin.aspx?view=admin&pagina=" + i + "'>" + i + "</a></li>");
+                      }
+                      else {
+                          Response.Write("<li><a href='./admin.aspx?view=admin&pagina=" + i + "'>" + i + "</a></li>");
+                      }
+                  }
+                  if(pagina == numPagina) {%>
+                      <li class="disabled">
+                           <a aria-label="Previous">
+                               <span aria-hidden="true">&raquo;</span>
+                            </a>
+                      </li>
+                     <%
+                  }
+                  else {%>
+                    <li>
+                        <a href="./admin,aspx?view=admin&pagina=<%Response.Write(pagina+1); %>" aria-label="Previous">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                  <%}
+              %>
+        </ul>
+    </nav>
+<%} %>
          </div>
      </div>
+ </div>
 </div>
 <div class="modal fade" id="pregunta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
        <div class="modal-dialog" role="document">
@@ -144,14 +193,14 @@
        </div>
        <div style="align-items:center; justify-content:center;"class="modal-footer">
                     <center> 
-                             <form id="formulario"     style="display: inline-block;">                  
-                                   <input type="hidden" value="admin" name="view" />
-                                    <input  type="hidden" name="id_dele"  id="borrar_id" />       
-                                    <button   name="ide" type="submit"  class="btn btn-success">SI</button>
+                             <form runat="server"  id="formulario" style="display: inline-block;">                  
+                                  <input  type="hidden" name="id_dele"  id="borrar_id" />       
+                                    <asp:Button runat="server"   name="ide" type="submit" OnClick="Eliminar"  class="btn btn-success" Text="SI" ></asp:Button>
                                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
                              </form>                        
                       </center>
                   </div>
              </div>
        </div>    
-    </div>
+</div>
+ <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>

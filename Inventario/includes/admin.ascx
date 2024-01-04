@@ -64,7 +64,8 @@
                                             </div>
                               </div>
                                          </div>
-                                    <uc:Script2 runat="server" />
+                                  <uc:Footer runat="server" />
+                                  <uc:Script2 runat="server" />
                                 </body>
                                 </html>
                <%
@@ -76,7 +77,6 @@
                                 <head>
                                     <meta charset="UTF8" />
                                     <title>Administración</title>
-     
                                  </head>
                                 <body>
                                     <uc:Navbar runat="server" />
@@ -126,7 +126,8 @@
                             </div>
                         </div>
                     </div>
-                                      <uc:Script2 runat="server" />
+                                  <uc:Footer runat="server" />
+                                  <uc:Script2 runat="server" />
                             </body>
                         </html>
          <% }

@@ -9,8 +9,21 @@ namespace Inventario.Inventario.admin
 {
     public partial class WebUserControl1 : System.Web.UI.UserControl
     {
+        private int numeropaginas=0;
+        private int paginaas=1;
+        public int numPagina
+        {
+            set { numeropaginas = value; }
+            get { return numeropaginas; }
+        }
+        public int pagina
+        {
+            set { paginaas = value; }
+            get { return paginaas; }
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
+             pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
             string[] orderby=  { "cliente.nombre_completo", "cliente.email_cliente", "cliente.Fecha_creacion", "estatus.Nombre"};
             string ordenamuestra = orderby[0];
             int inicio = 0, regpagina=50;
@@ -19,8 +32,6 @@ namespace Inventario.Inventario.admin
             Tuple<List<object[]>, int> resultado = AdminViews.Consulta(ref mensaje, consulta);
             List<object[]> registros = resultado.Item1;
             int contador = resultado.Item2;
-
-
             Tuple<List<object[]>, int> tr = AdminViews.Consulta(ref mensaje, "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT count(*) FROM CLIENTE')");
             List<object[]> totalregistros = tr.Item1;
             int total = 0;
@@ -28,9 +39,7 @@ namespace Inventario.Inventario.admin
             {
                 total = Convert.ToInt32(tr.Item1[0][0]);
             }
-              int numeropaginas = (int)Math.Ceiling((double)total / regpagina);
-
-
+            numeropaginas = (int)Math.Ceiling((double)total / regpagina);
             tabla.DataBind();
             if (contador >= 1) {
                 AdminViews.Mostrar(tabla, ref mensaje, consulta);
@@ -48,6 +57,11 @@ namespace Inventario.Inventario.admin
                 newRow.Cells.Add(cell);
                 tabla.Controls[0].Controls.Add(newRow);
             }
+        }
+
+        protected void Eliminar(object sender, EventArgs e)
+        {
+
         }
     }
 }
