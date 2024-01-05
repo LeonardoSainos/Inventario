@@ -10,11 +10,3 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="/Inventario/js/datatables-simple-demo.js"></script>
  
-  <!-- CUSTOM SCRIPTS -->
- 
-<script type="text/javascript" src="/Inventario/js/funciones_panel.js"></script> 
-<script src="/Inventario/js/scripts.js"></script>
-
-
-   <!-- METISMENU SCRIPTS -->
-<script src="/Inventario/js/jquery.metisMenu.js"></script>

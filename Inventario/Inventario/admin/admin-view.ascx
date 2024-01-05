@@ -193,9 +193,9 @@
        </div>
        <div style="align-items:center; justify-content:center;"class="modal-footer">
                     <center> 
-                             <form runat="server"  id="formulario" style="display: inline-block;">                  
+                             <form   id="formulario" style="display: inline-block;">                  
                                   <input  type="hidden" name="id_dele"  id="borrar_id" />       
-                                    <asp:Button runat="server"   name="ide" type="submit" OnClick="Eliminar"  class="btn btn-success" Text="SI" ></asp:Button>
+                                    <button  name="ide" type="submit" onclick="Eliminar"  class="btn btn-success">SI</button>
                                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
                              </form>                        
                       </center>
