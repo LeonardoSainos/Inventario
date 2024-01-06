@@ -8,17 +8,12 @@
                 <img src="../img/card_identy.png" alt="Animacion" class="img-responsive animated flipInY" />
             </div>
             <div class="col-sm-10">
-                <p class="lead text-info">Bienvenido administrador, en esta página se muestran todos los <strong>Usuarios </strong> registrados en soporte técnico Alcomex, usted podrá eliminarlos si lo desea.</p>
+                <p class="lead text-info">Bienvenido administrador, en esta página se muestran todos los <strong>Usuarios </strong> registrados en Inventario Alcomex, usted podrá eliminarlos si lo desea.</p>
             </div>
         </div>
     </div>
-</div>
 <br /><br />
-
-
 <div class="container">
-   
-
 <div class='btn-group'>
     <button class='btn dropdown-toggle btn-warning' data-toggle='dropdown' value='Más'>
         Más
@@ -50,9 +45,7 @@
                                             <input type="hidden" name="Exportar" value="4046" />
                                            </form>
                                           <br/> <br/>
-
-
-<%      string consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046", mens = "";
+<%  string consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046", mens = "";
     Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
     int row1 = 0;
     if (resultado.Item2 > 0){
@@ -73,7 +66,6 @@
         row3 = Convert.ToInt32(resultado3.Item1[0][0]);
     }
     %>
-
 <%  %>
 <div class="row">
   <div class="col-md-12 text-center">
@@ -114,7 +106,7 @@
        <asp:TemplateField HeaderText="Opciones">
             <ItemTemplate>
                 <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-sm btn-success"
-                    NavigateUrl='<%# Eval("id_cliente", "admin.aspx?view=useredit&id=1") %>'>
+                    NavigateUrl='<%# Eval("id_cliente", "admin.aspx?view=useredit&id={0}") %>'>
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </asp:HyperLink>
                 <button type="button" class="dropbtn btn btn-sm btn-danger" data-toggle="modal" data-target="#pregunta"
@@ -132,7 +124,9 @@
     <SelectedRowStyle Font-Bold="True" ForeColor="Navy" />  
 </asp:GridView>
 </form>
-
+                   </div>
+     </div>
+ </div>
 <% if (numPagina >= 1) { %>
     <nav arial-label="Page navigation" class="text-center">
         <ul class="pagination">
@@ -170,7 +164,7 @@
                   }
                   else {%>
                     <li>
-                        <a href="./admin,aspx?view=admin&pagina=<%Response.Write(pagina+1); %>" aria-label="Previous">
+                        <a href="./admin.aspx?view=admin&pagina=<%Response.Write(pagina+1); %>" aria-label="Previous">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -179,9 +173,6 @@
         </ul>
     </nav>
 <%} %>
-         </div>
-     </div>
- </div>
 </div>
 <div class="modal fade" id="pregunta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
        <div class="modal-dialog" role="document">
@@ -193,7 +184,7 @@
        </div>
        <div style="align-items:center; justify-content:center;"class="modal-footer">
                     <center> 
-                             <form   id="formulario" style="display: inline-block;">                  
+                             <form  id="formulario" style="display: inline-block;">                  
                                   <input  type="hidden" name="id_dele"  id="borrar_id" />       
                                     <button  name="ide" type="submit" onclick="Eliminar"  class="btn btn-success">SI</button>
                                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
@@ -203,4 +194,51 @@
              </div>
        </div>    
 </div>
+    </div>
  <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script>
+$("#mt").click(BuscarUsuario);
+    function BuscarUsuario(){
+         var URL = "./admin.aspx?view=searchUsers&admin=" + $("#busqueda").val();                    
+         $.get(URL,function (datos,estado){
+            $("#contenido").html(datos);
+        }
+        );
+  }
+         $("#nombree").click(FiltroUsers);
+            function FiltroUsers(){
+                //admin.php?view=ticketadmin&ticket=all
+                var URL = "./admin.aspx?view=filterUsers&admin=" + $("#nombre").val();   
+                $.get(URL,function (datos,estado){
+                    $("#contenido").html(datos);
+                }
+                );
+            }
+            $("#fechaa").click(FiltroFecha);
+            function FiltroFecha(){
+                //admin.php?view=ticketadmin&ticket=all
+                var URL = "./admin.aspx?view=filterUsers&admin=" + $("#fecha").val();   
+                $.get(URL,function (datos,estado){
+                    $("#contenido").html(datos);
+                }
+                );
+            }
+            $("#correoo").click(FiltroCorreo);
+            function FiltroCorreo(){
+                //admin.php?view=ticketadmin&ticket=all
+                var URL = "./admin.aspx?view=filterUsers&admin=" + $("#correo").val();   
+                $.get(URL,function (datos,estado){
+                    $("#contenido").html(datos);
+                }
+                );
+            }  
+            $("#estatuss").click(FiltroEstatus);
+            function FiltroEstatus(){
+                //admin.php?view=ticketadmin&ticket=all
+                var URL = "./admin.aspx?view=filterUsers&admin=" + $("#estatusss").val();     
+                $.get(URL,function (datos,estado){
+                    $("#contenido").html(datos);
+                }
+                );
+            }
+</script>

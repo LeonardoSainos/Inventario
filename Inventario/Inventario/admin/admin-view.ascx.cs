@@ -59,7 +59,9 @@ namespace Inventario.Inventario.admin
             }
         }
 
-        protected void Eliminar(object sender, EventArgs e)
+       
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
         {
 
         }

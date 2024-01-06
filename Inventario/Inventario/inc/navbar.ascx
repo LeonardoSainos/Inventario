@@ -270,10 +270,4 @@
                                 $(this).addClass("show");
                             });        
                         });
-
-
-
- 
                     </script>
-
-                  

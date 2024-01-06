@@ -79,8 +79,7 @@
                                     <title>Administración</title>
                                  </head>
                                 <body>
-                                    <uc:Navbar runat="server" />
-                                        <uc:Navbar2 runat="server" /> <!-- 19/09/2023 SINO FUNCIONA AÑADIR ID WRAPPER, PAGE-WRAPPER , ETC  -->
+                                  
                                     <div class="container">
                                            <% switch(content){
                                                 case "index": { %>  <uc:IndexView runat="server" /> <%
