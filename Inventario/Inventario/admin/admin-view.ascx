@@ -1,6 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="admin-view.ascx.cs" Inherits="Inventario.Inventario.admin.WebUserControl1" %>
  <%@ Import Namespace="Inventario.Scripts" %>
-<% MySql AdminView = new MySql(); %>
+<% MySql AdminView = new MySql();
+  
+
+    %>
 <div id="contenido">
     <div class="container">
         <div class="row">
@@ -45,26 +48,7 @@
                                             <input type="hidden" name="Exportar" value="4046" />
                                            </form>
                                           <br/> <br/>
-<%  string consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046", mens = "";
-    Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
-    int row1 = 0;
-    if (resultado.Item2 > 0){
-        row1 = Convert.ToInt32(resultado.Item1[0][0]);
-    }
-    consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 7845 ";
-    Tuple<List<object[]>, int> resultado2 = AdminView.Consulta(ref mens, consulta);
-    List<object[]> registros2 = resultado2.Item1;
-    int row2 = 0;
-    if (resultado2.Item2 > 0){
-        row2 = Convert.ToInt32(resultado2.Item1[0][0]);
-    }
-    consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 2736";
-    Tuple<List<object[]>, int> resultado3 = AdminView.Consulta(ref mens, consulta);
-    List<object[]> registros3 = resultado3.Item1;
-    int row3 = 0;
-    if (resultado3.Item2 > 0){
-        row3 = Convert.ToInt32(resultado3.Item1[0][0]);
-    }
+<%  
     %>
 <%  %>
 <div class="row">
@@ -109,8 +93,7 @@
                     NavigateUrl='<%# Eval("id_cliente", "admin.aspx?view=useredit&id={0}") %>'>
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </asp:HyperLink>
-                <button type="button" class="dropbtn btn btn-sm btn-danger" data-toggle="modal" data-target="#pregunta"
-                    onclick='<%# "AbrirModalPregunta(" + Eval("id_cliente") + "); return false;" %>'>
+                 <button type="button" class="dropbtn btn btn-sm btn-danger" data-toggle="modal" data-target="#pregunta" onclick='document.getElementById("borrar_id").value = "<%# Eval("id_cliente") %>";'>
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
             </ItemTemplate>
@@ -184,9 +167,9 @@
        </div>
        <div style="align-items:center; justify-content:center;"class="modal-footer">
                     <center> 
-                             <form  id="formulario" style="display: inline-block;">                  
-                                  <input  type="hidden" name="id_dele"  id="borrar_id" />       
-                                    <button  name="ide" type="submit" onclick="Eliminar"  class="btn btn-success">SI</button>
+                             <form  id="formulario" style="display: inline-block;" method="post" >                  
+                                  <input  type="hidden" name="id_dele"   id="borrar_id" />       
+                                    <button  name="ide" type="submit"   class="btn btn-success">SI</button>
                                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
                              </form>                        
                       </center>
