@@ -176,7 +176,7 @@ namespace Inventario.Scripts
                 texto = "ERROR : " + t.Message;
             }
         }
-        public void ProcedimientoAlmacenado(string comando, string server)
+        public bool ProcedimientoAlmacenado(string nombre, string server,string parametros)
         {
             string texto = "";
             SqlConnection conexion = Conectar(ref texto);
@@ -187,22 +187,28 @@ namespace Inventario.Scripts
                 {
                     query.Connection = conexion;
                     query.CommandType = CommandType.Text;
-                    query.CommandText = $"EXEC('{comando}') AT " + server;
+                    query.CommandText = $"EXEC('CALL {nombre}({parametros})') AT " + server;
                     query.ExecuteNonQuery();
                 }
                 conexion.Close();
                 texto = "Procedimiento ejecutado correctamente";
+                return true;
             }
             catch (Exception t)
             {
                 conexion = null;
                 texto = "ERROR: " + t.Message;
+                return false;
             }
         }
 
         public static string LimpiarCadena(string valor)
         {
             valor = valor.Replace("SELECT", "")
+                .Replace("''", "")
+                .Replace("COPY", "")
+                .Replace("*", "")
+                .Replace("FROM", "")
                 .Replace("COPY", "")
                 .Replace("UPDATE", "")
                 .Replace("DELETE", "")
@@ -225,20 +231,20 @@ namespace Inventario.Scripts
 
         public static string RequestGet(string val)
         {
-            string data = HttpContext.Current.Request.QueryString[val];
-            string datos = LimpiarCadena(data);
+            string datos = LimpiarCadena(val);
             return datos;
         }
 
         public static string RequestPost(string val)
         {
-            string data = HttpContext.Current.Request.Form[val];
-            string datos = LimpiarCadena(data);
+            string datos = LimpiarCadena(val);
             return datos;
         }
 
 
-        public  string CalculateMD5(string input)
+
+
+        public string CalculateMD5(string input)
         {
             using (MD5 md5 = MD5.Create())
             {

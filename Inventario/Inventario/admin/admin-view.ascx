@@ -1,9 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="admin-view.ascx.cs" Inherits="Inventario.Inventario.admin.WebUserControl1" %>
  <%@ Import Namespace="Inventario.Scripts" %>
-<% MySql AdminView = new MySql();
-  
-
-    %>
 <div id="contenido">
     <div class="container">
         <div class="row">
@@ -169,7 +165,7 @@
                     <center> 
                              <form  id="formulario" style="display: inline-block;" method="post" >                  
                                   <input  type="hidden" name="id_dele"   id="borrar_id" />       
-                                    <button  name="ide" type="submit"   class="btn btn-success">SI</button>
+                                    <button  type="submit"   class="btn btn-success">SI</button>
                                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
                              </form>                        
                       </center>

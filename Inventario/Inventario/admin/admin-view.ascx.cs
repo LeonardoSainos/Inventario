@@ -69,22 +69,20 @@ namespace Inventario.Inventario.admin
             {
                 row3 = Convert.ToInt32(resultado3.Item1[0][0]);
             }
-
             //*********************************Codigo para mostrar*********************************// 
             pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
             string[] orderby=  { "cliente.nombre_completo", "cliente.email_cliente", "cliente.Fecha_creacion", "estatus.Nombre"};
             string ordenamuestra = orderby[0];
             int inicio = 0, regpagina=50;
-            MySql AdminViews = new MySql();
+ 
             string mensaje = "";
             consulta = "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT SQL_CALC_FOUND_ROWS cliente.id_cliente,cliente.telefono_celular AS celular, cliente.nombre_completo,cliente.nombre_usuario,cliente.email_cliente,departamento.nombre AS Depa,estatus.Nombre AS Esta,cliente.Fecha_creacion,cliente.anydesk FROM cliente INNER JOIN departamento ON cliente.id_departamento = departamento.idDepartamento INNER JOIN estatus ON estatus.idEstatus = cliente.idEstatus WHERE cliente.id_rol = 4046 ORDER BY " + ordenamuestra + " LIMIT " + inicio + "," + regpagina + "')";
-            Tuple<List<object[]>, int> res = AdminViews.Consulta(ref mensaje, consulta);
+            Tuple<List<object[]>, int> res = AdminView.Consulta(ref mensaje, consulta);
             List<object[]> registros = res.Item1;
             int contador = resultado.Item2;
-            Tuple<List<object[]>, int> tr = AdminViews.Consulta(ref mensaje, "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT count(*) FROM CLIENTE')");
+            Tuple<List<object[]>, int> tr = AdminView.Consulta(ref mensaje, "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT count(*) FROM CLIENTE')");
             List<object[]> totalregistros = tr.Item1;
             int total = 0;
-
             if (tr.Item2 > 0)
             {
                 total = Convert.ToInt32(tr.Item1[0][0]);
@@ -92,14 +90,57 @@ namespace Inventario.Inventario.admin
             numeropaginas = (int)Math.Ceiling((double)total / regpagina);
             tabla.DataBind();
             if (contador >= 1) {
-                AdminViews.Mostrar(tabla, ref mensaje, consulta);
+                AdminView.Mostrar(tabla, ref mensaje, consulta);
             }
-
             // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
             if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
             {
-                int id = Convert.ToInt32(Request.Form["id_dele"]);
-               
+                     
+                string  id =  MySql.RequestPost(Request.Form["id_dele"]);
+             
+   
+                consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE id_cliente =" + id + "')";
+                Tuple<List<object[]>, int> drop = AdminView.Consulta(ref mensaje, consulta);
+                List<object[]> arrayUser = drop.Item1;
+                int departamento = Convert.ToInt32(drop.Item1[0][5]);
+                consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE (id_departamento = " + departamento + " AND id_cliente <> " + id + " )  AND (id_rol = 4046 OR id_rol = 5267)')";
+                Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mensaje, consulta);
+                List<object[]> arrayTec = tec.Item1;
+                    if (tec.Item2 >= 1)
+                    {
+                   
+                           string eliminar = id;
+                           consulta = "SELECT * FROM mysql_ticket ... ticket WHERE idUsuario = " + eliminar;
+                           Tuple<List<object[]>, int> cr = AdminView.Consulta(ref mensaje, consulta);
+                            int creados = cr.Item2;
+
+                            consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576"; 
+                            Tuple<List<object[]>, int> re = AdminView.Consulta(ref mensaje, consulta);
+                            int resueltos = re.Item2;
+
+                            consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
+                            Tuple<List<object[]>, int> pe = AdminView.Consulta(ref mensaje, consulta);
+                            int pendientes = pe.Item2;
+
+                            consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
+                            Tuple<List<object[]>, int> pro = AdminView.Consulta(ref mensaje, consulta);
+                            int proceso = pro.Item2;
+
+
+                        DateTime fechaActual = DateTime.Now;
+                        string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
+
+
+                    if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", "mysql_ticket","" + eliminar + ",'" + ahora + "','" + ahora + "'," + pendientes + "," + creados + "," + resueltos + "," + proceso))
+                             AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket","" + eliminar + ",'EliminarU', '" + ahora + "' ," + "'cliente'" );
+                             AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + eliminar + ",'EliminarU', '" + ahora + "' ," + "'cliente'");
+                             AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + eliminar + ",'EliminarU', '" + ahora + "' ," + "'cliente'");
+                        /*MysqlQuery::ProcedimientoAlmacenado("registro_alteracionesCliente","$iid,'EliminarU','".date("Y-m-d H:i:s") ."','cliente'");
+                         MysqlQuery::ProcedimientoAlmacenado("registro_alteracionesCliente","$iid,'EliminarU','".date("Y-m-d H:i:s") ."','ticket'");
+                         MysqlQuery::ProcedimientoAlmacenado("registro_alteracionesCliente","$iid,'EliminarU','".date("Y-m-d H:i:s") ."','departamento'");*/
+
+                           
+                    }
             }
         }
         protected void tabla_PreRender(object sender, EventArgs e)
@@ -115,6 +156,5 @@ namespace Inventario.Inventario.admin
                 tabla.Controls[0].Controls.Add(newRow);
             }
         }
-
     }
 }
