@@ -187,7 +187,7 @@ namespace Inventario.Scripts
                 {
                     query.Connection = conexion;
                     query.CommandType = CommandType.Text;
-                    query.CommandText = $"EXEC('CALL {nombre}({parametros})') AT " + server;
+                    query.CommandText = $"EXEC('CALL {nombre}( " + parametros + ")') AT " + server;
                     query.ExecuteNonQuery();
                 }
                 conexion.Close();
@@ -240,10 +240,6 @@ namespace Inventario.Scripts
             string datos = LimpiarCadena(val);
             return datos;
         }
-
-
-
-
         public string CalculateMD5(string input)
         {
             using (MD5 md5 = MD5.Create())

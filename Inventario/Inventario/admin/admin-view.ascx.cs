@@ -10,7 +10,7 @@ namespace Inventario.Inventario.admin
     public partial class WebUserControl1 : System.Web.UI.UserControl
     {
         private int numeropaginas=0, paginaas=1, r1=0, r2=0, r3=0;
-        string query = "";
+        string aler = "",consulta="",mens="";
         public int numPagina
         {
             set { numeropaginas = value; }
@@ -36,17 +36,85 @@ namespace Inventario.Inventario.admin
             set { r3 = value; }
             get { return r3; }
         }
-        public string consulta
+        public string alerta
         {
-            set { query = value; }
-            get { return query; }
+            set { aler = value; }
+            get { return aler; }
+        }
+        public string query
+        {
+            set { consulta = value; }
+            get { return consulta; }
+        }
+        public string mensaje
+        {
+            set { mens = value; }
+            get { return mens; }
         }
         protected void Page_Load(object sender, EventArgs e)
         {
             MySql AdminView = new MySql();
 
+            // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
+            if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
+            {
+                int SessionId = Convert.ToInt32(Session["id"]);
+                string id = MySql.RequestPost(Request.Form["id_dele"]);
+
+
+                consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE id_cliente =" + id + "')";
+                Tuple<List<object[]>, int> drop = AdminView.Consulta(ref mens, consulta);
+                List<object[]> arrayUser = drop.Item1;
+                if (drop.Item2 >= 1)
+                {
+                    int departamento = Convert.ToInt32(drop.Item1[0][5]);
+                    consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE (id_departamento = " + departamento + " AND id_cliente <> " + id + " )  AND (id_rol = 4046 OR id_rol = 5267)')";
+                    Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mens, consulta);
+                    List<object[]> arrayTec = tec.Item1;
+                    if (tec.Item2 >= 1)
+                    {
+
+                        string eliminar = id;
+                        consulta = "SELECT * FROM mysql_ticket ... ticket WHERE idUsuario = " + eliminar;
+                        Tuple<List<object[]>, int> cr = AdminView.Consulta(ref mens, consulta);
+                        int creados = cr.Item2;
+
+                        consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576";
+                        Tuple<List<object[]>, int> re = AdminView.Consulta(ref mens, consulta);
+                        int resueltos = re.Item2;
+
+                        consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
+                        Tuple<List<object[]>, int> pe = AdminView.Consulta(ref mens, consulta);
+                        int pendientes = pe.Item2;
+
+                        consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
+                        Tuple<List<object[]>, int> pro = AdminView.Consulta(ref mens, consulta);
+                        int proceso = pro.Item2;
+
+                        DateTime fechaActual = DateTime.Now;
+                        string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
+
+                        if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", "mysql_ticket", "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
+                        {
+                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
+                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
+                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
+                            aler = "<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><h4 class='text-center'>ADMINISTRADOR ELIMINADO</h4><p class='text-center'>El administrador fue eliminado del sistema con éxito</p></div>";
+                            id = "";
+                        }
+                        else
+                        {
+                            aler = "<div class='alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>OCURRIÓ UN ERROR</h4> <p class='text-center'> No hemos podido eliminar el administrador </p> </div>";
+                        }
+                    }
+                }
+                else
+                {
+                    Response.Write("<script>alert('Por el momento no es posible eliminar el usuario porque no hay más técnicos'); window.history.go(-1);</ script > ");
+                }
+            }
             //***************************Codigo que cuenta usuarios *************************************//
-            string consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046", mens = "";
+            consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046";
             Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
      
             if (resultado.Item2 > 0)
@@ -91,56 +159,6 @@ namespace Inventario.Inventario.admin
             tabla.DataBind();
             if (contador >= 1) {
                 AdminView.Mostrar(tabla, ref mensaje, consulta);
-            }
-            // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
-            if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
-            {
-                     
-                string  id =  MySql.RequestPost(Request.Form["id_dele"]);
-             
-   
-                consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE id_cliente =" + id + "')";
-                Tuple<List<object[]>, int> drop = AdminView.Consulta(ref mensaje, consulta);
-                List<object[]> arrayUser = drop.Item1;
-                int departamento = Convert.ToInt32(drop.Item1[0][5]);
-                consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE (id_departamento = " + departamento + " AND id_cliente <> " + id + " )  AND (id_rol = 4046 OR id_rol = 5267)')";
-                Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mensaje, consulta);
-                List<object[]> arrayTec = tec.Item1;
-                    if (tec.Item2 >= 1)
-                    {
-                   
-                           string eliminar = id;
-                           consulta = "SELECT * FROM mysql_ticket ... ticket WHERE idUsuario = " + eliminar;
-                           Tuple<List<object[]>, int> cr = AdminView.Consulta(ref mensaje, consulta);
-                            int creados = cr.Item2;
-
-                            consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576"; 
-                            Tuple<List<object[]>, int> re = AdminView.Consulta(ref mensaje, consulta);
-                            int resueltos = re.Item2;
-
-                            consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
-                            Tuple<List<object[]>, int> pe = AdminView.Consulta(ref mensaje, consulta);
-                            int pendientes = pe.Item2;
-
-                            consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
-                            Tuple<List<object[]>, int> pro = AdminView.Consulta(ref mensaje, consulta);
-                            int proceso = pro.Item2;
-
-
-                        DateTime fechaActual = DateTime.Now;
-                        string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
-
-
-                    if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", "mysql_ticket","" + eliminar + ",'" + ahora + "','" + ahora + "'," + pendientes + "," + creados + "," + resueltos + "," + proceso))
-                             AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket","" + eliminar + ",'EliminarU', '" + ahora + "' ," + "'cliente'" );
-                             AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + eliminar + ",'EliminarU', '" + ahora + "' ," + "'cliente'");
-                             AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + eliminar + ",'EliminarU', '" + ahora + "' ," + "'cliente'");
-                        /*MysqlQuery::ProcedimientoAlmacenado("registro_alteracionesCliente","$iid,'EliminarU','".date("Y-m-d H:i:s") ."','cliente'");
-                         MysqlQuery::ProcedimientoAlmacenado("registro_alteracionesCliente","$iid,'EliminarU','".date("Y-m-d H:i:s") ."','ticket'");
-                         MysqlQuery::ProcedimientoAlmacenado("registro_alteracionesCliente","$iid,'EliminarU','".date("Y-m-d H:i:s") ."','departamento'");*/
-
-                           
-                    }
             }
         }
         protected void tabla_PreRender(object sender, EventArgs e)

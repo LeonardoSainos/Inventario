@@ -60,8 +60,7 @@ namespace Inventario.Inventario.inc
                                 row9 = (DateTime)registro[8];
                                 row10 = (int)registro[9];
                                 row11 = (int)registro[10];
-                                // Utiliza los valores de las columnas como desees
-                                Console.WriteLine($"Valor de columna1: {row1}");
+                           
                             }
                             if (contador > 0)
                             {
@@ -76,8 +75,6 @@ namespace Inventario.Inventario.inc
                                 Session["fecha"] = row9;
                                 Session["estatus"] = row10;
                                 Session["anydesk"] = row11;
-                                // Paral impiar radiobutton se usa rblLogin.SelectedIndex = -1;
-
                                 Response.Redirect("index.aspx?view=index");
                             }
                             else
@@ -111,10 +108,7 @@ namespace Inventario.Inventario.inc
                                 row9 = (DateTime)registro[8];
                                 row10 = (int)registro[9];
                                 row11 = (int)registro[10];
-                                // Utiliza los valores de las columnas como desees
-                                Console.WriteLine($"Valor de columna1: {row1}");
                             }
-                            Console.WriteLine($"Número de registros: {contador}");
                             if (contador > 0)
                             {
                                 Session["id"] = row1;

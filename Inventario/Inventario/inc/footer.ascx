@@ -13,7 +13,7 @@
         <p class="text-warning"> 
           País: México<br>
           Ciudad: Puebla<br>
-          Teléfono: 2223244928<br>
+          Teléfono: 2223245928<br>
           E-mail: <a href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCJlJWQJhnZZQBWJBBhfpLVPvNjMvNFptWHqPPdLkNtbxXwlQqGQhSBbvnBjMWlGkWsLstmL">sistemas@alcomex.mx</a>
         </p>
       </div>

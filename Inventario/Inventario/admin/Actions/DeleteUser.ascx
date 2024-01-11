@@ -8,14 +8,14 @@
             <div class="modal-body">                                              
        </div>
        <div style="align-items:center; justify-content:center;"class="modal-footer">
-                    <center>
-                             <form id="formulario"  runat="server"  style="display: inline-block;">                                                                             
-                                    <input  type="hidden" name="id_dele"  id="borrar_id" />       
-                                    <button   name="ide" type="submit"  class="btn btn-success">SI</button>
+                    <center> 
+                             <form  id="formulario" style="display: inline-block;" method="post" >                  
+                                  <input  type="hidden" name="id_dele"   id="borrar_id" />       
+                                    <button  type="submit"   class="btn btn-success">SI</button>
                                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
                              </form>                        
                       </center>
                   </div>
              </div>
        </div>    
- </div>
+</div>
