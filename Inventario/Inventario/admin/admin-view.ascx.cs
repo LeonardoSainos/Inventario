@@ -67,11 +67,20 @@ namespace Inventario.Inventario.admin
                 List<object[]> arrayUser = drop.Item1;
                 if (drop.Item2 >= 1)
                 {
+                    int cu = 0;
                     int departamento = Convert.ToInt32(drop.Item1[0][5]);
-                    consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE (id_departamento = " + departamento + " AND id_cliente <> " + id + " )  AND (id_rol = 4046 OR id_rol = 5267)')";
-                    Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mens, consulta);
-                    List<object[]> arrayTec = tec.Item1;
-                    if (tec.Item2 >= 1)
+                    if(departamento == 2505)
+                    {
+                        cu = 1;
+                    }
+                    else
+                    {
+                        consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE ((id_departamento = " + departamento + " AND id_cliente <> " + id + " ) AND id_departamento<> 2505)  AND (id_rol = 4046 OR id_rol = 5267)')";
+                        Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mens, consulta);
+                        List<object[]> arrayTec = tec.Item1;  cu = tec.Item2;
+                    }
+                   
+                    if (cu >= 1)
                     {
 
                         string eliminar = id;

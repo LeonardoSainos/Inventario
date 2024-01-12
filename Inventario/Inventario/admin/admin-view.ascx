@@ -19,8 +19,8 @@
         Más
         <span class='caret'></span>
     </button>
-    <ul class='dropdown-menu'>
-        <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span> <button   class="btn btn-link" style='text-decoration:none;' data-toggle='modal' data-target='#modal1'>Nuevo usuario</button> </li>
+    <ul class='dropdown-menu'>                                                        
+        <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span> <button type="button" class="dropbtn btn btn-link" style='text-decoration:none;' data-toggle='modal' data-target='#modal1' >Nuevo usuario</button> </li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button  class='btn btn-link' form="acciones" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-ban-circle'></span> <button class='btn btn-link' form="acciones" style='text-decoration:none;' name="Bloquear">Bloquear</button></li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button class='btn btn-link' form="acciones" style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
@@ -153,53 +153,71 @@
         </ul>
     </nav>
 <%} %>
-</div>
-  <uc:DeleteUser runat="server" />
+</div>     
     </div>
+   <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span> <button type="button" class="dropbtn btn btn-link" style='text-decoration:none;' data-toggle='modal' data-target='#modal1' >Nuevo usuario</button> </li>
+     
+  <uc:DeleteUser runat="server" />
+  <uc:InsertUser runat="server" />
+     <!-- Modal para agregar usuario 
+<div class="container">
+                            <div class="modal" tabindex="-1" id="modal1" >
+                                <div class="modal-dialog modal-xlg  modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <div class="modal-header" style="background: black; text-align:center;">
+                                        <button class="close" data-dismiss="modal">&times;</button>
+                                          <h1 style="color: white;">Agregar  nuevo usuario</h1>
+                                        </div>
+                                          <div class="modal-body">
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                     
+                            </div> -->
  <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script>
-$("#mt").click(BuscarUsuario);
-    function BuscarUsuario(){
-         var URL = "./admin.aspx?view=searchUsers&admin=" + $("#busqueda").val();                    
-         $.get(URL,function (datos,estado){
-            $("#contenido").html(datos);
+    $(document).ready(function () {
+        $("#mt").click(BuscarUsuario);
+
+        function BuscarUsuario() {
+            var URL = "./admin.aspx?view=searchUsers&admin=" + $("#busqueda").val();
+            $.get(URL, function (datos, estado) {
+                $("#contenido").html(datos);
+            });
         }
-        );
-  }
-         $("#nombree").click(FiltroUsers);
-            function FiltroUsers(){
-                //admin.php?view=ticketadmin&ticket=all
-                var URL = "./admin.aspx?view=filterUsers&admin=" + $("#nombre").val();   
-                $.get(URL,function (datos,estado){
-                    $("#contenido").html(datos);
-                }
-                );
-            }
-            $("#fechaa").click(FiltroFecha);
-            function FiltroFecha(){
-                //admin.php?view=ticketadmin&ticket=all
-                var URL = "./admin.aspx?view=filterUsers&admin=" + $("#fecha").val();   
-                $.get(URL,function (datos,estado){
-                    $("#contenido").html(datos);
-                }
-                );
-            }
-            $("#correoo").click(FiltroCorreo);
-            function FiltroCorreo(){
-                //admin.php?view=ticketadmin&ticket=all
-                var URL = "./admin.aspx?view=filterUsers&admin=" + $("#correo").val();   
-                $.get(URL,function (datos,estado){
-                    $("#contenido").html(datos);
-                }
-                );
-            }  
-            $("#estatuss").click(FiltroEstatus);
-            function FiltroEstatus(){
-                //admin.php?view=ticketadmin&ticket=all
-                var URL = "./admin.aspx?view=filterUsers&admin=" + $("#estatusss").val();     
-                $.get(URL,function (datos,estado){
-                    $("#contenido").html(datos);
-                }
-                );
-            }
+
+        $("#nombree").click(FiltroUsers);
+        function FiltroUsers() {
+            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#nombre").val();
+            $.get(URL, function (datos, estado) {
+                $("#contenido").html(datos);
+            });
+        }
+
+        $("#fechaa").click(FiltroFecha);
+        function FiltroFecha() {
+            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#fecha").val();
+            $.get(URL, function (datos, estado) {
+                $("#contenido").html(datos);
+            });
+        }
+
+        $("#correoo").click(FiltroCorreo);
+        function FiltroCorreo() {
+            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#correo").val();
+            $.get(URL, function (datos, estado) {
+                $("#contenido").html(datos);
+            });
+        }
+
+        $("#estatuss").click(FiltroEstatus);
+        function FiltroEstatus() {
+            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#estatusss").val();
+            $.get(URL, function (datos, estado) {
+                $("#contenido").html(datos);
+            });
+        }
+    });
 </script>
+

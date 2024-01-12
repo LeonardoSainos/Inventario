@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Inventario.Scripts
 {
-    public class MySql
+     class MySql
     {
       public System.Data.DataRowCollection Rows { get; }
         public string ServidorSQL { get; set; }
@@ -108,7 +108,7 @@ namespace Inventario.Scripts
             }
             return conexion;
         }
-        public void Insertar(String tabla,string server, string campos, string valores, ref String mensaje)
+        public bool Insertar(String tabla,string server, string campos, string valores, ref String mensaje)
         {
             string texto = "";
             SqlConnection conexion = Conectar(ref texto);
@@ -118,16 +118,18 @@ namespace Inventario.Scripts
                 using (conexion)
                 {
                     query.Connection = conexion;
-                    query.CommandText = "INSERT INTO " + server + "... " + tabla + "( " + campos + ") VALUES " + "(" + valores + ");";
+                    query.CommandText = "INSERT INTO " + server + "... " + tabla + "(" + campos + " ) VALUES " + "(" + valores + ");";
                     query.ExecuteNonQuery();
                     mensaje = "Datos guardados";
                 }
                 conexion.Close();
+                return true;
             }
             catch (Exception t)
             {
                 conexion = null;
                 mensaje = "ERROR: " + t.Message;
+                return false;
             }
         }
         public void Actualizar(string server, String tabla, string campos, string condicion)
