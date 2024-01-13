@@ -1,8 +1,4 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="AddUser.ascx.cs" Inherits="Inventario.Inventario.admin.AddUser" %>
-
-<!-- Modal para agregar usuario -->
-
-
  <%Response.Write(alerta); %>
 <div class="container">
                             <div class="modal" tabindex="-1" id="modal1" >

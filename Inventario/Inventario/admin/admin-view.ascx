@@ -5,7 +5,7 @@
         <%Response.Write(alerta); %>
         <div class="row">
             <div class="col-sm-2">
-                <img src="../img/card_identy.png" alt="Animacion" class="img-responsive animated flipInY" />
+                <img src="../Inventario/img/card_identy.png" alt="Animacion" class="img-responsive animated flipInY" />
             </div>
             <div class="col-sm-10">
                 <p class="lead text-info">Bienvenido administrador, en esta página se muestran todos los <strong>Usuarios </strong> registrados en Inventario Alcomex, usted podrá eliminarlos si lo desea.</p>
@@ -18,7 +18,7 @@
     <button class='btn dropdown-toggle btn-warning' data-toggle='dropdown' value='Más'>
         Más
         <span class='caret'></span>
-    </button>
+    </button>  <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
     <ul class='dropdown-menu'>                                                        
         <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span> <button type="button" class="dropbtn btn btn-link" style='text-decoration:none;' data-toggle='modal' data-target='#modal1' >Nuevo usuario</button> </li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button  class='btn btn-link' form="acciones" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
@@ -173,9 +173,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                     
+                                 
                             </div> -->
- <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+ 
+      <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+ 
+
 <script>
     $(document).ready(function () {
         $("#mt").click(BuscarUsuario);

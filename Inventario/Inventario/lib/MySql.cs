@@ -154,8 +154,6 @@ namespace Inventario.Scripts
                 texto = "ERROR : " + t.Message;
             }
         }
-
-
         public void Eliminar(string server, string tabla, string condicion)
         {
             string texto = "";
@@ -203,7 +201,6 @@ namespace Inventario.Scripts
                 return false;
             }
         }
-
         public static string LimpiarCadena(string valor)
         {
             valor = valor.Replace("SELECT", "")
