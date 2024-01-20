@@ -141,6 +141,7 @@
     <Content Include="includes\almacenista.ascx" />
     <Content Include="includes\index.ascx" />
     <Content Include="Inventario\admin-view.ascx" />
+    <Content Include="Inventario\admin\Actions\Actions.aspx" />
     <Content Include="Inventario\admin\Actions\AddUser.ascx" />
     <Content Include="Inventario\admin\admin-view.ascx" />
     <Content Include="Inventario\admin\almacenista-view.ascx" />
@@ -373,6 +374,13 @@
     </Compile>
     <Compile Include="Inventario\admin-view.ascx.designer.cs">
       <DependentUpon>admin-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\Actions.aspx.cs">
+      <DependentUpon>Actions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\Actions.aspx.designer.cs">
+      <DependentUpon>Actions.aspx</DependentUpon>
     </Compile>
     <Compile Include="Inventario\admin\Actions\AddUser.ascx.cs">
       <DependentUpon>AddUser.ascx</DependentUpon>

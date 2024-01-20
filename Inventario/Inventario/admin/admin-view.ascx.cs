@@ -31,11 +31,17 @@ namespace Inventario.Inventario.admin
             set { r2 = value; }
             get { return r2; }
         }
+
+      
+
         public int row3
         {
             set { r3 = value; }
             get { return r3; }
         }
+
+       
+
         public string alerta
         {
             set { aler = value; }
@@ -54,7 +60,7 @@ namespace Inventario.Inventario.admin
         protected void Page_Load(object sender, EventArgs e)
         {
             MySql AdminView = new MySql();
-
+           
             // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
             if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
             {
@@ -183,5 +189,20 @@ namespace Inventario.Inventario.admin
                 tabla.Controls[0].Controls.Add(newRow);
             }
         }
+        protected void btnBloquear_Click(object sender, EventArgs e)
+        {
+            foreach (GridViewRow row in tabla.Rows)
+            {
+                CheckBox chkUsuario = row.FindControl("chkUsuario") as CheckBox;
+
+                if (chkUsuario != null)
+                {
+                    Console.WriteLine($"ID de Cliente: {chkUsuario.Text}");
+                    Console.WriteLine($"Checked: {chkUsuario.Checked}");
+                }
+            }
+        }
+
+
     }
 }

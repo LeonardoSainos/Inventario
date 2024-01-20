@@ -14,20 +14,26 @@
     </div>
 <br /><br />
 <div class="container">
-<div class='btn-group'>
-    <button class='btn dropdown-toggle btn-warning' data-toggle='dropdown' value='Más'>
+<div class="btn-group">
+    <button class="btn dropdown-toggle btn-warning" data-toggle="dropdown" value="Más">
         Más
-        <span class='caret'></span>
-    </button>  <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
-    <ul class='dropdown-menu'>                                                        
-        <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span> <button type="button" class="dropbtn btn btn-link" style='text-decoration:none;' data-toggle='modal' data-target='#modal1' >Nuevo usuario</button> </li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button  class='btn btn-link' form="acciones" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-ban-circle'></span> <button class='btn btn-link' form="acciones" style='text-decoration:none;' name="Bloquear">Bloquear</button></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button class='btn btn-link' form="acciones" style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button class='btn btn-link' form="pdf" style='text-decoration:none;' name="Exportar">Exportar</button></li>
-          <li ><a href='#' class='btn btn-link '> <span class='glyphicon glyphicon-log-in'></span><input  form="acciones" class='btn btn-link ' style='text-decoration:none;'  type="submit" value=" Resetear contraseña" name="Resetear"/> </a></li>  
-    </ul>
+        <span class="caret"></span>
+    </button>   
+ 
+    <ul class="dropdown-menu">                                                        
+       <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span><input class="btn btn-link" style='text-decoration:none;' type="button" data-toggle='modal' data-target='#modal1' value="Nuevo usuario"/></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button type="submit" class='btn btn-link' form="acciones" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-ban-circle'></span> 
+</li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button type="submit" class='btn btn-link' form="acciones" style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button type="submit" class='btn btn-link' form="pdf" style='text-decoration:none;' name="Exportar">Exportar</button></li>
+          <li ><a href='#' class='btn btn-link'> <span class='glyphicon glyphicon-log-in'></span><input  form="acciones" class='btn btn-link ' style='text-decoration:none;'  type="submit" value=" Resetear contraseña" name="Resetear"/> </a></li>  
+        </ul>
+      
 </div> 
+
+               <form id="acciones" action="" method="post" > </form>
+
 <div style="display:flex; float:right;">
  <input id="busqueda" style="width: 80%; float:left;" placeholder="Buscar administradores"   name="busqueda" class="form-control mr-sm-2 alin" type="text" />
 <a id="mt" href="javascript:void()" style="float:right;" placeholder="Buscar" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-search"></span></a>
@@ -40,14 +46,13 @@
         <li ><a id="estatuss" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Estatus</a></li>  
      </ul>
  </div>
+   
 </div>            
-                                          <form id="pdf"   action="../TICKET/lib/users.php">
+                                          <form id="pdf"   action="../Inventario/lib/users.ascx">
                                             <input type="hidden" name="Exportar" value="4046" />
                                            </form>
                                           <br/> <br/>
-<%  
-    %>
-<%  %>
+   
 <div class="row">
   <div class="col-md-12 text-center">
    <ul class="nav nav-pills nav-justified">
@@ -58,22 +63,22 @@
    </div>
 </div>
 <br/>
+     
 <div class="row">
     <div class="col-md-12">
        <div class="table-responsive">
            <% %>
-           <form id="acciones"  action="../TICKET/admin/acciones-view.php">                 
-            <input type="hidden" name="nombre" value="<%= Session["nombre"] %>"/>
-             <input type="hidden" name="rol"value="<%= Session["rol"] %>"/>
-             <input type="hidden" name="id" value="<%= Session["id"] %>"/>
-           </form>
-<form runat="server">
-<asp:GridView ID="tabla" OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%" >
+
+         
+<form runat="server" id="mostrar">
+<asp:GridView ID="tabla" OnRowCommand="tabla_RowCommand" OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%"   >
     <Columns>
         <asp:TemplateField>
             <ItemTemplate>
-                <asp:CheckBox name="Usuarios[]" ID="CheckBox1" runat="server" Text="" />
-            </ItemTemplate>
+            <asp:CheckBox ID="chkUsuario" runat="server" value='<%# Eval("id_cliente") %>'  />
+
+        
+   </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField DataField="id_cliente" HeaderText="#" SortExpression="Id_cliente" />
         <asp:BoundField DataField="Fecha_creacion" HeaderText="Creado" SortExpression="Fecha_creacion" />
@@ -103,6 +108,7 @@
     <RowStyle />
     <SelectedRowStyle Font-Bold="True" ForeColor="Navy" />  
 </asp:GridView>
+    <asp:Button ID="btnBloquear" runat="server" Text="Bloquear" form="mostrar" OnClick="btnBloquear_Click" />
 </form>
                    </div>
      </div>
@@ -155,30 +161,10 @@
 <%} %>
 </div>     
     </div>
-   <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span> <button type="button" class="dropbtn btn btn-link" style='text-decoration:none;' data-toggle='modal' data-target='#modal1' >Nuevo usuario</button> </li>
-     
+    
   <uc:DeleteUser runat="server" />
   <uc:InsertUser runat="server" />
-     <!-- Modal para agregar usuario 
-<div class="container">
-                            <div class="modal" tabindex="-1" id="modal1" >
-                                <div class="modal-dialog modal-xlg  modal-dialog-centered">
-                                    <div class="modal-content">
-                                    <div class="modal-header" style="background: black; text-align:center;">
-                                        <button class="close" data-dismiss="modal">&times;</button>
-                                          <h1 style="color: white;">Agregar  nuevo usuario</h1>
-                                        </div>
-                                          <div class="modal-body">
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                 
-                            </div> -->
- 
-      <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
- 
-
+   
 <script>
     $(document).ready(function () {
         $("#mt").click(BuscarUsuario);
@@ -223,4 +209,4 @@
         }
     });
 </script>
-
+ 

@@ -157,7 +157,6 @@
                                                   <a href="../../admin.aspx?view=admin" class="dropdown-toggle" data-toggle="dropdown">
                                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;Administración de usuarios
                                                   </a>
-                           
                                               </li>
                                           </ul>
                                     </li>
@@ -196,15 +195,12 @@
                                          </ul>
                                      </li>
                        </li>
-
 <% } %>
                         <li class="divider"></li>
                         <li>
                             <a href="./Inventario/process/logout.aspx"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Cerrar sesión</a>
                         </li>
                     </ul>
-         
-           
             <% } %>
                     </li>
             </ul>
@@ -212,7 +208,6 @@
                 <li>
                     <a href="./index.aspx"><span class="glyphicon glyphicon-home"></span> &nbsp; Inicio</a>
                 </li>
-               
                 <li> 
                     <a href="http://192.168.11.5:8888/TicketAlcomex/Ticket/index.php?view=ticket"><span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;Soporte técnico</a>
                 </li>
@@ -225,7 +220,6 @@
                 </li>
                     <% } %>
             </ul>
-        
         </div>
     </div>
   </nav>

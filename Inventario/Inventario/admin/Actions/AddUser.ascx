@@ -16,7 +16,7 @@
                                                <label class="col-sm-2 control-label">Nombre:</label>
                                                       <div class='col-sm-10'>
                                                         <div class="input-group">
-                                                             <input required=""  class="formu form-control" type="text" name="Gnombre" placeholder="Nombre" maxlength="75">
+                                                             <input required=""  class="formu form-control" type="text" name="Gnombre" placeholder="Nombre" maxlength="75"/>
                                                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                                         </div>
                                                       </div>
@@ -27,7 +27,7 @@
                                                     <label class="col-sm-2 control-label">Primer Apellido:</label>
                                                       <div class='col-sm-10'>
                                                         <div class="input-group">
-                                                          <input required=""  class=" formu form-control" type="text" name="Gapellidos1" placeholder="Primer apellido" maxlength="70">
+                                                          <input required=""  class=" formu form-control" type="text" name="Gapellidos1" placeholder="Primer apellido" maxlength="70"/>
                                                           <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
                                                         </div>
                                                       </div>
@@ -38,7 +38,7 @@
                                                     <label class="col-sm-2 control-label">Segundo Apellido:</label>
                                                       <div class='col-sm-10'>
                                                         <div class="input-group">
-                                                          <input required=""  class=" formu form-control" type="text" name="Gapellidos2" placeholder="Segundo apellido" maxlength="70">
+                                                          <input required=""  class=" formu form-control" type="text" name="Gapellidos2" placeholder="Segundo apellido" maxlength="70"/>
                                                           <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
                                                         </div>
                                                       </div>
@@ -49,7 +49,7 @@
                                                     <label class="col-sm-2 control-label">Correo:</label>
                                                       <div class='col-sm-10'>
                                                         <div class="input-group">
-                                                           <input  required=""  class="formu form-control" type="email" name="Gcorreo" placeholder="Correo electronico" maxlength="70">
+                                                           <input  required=""  class="formu form-control" type="email" name="Gcorreo" placeholder="Correo electronico" maxlength="70"/>
                                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                                         </div>
                                                       </div>
@@ -60,7 +60,7 @@
                                                     <label class="col-sm-2 control-label">Usuario:</label>
                                                       <div class='col-sm-10'>
                                                         <div class="input-group">
-                                                           <input  required=""  class="formu form-control" type="text" name="Gusuario" placeholder="Nombre de usuario" maxlength="70">
+                                                           <input  required=""  class="formu form-control" type="text" name="Gusuario" placeholder="Nombre de usuario" maxlength="70"/>
                                                            <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
                                                         </div>
                                                       </div>

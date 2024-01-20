@@ -132,7 +132,7 @@ namespace Inventario.Scripts
                 return false;
             }
         }
-        public void Actualizar(string server, String tabla, string campos, string condicion)
+        public bool Actualizar(string server, String tabla, string campos, string condicion)
         {
             string texto = "";
             SqlConnection conexion = Conectar(ref texto);
@@ -142,16 +142,18 @@ namespace Inventario.Scripts
                 using (conexion)
                 {
                     query.Connection = conexion;
-                    query.CommandText = "UPDATE " + server  + "... " + tabla + " SET " + campos + " WHERE " + condicion;
+                    query.CommandText = "UPDATE " + server + "... " + tabla + " SET " + campos + " WHERE " + condicion;
                     query.ExecuteNonQuery();
                     texto = "Registros actualizados";
                 }
                 conexion.Close();
+                return true;
             }
             catch (Exception t)
             {
                 conexion = null;
                 texto = "ERROR : " + t.Message;
+                return false;
             }
         }
         public void Eliminar(string server, string tabla, string condicion)

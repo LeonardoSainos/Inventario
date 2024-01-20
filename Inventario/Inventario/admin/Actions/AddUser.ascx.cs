@@ -103,11 +103,8 @@ namespace Inventario.Inventario.admin
                         DateTime hoy = DateTime.Now;
                         string ahora = Convert.ToString(hoy);
                         alert = "<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>REGISTRO EXITOSO</h4><p class='text-center'>Cuenta creada exitosamente, resetea la contraseña del usuario para que posteriormente se le notifique que ya puede iniciar sesión.</p></div>";
-
                         AddUser.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\'Insertar\",\"" + ahora + "\"," + "\"cliente\"");
-                       // Response.Redirect("./admin.aspx?view=admin");
-                     
-
+                        // Response.Redirect("./admin.aspx?view=admin");
                     }
                     else
                     {
@@ -128,7 +125,6 @@ namespace Inventario.Inventario.admin
                     ValEs[i] = Convert.ToString(estatus.Item1[i][1]);
                     idEs[i] = Convert.ToInt32(estatus.Item1[i][0]);
                 }
-
             }
             query = "SELECT * FROM mysql_ticket ... rol";
             Tuple<List<object[]>, int> rol = AddUser.Consulta(ref mens, query);
