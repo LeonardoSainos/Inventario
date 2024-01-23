@@ -467,3 +467,4 @@ C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.c
 C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.csproj.CopyComplete
 C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.dll
 C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.pdb
+C:\Users\Administrator\source\repos\Inventario\Inventario\obj\Debug\Inventario.csproj.AssemblyReference.cache

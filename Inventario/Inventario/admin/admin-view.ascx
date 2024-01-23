@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="admin-view.ascx.cs" Inherits="Inventario.Inventario.admin.WebUserControl1" %>
  <%@ Import Namespace="Inventario.Scripts" %>
+
 <div id="contenido">
     <div class="container">
         <%Response.Write(alerta); %>
@@ -71,14 +72,12 @@
 
          
 <form runat="server" id="mostrar">
-<asp:GridView ID="tabla" OnRowCommand="tabla_RowCommand" OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%"   >
+<asp:GridView ID="tabla"    OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%"   >
     <Columns>
         <asp:TemplateField>
             <ItemTemplate>
-            <asp:CheckBox ID="chkUsuario" runat="server" value='<%# Eval("id_cliente") %>'  />
-
-        
-   </ItemTemplate>
+       <asp:CheckBox ID="chkUsuario" runat="server"  OnCheckedChanged="chkUsuario_CheckedChanged"  />
+       </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField DataField="id_cliente" HeaderText="#" SortExpression="Id_cliente" />
         <asp:BoundField DataField="Fecha_creacion" HeaderText="Creado" SortExpression="Fecha_creacion" />
@@ -108,6 +107,7 @@
     <RowStyle />
     <SelectedRowStyle Font-Bold="True" ForeColor="Navy" />  
 </asp:GridView>
+ 
     <asp:Button ID="btnBloquear" runat="server" Text="Bloquear" form="mostrar" OnClick="btnBloquear_Click" />
 </form>
                    </div>

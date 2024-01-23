@@ -9,45 +9,150 @@ namespace Inventario.Inventario.admin.Actions
 {
     public partial class Actions : System.Web.UI.Page
     {
+
+        string aler = "", consulta = "", mens = "";
+
+        public string alerta
+        {
+            set { aler = value; }
+            get { return aler; }
+        }
+        public string query
+        {
+            set { consulta = value; }
+            get { return consulta; }
+        }
+        public string mensaje
+        {
+            set { mens = value; }
+            get { return mens; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             MySql Acciones = new MySql();
             int SessionId = Convert.ToInt32(Session["id"]);
-            int bloquear = Convert.ToInt32(MySql.RequestPost(Request.Form["Bloquear"]));
-            int desbloquear = Convert.ToInt32(MySql.RequestPost(Request.Form["Desbloquear"]));
-            int eliminar = Convert.ToInt32(MySql.RequestPost(Request.Form["Eliminar"]));
-            int resetear = Convert.ToInt32(MySql.RequestPost(Request.Form["Resetear"]));
-            DateTime hoy = DateTime.Now;
-            string ahora = Convert.ToString(hoy);
-
-
-            if (Session["nombre"] != null && Session["id_rol"].ToString() != "404" && Session["id"] != null)
+            string texto = "";
+           //int eliminar = Convert.ToInt32(MySql.RequestPost(Request.Form["Eliminar"]));
+            //int resetear = Convert.ToInt32(MySql.RequestPost(Request.Form["Resetear"]));
+            string ahora = Convert.ToString(DateTime.Now);
+            int[] bloqueados = (int[])Session["Bloqueados"];
+            int[] desbloqueados = (int[])Session["Desbloqueados"];
+            int[] eliminados = (int[])Session["Eliminados"];
+            Session.Remove("Bloqueados"); Session.Remove("Desbloqueados"); Session.Remove("Eliminados");
+           
+            if (Session["nombre"] != null && Session["rol"].ToString() == "4046" && Session["id"] != null)
             {
-                int userDelete = Convert.ToInt32(MySql.RequestPost(Request.Form["id"]));
-                if (Request.Form["Bloquear"] != null)
+               
+                if (bloqueados!=null)
                 {
-                    if (Request.Form["Usuarios"] != null)
+                    foreach (int id in bloqueados)
                     {
-
-
-                        foreach (int Usuario in HttpContext.Current.Request.Form["Usuarios"])
+                        try
                         {
-                            Acciones.Actualizar("mysql_ticket", "cliente", "idEstatus=25542", "id_cliente = " + Usuario);
-                            Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\'Actualizar\',\'" + ahora + "\'," + "\'cliente\'");
+
+                            Acciones.Actualizar("mysql_ticket", "cliente", "idEstatus=25542", "id_cliente = " + id);
+                            Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
+                            texto = "Usuario bloqueado exitosamente";
+
+
+                        }
+                        catch (Exception c)
+                        {
+                            texto = "ERROR: " + c.Message;
 
                         }
                         Response.Write("<script>alert('Usuario bloqueado'); window.history.go(-1); </script>");
                     }
-                    else if (HttpContext.Current.Request.Form["Usuarios"] != null)
-                    {
-                        Response.Write("<script> alert('No haz seleccionado ningún usuario'); window.history.go(-1);  </ script > ");
-                    }
-
-
                 }
+                else if (desbloqueados != null)
+                {
+                    foreach(int id in desbloqueados)
+                    {
+                        try
+                        {
+
+                            Acciones.Actualizar("mysql_ticket", "cliente", "idEstatus=31448", "id_cliente = " + id);
+                            Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
+                            texto = "Usuario bloqueado exitosamente";
 
 
+                        }
+                        catch (Exception c)
+                        {
+                            texto = "ERROR: " + c.Message;
+
+                        }
+                        Response.Write("<script>alert('Usuario bloqueado'); window.history.go(-1); </script>");
+                    }
+                }
+                else if (eliminados != null)
+                {
+                    foreach (int ide in eliminados)
+                    {
+                        consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE id_cliente =" + ide + "')";
+                        Tuple<List<object[]>, int> drop = Acciones.Consulta(ref mens, consulta);
+                        List<object[]> arrayUser = drop.Item1;
+                        if (drop.Item2 >= 1)
+                        {
+                            int cu = 0;
+                            int departamento = Convert.ToInt32(drop.Item1[0][5]);
+                            if (departamento == 2505)
+                            {
+                                cu = 1;
+                            }
+                            else
+                            {
+                                consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE ((id_departamento = " + departamento + " AND id_cliente <> " + ide + " ) AND id_departamento<> 2505)  AND (id_rol = 4046 OR id_rol = 5267)')";
+                                Tuple<List<object[]>, int> tec = Acciones.Consulta(ref mens, consulta);
+                                List<object[]> arrayTec = tec.Item1; cu = tec.Item2;
+                            }
+                            if (cu >= 1)
+                            {
+                                int eliminar = ide;
+                                consulta = "SELECT * FROM mysql_ticket ... ticket WHERE idUsuario = " + eliminar;
+                                Tuple<List<object[]>, int> cr = Acciones.Consulta(ref mens, consulta);
+                                int creados = cr.Item2;
+
+                                consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576";
+                                Tuple<List<object[]>, int> re = Acciones.Consulta(ref mens, consulta);
+                                int resueltos = re.Item2;
+
+                                consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
+                                Tuple<List<object[]>, int> pe = Acciones.Consulta(ref mens, consulta);
+                                int pendientes = pe.Item2;
+
+                                consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
+                                Tuple<List<object[]>, int> pro = Acciones.Consulta(ref mens, consulta);
+                                int proceso = pro.Item2;
+
+                               
+
+                                if (Acciones.ProcedimientoAlmacenado("EliminarUsuario", "mysql_ticket", "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
+                                {
+                                    Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
+                                    Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
+                                    Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
+                                    aler = "<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><h4 class='text-center'>ADMINISTRADOR ELIMINADO</h4><p class='text-center'>El administrador fue eliminado del sistema con éxito</p></div>";
+                                    
+                                }
+                                else
+                                {
+                                    aler = "<div class='alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>OCURRIÓ UN ERROR</h4> <p class='text-center'> No hemos podido eliminar el administrador </p> </div>";
+                                }
+                            }
+                            else
+                            {
+                                aler= "<script>alert('Por el momento no es posible eliminar el usuario porque no hay más técnicos');  window.history.go(-1);</ script > ";
+                            }
+                        }
+                    }
+                }
+            }
+                else  
+                {
+                    Response.Write("<script> alert('No haz seleccionado ningún usuario'); window.history.go(-1);  </ script > ");
+                }
             }
         }
     }
-}
