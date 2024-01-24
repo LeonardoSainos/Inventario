@@ -22,18 +22,16 @@
     </button>   
  
     <ul class="dropdown-menu">                                                        
-       <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span><input class="btn btn-link" style='text-decoration:none;' type="button" data-toggle='modal' data-target='#modal1' value="Nuevo usuario"/></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button type="submit" class='btn btn-link' form="acciones" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-ban-circle'></span> 
-</li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button type="submit" class='btn btn-link' form="acciones" style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
+       <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span><input class="btn btn-link" style='text-decoration:none;' onclick="ActivarBoton('Nuevo');" value="Nuevo usuario" type="button"/></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button type="submit" class='btn btn-link'  onclick="ActivarBoton('Eliminar');" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-ban-circle'></span><button type="button" class="btn btn-link" onclick="ActivarBoton('Bloquear');" id="btnExterno" style="text-decoration:none;" name="Bloquear">Bloquear</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button type="submit" class='btn btn-link'  onclick="ActivarBoton('Desbloquear');" style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button type="submit" class='btn btn-link' form="pdf" style='text-decoration:none;' name="Exportar">Exportar</button></li>
-          <li ><a href='#' class='btn btn-link'> <span class='glyphicon glyphicon-log-in'></span><input  form="acciones" class='btn btn-link ' style='text-decoration:none;'  type="submit" value=" Resetear contraseña" name="Resetear"/> </a></li>  
+          <li ><a href='#' class='btn btn-link'> <span class='glyphicon glyphicon-log-in'></span><input  onclick="ActivarBoton('Resetear');"  class='btn btn-link ' style='text-decoration:none;'  type="button" value=" Resetear contraseña" name="Resetear"/> </a></li>     
         </ul>
-      
 </div> 
 
-               <form id="acciones" action="" method="post" > </form>
+             
 
 <div style="display:flex; float:right;">
  <input id="busqueda" style="width: 80%; float:left;" placeholder="Buscar administradores"   name="busqueda" class="form-control mr-sm-2 alin" type="text" />
@@ -108,8 +106,13 @@
     <SelectedRowStyle Font-Bold="True" ForeColor="Navy" />  
 </asp:GridView>
  
-    <asp:Button ID="btnBloquear" runat="server" Text="Bloquear" form="mostrar" OnClick="btnBloquear_Click" />
+    <asp:Button ID="btnBloquear" runat="server" form="mostrar" Style="display:none;" OnClick="btnBloquear_Click" />
+     <asp:Button ID="btnDesbloquear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnDesbloquear_Click" />
+     <asp:Button ID="btnResetear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnResetear_Click" />
+      <asp:Button ID="btnEliminar" runat="server"  form="mostrar" Style="display:none;" OnClick="btnEliminar_Click" />
+        <button id="btnNuevo" type="button" style="display:none;" data-toggle='modal' data-target='#modal1'></button>
 </form>
+
                    </div>
      </div>
  </div>
@@ -199,7 +202,6 @@
                 $("#contenido").html(datos);
             });
         }
-
         $("#estatuss").click(FiltroEstatus);
         function FiltroEstatus() {
             var URL = "./admin.aspx?view=filterUsers&admin=" + $("#estatusss").val();
@@ -208,5 +210,48 @@
             });
         }
     });
+
+
+    function ActivarBoton(opcion) {
+        // Activar el botón dentro del formulario
+        switch (opcion) {
+            case "Bloquear": {
+                    var boton = document.getElementById("<%= btnBloquear.ClientID %>");
+                    if (boton) {
+                        boton.click();
+                }
+                break;
+            }
+            case "Desbloquear": {
+                var boton = document.getElementById("<%= btnDesbloquear.ClientID %>");
+                if (boton) {
+                    boton.click();
+                }
+                break;
+            }
+            case "Resetear": {
+                var boton = document.getElementById("<%= btnResetear.ClientID %>");
+                if (boton) {
+                    boton.click();
+                }
+                break;
+            }
+            case "Eliminar": {
+                var boton = document.getElementById("<%= btnEliminar.ClientID %>");
+                if (boton) {
+                    boton.click();
+                }
+                break;
+            }
+            case "Nuevo": {
+                var boton = document.getElementById("btnNuevo");
+                if (boton) {
+                    boton.click();
+                }
+                break;
+            }   
+            default: "Ninguno";
+        }
+     }
 </script>
  

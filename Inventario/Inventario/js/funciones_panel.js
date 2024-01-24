@@ -37,4 +37,12 @@ var loadFile = function(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
   };
-   
+
+
+
+function ActivarBoton() {
+ 
+
+    // Activar el botón dentro del formulario
+    document.getElementById("btnBloquear").click();
+}

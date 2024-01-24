@@ -459,6 +459,7 @@
     <Compile Include="Inventario\inc\linksJS2.ascx.designer.cs">
       <DependentUpon>linksJS2.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Inventario\lib\Functions.cs" />
     <Compile Include="Inventario\process\Login.ascx.cs">
       <DependentUpon>Login.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

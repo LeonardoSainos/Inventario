@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Inventario.Inventario.lib;
 using Inventario.Scripts;
 namespace Inventario.Inventario.admin.Actions
 {
@@ -28,9 +29,11 @@ namespace Inventario.Inventario.admin.Actions
             get { return mens; }
         }
 
+
         protected void Page_Load(object sender, EventArgs e)
         {
             MySql Acciones = new MySql();
+            Functions Funciones = new Functions();
             int SessionId = Convert.ToInt32(Session["id"]);
             string texto = "";
            //int eliminar = Convert.ToInt32(MySql.RequestPost(Request.Form["Eliminar"]));
@@ -39,6 +42,7 @@ namespace Inventario.Inventario.admin.Actions
             int[] bloqueados = (int[])Session["Bloqueados"];
             int[] desbloqueados = (int[])Session["Desbloqueados"];
             int[] eliminados = (int[])Session["Eliminados"];
+            int[] Reseteados = (int[])Session["Reseteados"];
             Session.Remove("Bloqueados"); Session.Remove("Desbloqueados"); Session.Remove("Eliminados");
            
             if (Session["nombre"] != null && Session["rol"].ToString() == "4046" && Session["id"] != null)
@@ -50,19 +54,19 @@ namespace Inventario.Inventario.admin.Actions
                     {
                         try
                         {
-
-                            Acciones.Actualizar("mysql_ticket", "cliente", "idEstatus=25542", "id_cliente = " + id);
-                            Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
-                            texto = "Usuario bloqueado exitosamente";
-
-
+                            if (Acciones.Actualizar("mysql_ticket", "cliente", "idEstatus=25542", "id_cliente = " + id))
+                            {
+                                Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
+                                texto = "Usuario bloqueado exitosamente";
+                                Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
+                            }
                         }
                         catch (Exception c)
                         {
                             texto = "ERROR: " + c.Message;
-
+                            Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
                         }
-                        Response.Write("<script>alert('Usuario bloqueado'); window.history.go(-1); </script>");
+                       
                     }
                 }
                 else if (desbloqueados != null)
@@ -72,18 +76,22 @@ namespace Inventario.Inventario.admin.Actions
                         try
                         {
 
-                            Acciones.Actualizar("mysql_ticket", "cliente", "idEstatus=31448", "id_cliente = " + id);
-                            Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
-                            texto = "Usuario bloqueado exitosamente";
+                            if (Acciones.Actualizar("mysql_ticket", "cliente", "idEstatus=31448", "id_cliente = " + id))
+                            {
+                                Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
 
+                                texto = "Usuario desbloqueado exitosamente";
+                                     Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
 
+                            }
                         }
                         catch (Exception c)
                         {
                             texto = "ERROR: " + c.Message;
+                            Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
 
                         }
-                        Response.Write("<script>alert('Usuario bloqueado'); window.history.go(-1); </script>");
+
                     }
                 }
                 else if (eliminados != null)
@@ -138,7 +146,7 @@ namespace Inventario.Inventario.admin.Actions
                                 }
                                 else
                                 {
-                                    aler = "<div class='alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>OCURRIÓ UN ERROR</h4> <p class='text-center'> No hemos podido eliminar el administrador </p> </div>";
+                                    aler ="<div class='alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>OCURRIÓ UN ERROR</h4> <p class='text-center'> No hemos podido eliminar el administrador </p> </div>";
                                 }
                             }
                             else
@@ -148,11 +156,31 @@ namespace Inventario.Inventario.admin.Actions
                         }
                     }
                 }
-            }
-                else  
+
+                else if (Reseteados != null)
                 {
-                    Response.Write("<script> alert('No haz seleccionado ningún usuario'); window.history.go(-1);  </ script > ");
+                    foreach (int id in Reseteados)
+                    {
+                        string permittedChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                        string cifrado = Functions.GenerarCadenaAleatoria(permittedChars, 16);
+                        string NewPassword = Convert.ToString(Funciones.CalculateMD5(cifrado));
+                        Acciones.Actualizar("mysql_ticket","cliente","clave='" + NewPassword + "'","id_cliente=" + id);
+                        consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT c.email_cliente,c.nombre_completo, c.id_cliente, d.nombre as Depa FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento WHERE c.id_cliente=" + id +  ")";
+                        Tuple<List<object[]>, int> arrayPassword = Acciones.Consulta(ref mens, consulta);
+                        List<object[]> InfoUser = arrayPassword.Item1;
+                        int cu = arrayPassword.Item2;
+                        if (cu >= 1)
+                        {
+
+                        }
+                    }
                 }
+                else
+                {
+                   Response.Write("<script> alert('No haz seleccionado ningún usuario'); window.history.go(-1); </script>" );
+                }
+            }
+               
             }
         }
     }

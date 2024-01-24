@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Inventario.Inventario.lib;
 namespace Inventario.Inventario.admin
 {
     public partial class AddUser : System.Web.UI.UserControl
@@ -83,16 +84,16 @@ namespace Inventario.Inventario.admin
             if (Request.Form["Gnombre"]!= null && Request.Form["Gapellidos1"]!= null && Request.Form["Gcorreo"]!= null) 
             {
                 int SessionId = Convert.ToInt32(Session["id"]);
-                string n = MySql.RequestPost(Request.Form["Gnombre"]);
-                string a1 = MySql.RequestPost(Request.Form["Gapellidos1"]);
-                string a2 = MySql.RequestPost(Request.Form["Gapellidos2"]);
+                string n = Functions.RequestPost(Request.Form["Gnombre"]);
+                string a1 = Functions.RequestPost(Request.Form["Gapellidos1"]);
+                string a2 = Functions.RequestPost(Request.Form["Gapellidos2"]);
                 string GNcompleto = n + " " + a1 + " " + a2;
-                string Gcorreo = MySql.RequestPost(Request.Form["Gcorreo"]);
-                int Gdepartamento = Convert.ToInt32(MySql.RequestPost(Request.Form["Gdepartamento"]));
-                int Grol = Convert.ToInt32(MySql.RequestPost(Request.Form["Grol"]));
-                int Gestatus = Convert.ToInt32(MySql.RequestPost(Request.Form["Gestatus"]));
-                string Gtelefono = MySql.RequestPost(Request.Form["Gtelefono"]);
-                string Gusuario = MySql.RequestPost(Request.Form["Gusuario"]);
+                string Gcorreo = Functions.RequestPost(Request.Form["Gcorreo"]);
+                int Gdepartamento = Convert.ToInt32(Functions.RequestPost(Request.Form["Gdepartamento"]));
+                int Grol = Convert.ToInt32(Functions.RequestPost(Request.Form["Grol"]));
+                int Gestatus = Convert.ToInt32(Functions.RequestPost(Request.Form["Gestatus"]));
+                string Gtelefono = Functions.RequestPost(Request.Form["Gtelefono"]);
+                string Gusuario = Functions.RequestPost(Request.Form["Gusuario"]);
                 consulta = "SELECT * FROM mysql_ticket ... cliente WHERE email_cliente = ' " + Gcorreo + "' OR telefono_celular  = '" + Gtelefono + "'";
                 Tuple<List<object[]>, int> verifica = AddUser.Consulta(ref mens, consulta);
                 if (verifica.Item2 <= 0)

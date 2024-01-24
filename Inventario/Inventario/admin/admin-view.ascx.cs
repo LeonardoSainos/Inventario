@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Inventario.Inventario.lib;
+
 namespace Inventario.Inventario.admin
 {
     public partial class WebUserControl1 : System.Web.UI.UserControl
@@ -56,12 +58,13 @@ namespace Inventario.Inventario.admin
         
         protected void Page_Load(object sender, EventArgs e)
         {
-            MySql AdminView = new MySql();  
+            MySql AdminView = new MySql();
+            Functions Funciones = new Functions();
             // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
             if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
             {
                 int SessionId = Convert.ToInt32(Session["id"]);
-                string id = MySql.RequestPost(Request.Form["id_dele"]);
+                string id = Functions.RequestPost(Request.Form["id_dele"]);
                 consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE id_cliente =" + id + "')";
                 Tuple<List<object[]>, int> drop = AdminView.Consulta(ref mens, consulta);
                 List<object[]> arrayUser = drop.Item1;
@@ -185,25 +188,166 @@ namespace Inventario.Inventario.admin
         }
         protected void btnBloquear_Click(object sender, EventArgs e)
         {
-            int[] bloqueados = new int[tabla.Rows.Count - 1];
+            int contador = (int)(Session["ContadorSeleccionados"] ?? 0);
+            Session.Remove("ContadorSeleccionados");
+
+            int[] bloqueados = new int[contador];
+            int j= 0; // Variable para llevar la cuenta de los elementos válidos
             for (int i = 0; i < tabla.Rows.Count; i++)
             {
-                CheckBox bloquear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
-                if (bloquear.Checked == true)
+                if (tabla.Rows[i].RowType == DataControlRowType.DataRow)
                 {
-                    int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
-                    bloqueados[i] = id;
-                    string ahora = Convert.ToString(DateTime.Now);         
+                    CheckBox bloquear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
+                    if (bloquear.Checked && tabla.Rows[i].RowType != 0)
+                    {
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        bloqueados[j] = id;
+                        j++; 
+                    }
+                    else if(contador ==0 || contador < 1)
+                    {
+                        bloqueados = null;
+                        break;
+                    }
+                    
                 }
+
+            }
+            int[] filtrados = new int[j];
+            while (bloqueados!=null)
+            {
+             
+                Array.Copy(bloqueados, filtrados, j);
+                break;
             }
             Session["Bloqueados"] = bloqueados;
+            Response.Redirect("/Inventario/admin/Actions/Actions.aspx");
+        }
+
+        protected void btnDesbloquear_Click(object sender, EventArgs e)
+        {
+            int contador = (int)(Session["ContadorSeleccionados"] ?? 0);
+            Session.Remove("ContadorSeleccionados");
+            int[] desbloqueados = new int[contador];
+            int j = 0; // Variable para llevar la cuenta de los elementos válidos
+            for (int i = 0; i < tabla.Rows.Count; i++)
+            {
+                if (tabla.Rows[i].RowType == DataControlRowType.DataRow)
+                {
+                    CheckBox desbloquear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
+                    if (desbloquear.Checked && tabla.Rows[i].RowType != 0)
+                    {
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        desbloqueados[j] = id;
+                        j++;
+                    }
+                    else if (contador == 0 || contador < 1)
+                    {
+                        desbloqueados = null;
+                        break;
+                    }
+                }
+            }
+            int[] filtrados = new int[j];
+            while (desbloqueados != null)
+            {
+               
+                Array.Copy(desbloqueados, filtrados, j);
+                break;
+
+            }
+            Session["Desbloqueados"] = desbloqueados;
+            Response.Redirect("/Inventario/admin/Actions/Actions.aspx");
+        }
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            int contador = (int)(Session["ContadorSeleccionados"] ?? 0);
+            Session.Remove("ContadorSeleccionados");
+            int[] eliminados = new int[contador];
+            int j = 0; // Variable para llevar la cuenta de los elementos válidos
+            for (int i = 0; i < tabla.Rows.Count; i++)
+            {
+                if (tabla.Rows[i].RowType == DataControlRowType.DataRow)
+                {
+                    CheckBox eliminar = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
+                    if (eliminar.Checked && tabla.Rows[i].RowType != 0)
+                    {
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        eliminados[j] = id;
+                        j++;
+                    }
+                    else if (contador == 0 || contador < 1)
+                    {
+                        eliminados= null;
+                        break;
+                    }
+                }
+            }
+            int[] filtrados = new int[j];
+            while (eliminados != null)
+            {
+              
+                Array.Copy(eliminados, filtrados, j);
+                break;
+
+            }
+            Session["Eliminados"] = eliminados;
+            Response.Redirect("/Inventario/admin/Actions/Actions.aspx");
+
+        }
+
+        protected void btnResetear_Click(object sender, EventArgs e)
+        {
+            int contador = (int)(Session["ContadorSeleccionados"] ?? 0);
+            Session.Remove("ContadorSeleccionados");
+            int[] reseteados = new int[contador];
+            int j = 0; // Variable para llevar la cuenta de los elementos válidos
+            for (int i = 0; i < tabla.Rows.Count; i++)
+            {
+                if (tabla.Rows[i].RowType == DataControlRowType.DataRow)
+                {
+                    CheckBox resetear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
+                    if (resetear.Checked && tabla.Rows[i].RowType != 0)
+                    {
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        reseteados[j] = id;
+                        j++;
+                    }
+                    else if (contador == 0 || contador < 1)
+                    {
+                        reseteados = null;
+                        break;
+                    }
+                }
+            }
+            int[] filtrados = new int[j];
+            while (reseteados != null)
+            {
+                Array.Copy(reseteados, filtrados, j);
+                break;
+
+            }
+            Session["Reseteados"] = filtrados;
             Response.Redirect("/Inventario/admin/Actions/Actions.aspx");
         }
         protected void chkUsuario_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox idUser = (CheckBox)sender;
             GridViewRow row = (GridViewRow)idUser.NamingContainer;
+            int contadorSeleccionados = 0;
 
+            foreach (GridViewRow rowe in tabla.Rows)
+            {
+                CheckBox chkUsuario = (CheckBox)rowe.FindControl("chkUsuario");
+
+                if (chkUsuario.Checked)
+                {
+                    contadorSeleccionados++;
+                }
+            }
+
+            // Almacenar el valor en la sesión
+            Session["ContadorSeleccionados"] = contadorSeleccionados;
         }
     }
 }

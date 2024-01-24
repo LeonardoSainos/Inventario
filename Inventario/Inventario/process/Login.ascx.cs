@@ -8,14 +8,14 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Data;
 using System.Data.OleDb;
-
+using Inventario.Inventario.lib;
 
 namespace Inventario.Inventario.inc
 {
     public partial class Login : System.Web.UI.UserControl
     {
 
-        MySql obj = new MySql();
+       
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -23,11 +23,13 @@ namespace Inventario.Inventario.inc
 
         protected void Iniciar(object sender, EventArgs e)
         {
+            MySql obj = new MySql();
+            Functions Funciones = new Functions();
 
             string mens = "";
             obj.BD = "Inventario";
             obj.ServidorSQL = @"ALCOMPC02";
-            string clave = Convert.ToString(obj.CalculateMD5(txtPassword.Text));
+            string clave = Convert.ToString(Funciones.CalculateMD5(txtPassword.Text));
             string consulta = "";
             string texto = rblLogin.SelectedItem.Text;
             string valor = rblLogin.SelectedItem.Value;

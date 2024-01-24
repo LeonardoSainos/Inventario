@@ -5,7 +5,7 @@ using System.Web;
 using System.Data.SqlClient;
 using System.Data;
 using System.Data.OleDb;
-using System.Security.Cryptography;
+
 using System.Text;
 
 namespace Inventario.Scripts
@@ -203,57 +203,6 @@ namespace Inventario.Scripts
                 return false;
             }
         }
-        public static string LimpiarCadena(string valor)
-        {
-            valor = valor.Replace("SELECT", "")
-                .Replace("''", "")
-                .Replace("COPY", "")
-                .Replace("*", "")
-                .Replace("FROM", "")
-                .Replace("COPY", "")
-                .Replace("UPDATE", "")
-                .Replace("DELETE", "")
-                .Replace("DROP", "")
-                .Replace("DUMP", "")
-                .Replace(" OR ", "")
-                .Replace("%", "")
-                .Replace("LIKE", "")
-                .Replace("--", "")
-                .Replace("^", "")
-                .Replace("[", "")
-                .Replace("]", "")
-                .Replace("\\", "")
-                .Replace("!", "")
-                .Replace("¡", "")
-                .Replace("=", "")
-                .Replace("&", "");
-            return valor;
-        }
-
-        public static string RequestGet(string val)
-        {
-            string datos = LimpiarCadena(val);
-            return datos;
-        }
-
-        public static string RequestPost(string val)
-        {
-            string datos = LimpiarCadena(val);
-            return datos;
-        }
-        public string CalculateMD5(string input)
-        {
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    builder.Append(hashBytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
-        }
+        
     }
 }
