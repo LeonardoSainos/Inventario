@@ -46,7 +46,7 @@ namespace Inventario.Inventario.admin.Actions
             if (Session["nombre"] != null && Session["rol"].ToString() == "4046" && Session["id"] != null)
             {
                
-                if (bloqueados!=null)
+                if (bloqueados!=null && bloqueados.Length!=0)
                 {
                     foreach (int id in bloqueados)
                     {
@@ -67,7 +67,7 @@ namespace Inventario.Inventario.admin.Actions
                        
                     }
                 }
-                else if (desbloqueados != null)
+                else if (desbloqueados != null && desbloqueados.Length != 0 )
                 {
                     foreach(int id in desbloqueados)
                     {
@@ -92,7 +92,7 @@ namespace Inventario.Inventario.admin.Actions
 
                     }
                 }
-                else if (eliminados != null)
+                else if (eliminados != null && eliminados.Length!=0)
                 {
                     foreach (int ide in eliminados)
                     {
@@ -155,7 +155,7 @@ namespace Inventario.Inventario.admin.Actions
                     }
                 }
 
-                else if (Reseteados != null)
+                else if (Reseteados != null && Reseteados.Length!=0)
                 {
                     foreach (int id in Reseteados)
                     {
@@ -168,10 +168,11 @@ namespace Inventario.Inventario.admin.Actions
                         Tuple<List<object[]>, int> arrayPassword = Acciones.Consulta(ref mens, consulta);
                         List<object[]> InfoUser = arrayPassword.Item1;
                         int cu = arrayPassword.Item2;
-                        if (cu >= 1  && actualizado == true)
+                        if (cu >= 1 && actualizado == true)
                         {
                             try
                             {
+
                                 string correo = Convert.ToString(arrayPassword.Item1[0][0]);
                                 string nombre_completo = Convert.ToString(arrayPassword.Item1[0][1]);
                                 string departamento = Convert.ToString(arrayPassword.Item1[0][3]);
@@ -185,19 +186,26 @@ namespace Inventario.Inventario.admin.Actions
                                 Functions.EnviarCorreo(envia, recuperar, correo, departamento, "Reseteo de contraseña", "<p style='text-align:justify;'>Estimado usuario <strong>" + nombre_completo + "</strong>: <br> Hemos reseteado su contraseña como lo solicitó. <br> Su nueva contraseña para acceder a su usuario de Soporte Técnico es: <b><strong>" + NewPassword + "</strong></b><br><br><br>" + "<img width='250px' height='auto' src='https://i.pinimg.com/564x/bd/e3/f8/bde3f81141a064e60a231874c29ddd6e.jpg' />" + "<br><br><br><p style='text-align:justify;'>Atentamente Soporte Técnico Alcomex<br><hr>Esperamos haber atendido satisfactoriamente su problema.</p>");
                                 texto = "RESETEO EXITOSO";
                                 Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
-                            }
 
+                            }
                             catch (Exception ex)
                             {
-                               texto=  "ERROR " + ex.Message;
+                                texto = "ERROR " + ex.Message;
                                 Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
                             }
                         }
+                        else
+                        {
+                            texto = "ERROR: No fue posible actualizar, revisa tu conexión y vuelve a intentarlo ";  
+                            Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
+                        }
+                        
                     }
                 }
                 else
                 {
-                   Response.Write("<script> alert('No haz seleccionado ningún usuario'); window.history.go(-1); </script>" );
+                    texto = "No haz seleccionado ningún usuario";
+                   Response.Write("<script> alert('" + texto + "'); window.history.go(-1); </script>" );
                 }
             }
             }

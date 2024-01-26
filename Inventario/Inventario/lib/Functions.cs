@@ -121,7 +121,7 @@ namespace Inventario.Inventario.lib
             {
                   HttpResponse response = HttpContext.Current.Response;
                     response.ContentType = "application/pdf";
-                    response.AddHeader("Content-Disposition", "attachment;filename=Usuarios" + DateTime.Now.ToString("yyyy_MM_dd_HHmmss") + ".pdf");
+                    response.AddHeader("Content-Disposition", "attachment;filename=Usuarios" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
                 // Escribir el contenido del PDF en el Response
                 using (MemoryStream ms = new MemoryStream())
                 {

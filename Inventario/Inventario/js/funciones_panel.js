@@ -4,7 +4,6 @@ document.getElementById("fecha").value = document.getElementById("fech").value;
 }
 
 
-
 const MarcarCheckBox = (validar) =>{
   var checkBox = document.getElementsByTagName('input');
   for( i=0;i<=checkBox.length; i++)
@@ -14,15 +13,10 @@ const MarcarCheckBox = (validar) =>{
         }
     }
 }
-
- 
-
 function funcion_reiniciar( x)
 {
 	document.getElementById(x).reset();
 }
-
- 
  
 var container= document.getElementById('container');
 setTimeout(function(){
