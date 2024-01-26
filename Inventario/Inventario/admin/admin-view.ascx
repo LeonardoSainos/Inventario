@@ -25,8 +25,9 @@
        <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span><input class="btn btn-link" style='text-decoration:none;' onclick="ActivarBoton('Nuevo');" value="Nuevo usuario" type="button"/></li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button type="submit" class='btn btn-link'  onclick="ActivarBoton('Eliminar');" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-ban-circle'></span><button type="button" class="btn btn-link" onclick="ActivarBoton('Bloquear');" id="btnExterno" style="text-decoration:none;" name="Bloquear">Bloquear</button></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button type="submit" class='btn btn-link'  onclick="ActivarBoton('Desbloquear');" style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
-        <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button type="submit" class='btn btn-link' form="pdf" style='text-decoration:none;' name="Exportar">Exportar</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button type="button" class='btn btn-link'  onclick="ActivarBoton('Desbloquear');" style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
+        <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button type="button" class='btn btn-link' style='text-decoration:none;' name="ExportarPdf" onclick="ActivarBoton('Pdf');">Exportar PDF</button></li>
+                <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button type="button" class='btn btn-link' style='text-decoration:none;' name="ExportarExcel" onclick="ActivarBoton('Excel');" >Exportar EXCEL</button></li>
           <li ><a href='#' class='btn btn-link'> <span class='glyphicon glyphicon-log-in'></span><input  onclick="ActivarBoton('Resetear');"  class='btn btn-link ' style='text-decoration:none;'  type="button" value=" Resetear contraseña" name="Resetear"/> </a></li>     
         </ul>
 </div> 
@@ -110,6 +111,8 @@
      <asp:Button ID="btnDesbloquear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnDesbloquear_Click" />
      <asp:Button ID="btnResetear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnResetear_Click" />
       <asp:Button ID="btnEliminar" runat="server"  form="mostrar" Style="display:none;" OnClick="btnEliminar_Click" />
+       <asp:Button ID="btnPdf" runat="server"  form="mostrar" Style="display:none;" Onclick="btnPdf_Click" />
+       <asp:Button ID="btnExcel" runat="server"  form="mostrar" Style="display:none;" OnClick="btnExcel_Click"  />
         <button id="btnNuevo" type="button" style="display:none;" data-toggle='modal' data-target='#modal1'></button>
 </form>
 
@@ -249,7 +252,21 @@
                     boton.click();
                 }
                 break;
-            }   
+            }
+            case "Pdf": {
+                var boton = document.getElementById("<%= btnPdf.ClientID %>");
+                  if (boton) {
+                    boton.click();
+                }
+                break;
+            }
+            case "Excel": {
+                var boton = document.getElementById("<%= btnExcel.ClientID %>");
+               if (boton) {
+                    boton.click();
+                }
+                break;
+            }
             default: "Ninguno";
         }
      }

@@ -39,10 +39,4 @@ var loadFile = function(event) {
   };
 
 
-
-function ActivarBoton() {
  
-
-    // Activar el botón dentro del formulario
-    document.getElementById("btnBloquear").click();
-}

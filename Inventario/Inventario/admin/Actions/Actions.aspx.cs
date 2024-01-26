@@ -28,8 +28,6 @@ namespace Inventario.Inventario.admin.Actions
             set { mens = value; }
             get { return mens; }
         }
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
             MySql Acciones = new MySql();
@@ -43,7 +41,7 @@ namespace Inventario.Inventario.admin.Actions
             int[] desbloqueados = (int[])Session["Desbloqueados"];
             int[] eliminados = (int[])Session["Eliminados"];
             int[] Reseteados = (int[])Session["Reseteados"];
-            Session.Remove("Bloqueados"); Session.Remove("Desbloqueados"); Session.Remove("Eliminados");
+            Session.Remove("Bloqueados"); Session.Remove("Desbloqueados"); Session.Remove("Eliminados"); Session.Remove("Reseteados");
            
             if (Session["nombre"] != null && Session["rol"].ToString() == "4046" && Session["id"] != null)
             {
@@ -161,17 +159,39 @@ namespace Inventario.Inventario.admin.Actions
                 {
                     foreach (int id in Reseteados)
                     {
+                        bool actualizado = false;
                         string permittedChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
                         string cifrado = Functions.GenerarCadenaAleatoria(permittedChars, 16);
                         string NewPassword = Convert.ToString(Funciones.CalculateMD5(cifrado));
-                        Acciones.Actualizar("mysql_ticket","cliente","clave='" + NewPassword + "'","id_cliente=" + id);
-                        consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT c.email_cliente,c.nombre_completo, c.id_cliente, d.nombre as Depa FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento WHERE c.id_cliente=" + id +  ")";
+                        actualizado = Acciones.Actualizar("mysql_ticket","cliente","clave='" + NewPassword + "'","id_cliente=" + id);
+                        consulta = "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT c.email_cliente,c.nombre_completo, c.id_cliente, d.nombre as Depa FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento WHERE c.id_cliente=" + id + "')";
                         Tuple<List<object[]>, int> arrayPassword = Acciones.Consulta(ref mens, consulta);
                         List<object[]> InfoUser = arrayPassword.Item1;
                         int cu = arrayPassword.Item2;
-                        if (cu >= 1)
+                        if (cu >= 1  && actualizado == true)
                         {
+                            try
+                            {
+                                string correo = Convert.ToString(arrayPassword.Item1[0][0]);
+                                string nombre_completo = Convert.ToString(arrayPassword.Item1[0][1]);
+                                string departamento = Convert.ToString(arrayPassword.Item1[0][3]);
 
+                                consulta = "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT cast(aes_decrypt(e.contraseña, \"AES\") as char) as RECUPERAR ,d.correo FROM enviocorreo e INNER JOIN departamento d ON e.correo = d.idDepartamento WHERE e.id = 2')";
+                                Tuple<List<object[]>, int> ListCorreo = Acciones.Consulta(ref mens, consulta);
+                                List<object[]> InfoCorreo = ListCorreo.Item1;
+                                int registrosCorreo = ListCorreo.Item2;
+                                string recuperar = Convert.ToString(ListCorreo.Item1[0][0]);
+                                string envia = Convert.ToString(ListCorreo.Item1[0][1]);
+                                Functions.EnviarCorreo(envia, recuperar, correo, departamento, "Reseteo de contraseña", "<p style='text-align:justify;'>Estimado usuario <strong>" + nombre_completo + "</strong>: <br> Hemos reseteado su contraseña como lo solicitó. <br> Su nueva contraseña para acceder a su usuario de Soporte Técnico es: <b><strong>" + NewPassword + "</strong></b><br><br><br>" + "<img width='250px' height='auto' src='https://i.pinimg.com/564x/bd/e3/f8/bde3f81141a064e60a231874c29ddd6e.jpg' />" + "<br><br><br><p style='text-align:justify;'>Atentamente Soporte Técnico Alcomex<br><hr>Esperamos haber atendido satisfactoriamente su problema.</p>");
+                                texto = "RESETEO EXITOSO";
+                                Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
+                            }
+
+                            catch (Exception ex)
+                            {
+                               texto=  "ERROR " + ex.Message;
+                                Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
+                            }
                         }
                     }
                 }
@@ -180,7 +200,6 @@ namespace Inventario.Inventario.admin.Actions
                    Response.Write("<script> alert('No haz seleccionado ningún usuario'); window.history.go(-1); </script>" );
                 }
             }
-               
             }
         }
     }

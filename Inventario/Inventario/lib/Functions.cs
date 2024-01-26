@@ -1,9 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+ 
 using System.Web;
 using System.Security.Cryptography;
 using System.Text;
+using System.Net.Mail;
+using System.Net;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
+ 
+
 namespace Inventario.Inventario.lib
 {
     public class Functions
@@ -70,8 +78,62 @@ namespace Inventario.Inventario.lib
                 int index = random.Next(caracteresPermitidos.Length);
                 sb.Append(caracteresPermitidos[index]);
             }
-
             return sb.ToString();
+        }
+        public static bool EnviarCorreo(string emailEnvia, string recuperar,string destino,string departamento, string subject, string body)
+        {
+            try
+            {
+                // Configuración del cliente SMTP
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+                smtpClient.Port = 587;
+                smtpClient.Credentials = new NetworkCredential(emailEnvia, recuperar);
+                smtpClient.EnableSsl = true;
+
+                // Crear el mensaje de correo
+                MailMessage mensaje = new MailMessage();
+                mensaje.From = new MailAddress(emailEnvia);
+                mensaje.To.Add(destino);
+                mensaje.Subject = subject;
+
+                // Cuerpo del correo en formato HTML
+                mensaje.IsBodyHtml = true;
+                mensaje.Body = body;
+                // Configuración adicional
+                mensaje.SubjectEncoding = System.Text.Encoding.UTF8;
+                mensaje.BodyEncoding = System.Text.Encoding.UTF8;
+
+                // Enviar el correo
+                smtpClient.Send(mensaje);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar el correo: {ex.Message}");
+                return false;
+            }
+        }
+
+        public static void CrearPdf(string html)
+        {
+            using (Document doc = new Document())
+            {
+                  HttpResponse response = HttpContext.Current.Response;
+                    response.ContentType = "application/pdf";
+                    response.AddHeader("Content-Disposition", "attachment;filename=Usuarios" + DateTime.Now.ToString("yyyy_MM_dd_HHmmss") + ".pdf");
+                // Escribir el contenido del PDF en el Response
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    PdfWriter writer = PdfWriter.GetInstance(doc, ms);
+                      doc.Open();
+                    StringReader stringReader = new StringReader(html);
+                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, stringReader);
+                    doc.Close();
+                    response.BinaryWrite(ms.ToArray());
+                }
+                response.End();
+            }
         }
     }
 }

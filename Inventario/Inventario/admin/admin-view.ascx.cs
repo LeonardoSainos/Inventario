@@ -6,11 +6,13 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Inventario.Inventario.lib;
+using System.Data;
 
 namespace Inventario.Inventario.admin
 {
     public partial class WebUserControl1 : System.Web.UI.UserControl
     {
+        MySql AdminView = new MySql();
         private int numeropaginas=0, paginaas=1, r1=0, r2=0, r3=0;
         string aler = "",consulta="",mens="";
         public int numPagina
@@ -54,11 +56,9 @@ namespace Inventario.Inventario.admin
             set { mens = value; }
             get { return mens; }
         }
-
-        
         protected void Page_Load(object sender, EventArgs e)
         {
-            MySql AdminView = new MySql();
+   
             Functions Funciones = new Functions();
             // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
             if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
@@ -208,22 +208,18 @@ namespace Inventario.Inventario.admin
                     {
                         bloqueados = null;
                         break;
-                    }
-                    
+                    }   
                 }
-
             }
             int[] filtrados = new int[j];
             while (bloqueados!=null)
             {
-             
                 Array.Copy(bloqueados, filtrados, j);
                 break;
             }
             Session["Bloqueados"] = bloqueados;
             Response.Redirect("/Inventario/admin/Actions/Actions.aspx");
         }
-
         protected void btnDesbloquear_Click(object sender, EventArgs e)
         {
             int contador = (int)(Session["ContadorSeleccionados"] ?? 0);
@@ -251,10 +247,8 @@ namespace Inventario.Inventario.admin
             int[] filtrados = new int[j];
             while (desbloqueados != null)
             {
-               
                 Array.Copy(desbloqueados, filtrados, j);
                 break;
-
             }
             Session["Desbloqueados"] = desbloqueados;
             Response.Redirect("/Inventario/admin/Actions/Actions.aspx");
@@ -286,14 +280,11 @@ namespace Inventario.Inventario.admin
             int[] filtrados = new int[j];
             while (eliminados != null)
             {
-              
                 Array.Copy(eliminados, filtrados, j);
                 break;
-
             }
-            Session["Eliminados"] = eliminados;
+            Session["Eliminados"] = filtrados;
             Response.Redirect("/Inventario/admin/Actions/Actions.aspx");
-
         }
 
         protected void btnResetear_Click(object sender, EventArgs e)
@@ -325,7 +316,6 @@ namespace Inventario.Inventario.admin
             {
                 Array.Copy(reseteados, filtrados, j);
                 break;
-
             }
             Session["Reseteados"] = filtrados;
             Response.Redirect("/Inventario/admin/Actions/Actions.aspx");
@@ -335,7 +325,6 @@ namespace Inventario.Inventario.admin
             CheckBox idUser = (CheckBox)sender;
             GridViewRow row = (GridViewRow)idUser.NamingContainer;
             int contadorSeleccionados = 0;
-
             foreach (GridViewRow rowe in tabla.Rows)
             {
                 CheckBox chkUsuario = (CheckBox)rowe.FindControl("chkUsuario");
@@ -345,9 +334,119 @@ namespace Inventario.Inventario.admin
                     contadorSeleccionados++;
                 }
             }
-
             // Almacenar el valor en la sesión
             Session["ContadorSeleccionados"] = contadorSeleccionados;
+        }
+        protected void btnPdf_Click(object sender, EventArgs e)
+        {
+            int rol = 4046;
+            string consulta = $" SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT c.Anydesk,c.id_cliente, c.fecha_creacion, c.nombre_completo, c.email_cliente, c.telefono_celular, c.nombre_usuario, d.nombre as Depa,r.Nombre as Rol, e.Nombre as Esta FROM cliente c INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r on c.id_rol = r.idRol WHERE c.id_rol = {rol} ORDER BY c.nombre_completo')";
+            Tuple<List<object[]>, int> exportPdf = AdminView.Consulta(ref mens, consulta);
+            List<object[]> totalExport = exportPdf.Item1;
+
+            string html = $@"
+    <!DOCTYPE html>
+    <html lang='es'>
+    <head>
+        <meta charset='UTF-8'/>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+        <title>Usuarios</title>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'/>
+        <style>";
+
+           html+= @" .table {
+                border-collapse: collapse;
+                text-align: center;
+                border: 1px solid #000;
+                margin: 0 auto;
+            }
+
+            hr {
+                color: black;
+            }
+
+            .table thead {
+                border: 1px solid #000;
+                background: blue;
+                color: #fff;
+            }
+
+            .table td {
+                border: 1px solid #000;
+                padding: 20px;
+                font-size: 12px;
+                font-family: Arial;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .table tr {
+                background: #fff;
+            }
+
+            p {
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div width='100%' height='100%'; style='padding:0; margin:0; border:0;'>
+            
+                    <img style='float:right; padding:0;' src='/Inventario/img/transp_ALCOMEX.png' width='30%' />
+                    <br/>
+                     <div>
+                        <h2  style='text-align:center;'> Usuarios </h2>  <br/>
+                    </div>
+                  <table width='100%' class='table'>
+                        <thead style=' border :1px solid #000; color : #fff;'>
+                            <tr>
+                                <td>Id</td>
+                                <td>Creado</td>
+                                <td>Nombre completo</td>
+                                <td>Usuario</td>
+                                <td>Email</td>
+                                <td>Teléfono</td>
+                                <td>Departamento</td>
+                                <td>Rol</td>
+                                <td>Estatus</td>
+                                <td>Anydesk</td>
+                            </tr>
+                        </thead>
+                        <tbody>";
+
+    if (totalExport.Count > 0)
+    {
+        int i = 1;
+        foreach (object[] row in totalExport)
+        {
+            html += $@"
+                            <tr>
+                                <td>{i++}</td>
+                                <td>{row[2]}</td>
+                                <td>{row[3]}</td>
+                                <td>{row[6]}</td>
+                                <td>{row[4]}</td>
+                                <td>{row[5]}</td>
+                                <td>{row[7]}</td>
+                                <td>{row[8]}</td>
+                                <td>{row[9]}</td>
+                                <td>{row[0]}</td>
+                            </tr>";
+        }
+    }
+
+    html += @"
+                        </tbody>
+                    </table>
+               
+        </div>
+    </body>
+    </html>";
+
+            Functions.CrearPdf(html);
+        }
+        protected void btnExcel_Click(object sender, EventArgs e)
+        {
         }
     }
 }
