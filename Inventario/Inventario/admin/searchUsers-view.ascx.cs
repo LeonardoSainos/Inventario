@@ -1,21 +1,20 @@
 ﻿using System;
-using Inventario.Scripts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Inventario.Scripts;
 using Inventario.Inventario.lib;
-using System.Data;
 
-namespace Inventario.Inventario.admin
+namespace Inventario.Inventario.admin.Actions
 {
-    public partial class WebUserControl1 : System.Web.UI.UserControl
+    public partial class searchUsers_view : System.Web.UI.UserControl
     {
         MySql AdminView = new MySql();
         Functions Funciones = new Functions();
-        private int numeropaginas=0, paginaas=1, r1=0, r2=0, r3=0;
-        string aler = "",consulta="",mens="";
+        private int numeropaginas = 0, paginaas = 1, r1 = 0, r2 = 0, r3 = 0, encontrados =0;
+        string aler = "", consulta = "", mens = "";
         public int numPagina
         {
             set { numeropaginas = value; }
@@ -57,8 +56,47 @@ namespace Inventario.Inventario.admin
             set { mens = value; }
             get { return mens; }
         }
+        public int totalEncontrados
+        {
+            set { encontrados = value; }
+            get { return encontrados; }
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
+            encontrados = 0;
+            string tipo = "admin";
+            string busqueda = "";
+            if (Request.QueryString["admin"] == null || Request.QueryString["admin"] == "")
+            {
+                busqueda = "漢字";//Functions.RequestPost(Request.Form["admin"]);
+            }
+            else
+            {
+                busqueda = Functions.RequestGet(Request.QueryString["admin"]);
+            }
+            int tipoRol = 0;
+            switch (tipo)
+            {
+                case "admin":
+                    {
+                        tipoRol = 4046;
+                        break;
+                    }
+                case "mecanico":
+                    {
+                        tipoRol = 2736;
+                        break;
+                    }
+                case "almacenista":
+                    {
+                        tipoRol = 7845;
+                        break;
+                    }
+                default:
+                    Response.Write("Opcion no valida");
+                    break;
+            }
+
             // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
             if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
             {
@@ -71,7 +109,7 @@ namespace Inventario.Inventario.admin
                 {
                     int cu = 0;
                     int departamento = Convert.ToInt32(drop.Item1[0][5]);
-                    if(departamento == 2505)
+                    if (departamento == 2505)
                     {
                         cu = 1;
                     }
@@ -79,7 +117,7 @@ namespace Inventario.Inventario.admin
                     {
                         consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE ((id_departamento = " + departamento + " AND id_cliente <> " + id + " ) AND id_departamento<> 2505)  AND (id_rol = 4046 OR id_rol = 5267)')";
                         Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mens, consulta);
-                        List<object[]> arrayTec = tec.Item1;  cu = tec.Item2;
+                        List<object[]> arrayTec = tec.Item1; cu = tec.Item2;
                     }
                     if (cu >= 1)
                     {
@@ -124,6 +162,7 @@ namespace Inventario.Inventario.admin
             }
             if (!IsPostBack)
             {
+              
                 //***************************Codigo que cuenta usuarios *************************************//
                 consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046";
                 Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
@@ -149,14 +188,16 @@ namespace Inventario.Inventario.admin
                 }
                 //*********************************Codigo para mostrar*********************************// 
                 pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
-                string[] orderby = { "cliente.nombre_completo", "cliente.email_cliente", "cliente.Fecha_creacion", "estatus.Nombre" };
+                string[] orderby = { "c.nombre_completo", "c.email_cliente", "c.Fecha_creacion", "e.Nombre" };
                 string ordenamuestra = orderby[0];
                 int inicio = 0, regpagina = 50;
                 string mensaje = "";
-                consulta = "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT SQL_CALC_FOUND_ROWS cliente.id_cliente,cliente.telefono_celular AS celular, cliente.nombre_completo,cliente.nombre_usuario,cliente.email_cliente,departamento.nombre AS Depa,estatus.Nombre AS Esta,cliente.Fecha_creacion,cliente.anydesk FROM cliente INNER JOIN departamento ON cliente.id_departamento = departamento.idDepartamento INNER JOIN estatus ON estatus.idEstatus = cliente.idEstatus WHERE cliente.id_rol = 4046 ORDER BY " + ordenamuestra + " LIMIT " + inicio + "," + regpagina + "')";
+
+               consulta = $"SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT SQL_CALC_FOUND_ROWS c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra +" LIMIT " + inicio + "," + regpagina + "')";      
                 Tuple<List<object[]>, int> res = AdminView.Consulta(ref mensaje, consulta);
                 List<object[]> registros = res.Item1;
-                int contador = resultado.Item2;
+                int contador = res.Item2;
+                encontrados = contador;
                 Tuple<List<object[]>, int> tr = AdminView.Consulta(ref mensaje, "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT count(*) FROM CLIENTE')");
                 List<object[]> totalregistros = tr.Item1;
                 int total = 0;
@@ -166,12 +207,13 @@ namespace Inventario.Inventario.admin
                 }
                 numeropaginas = (int)Math.Ceiling((double)total / regpagina);
                 tabla.DataBind();
-                if (contador >= 1)
-                {
-                    AdminView.Mostrar(tabla, ref mensaje, consulta);
-                }
+                
+                 AdminView.Mostrar(tabla, ref mensaje, consulta);
+               
             }
+        
         }
+
         protected void tabla_PreRender(object sender, EventArgs e)
         {
             if (tabla.Rows.Count > 0)
@@ -191,7 +233,7 @@ namespace Inventario.Inventario.admin
             Session.Remove("ContadorSeleccionados");
 
             int[] bloqueados = new int[contador];
-            int j= 0; // Variable para llevar la cuenta de los elementos válidos
+            int j = 0; // Variable para llevar la cuenta de los elementos válidos
             for (int i = 0; i < tabla.Rows.Count; i++)
             {
                 if (tabla.Rows[i].RowType == DataControlRowType.DataRow)
@@ -201,17 +243,17 @@ namespace Inventario.Inventario.admin
                     {
                         int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
                         bloqueados[j] = id;
-                        j++; 
+                        j++;
                     }
-                    else if(contador ==0 || contador < 1)
+                    else if (contador == 0 || contador < 1)
                     {
                         bloqueados = null;
                         break;
-                    }   
+                    }
                 }
             }
             int[] filtrados = new int[j];
-            while (bloqueados!=null)
+            while (bloqueados != null)
             {
                 Array.Copy(bloqueados, filtrados, j);
                 break;
@@ -271,7 +313,7 @@ namespace Inventario.Inventario.admin
                     }
                     else if (contador == 0 || contador < 1)
                     {
-                        eliminados= null;
+                        eliminados = null;
                         break;
                     }
                 }
@@ -310,7 +352,7 @@ namespace Inventario.Inventario.admin
                 }
             }
             int[] filtrados = new int[j];
-            while (reseteados != null )
+            while (reseteados != null)
             {
                 Array.Copy(reseteados, filtrados, j);
                 break;
@@ -348,7 +390,7 @@ namespace Inventario.Inventario.admin
     <title>Usuarios</title>  
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'/>                 
     <style> ";
-           html+= @" .container {
+            html += @" .container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -359,7 +401,7 @@ namespace Inventario.Inventario.admin
             text-align: center;
             border: 1px solid #000;
             width: 100%;
-            max-width: 800px; /* Ancho máximo para una hoja tamaño carta */
+            max-width: 800px;
             margin-bottom: 20px;
         }
         hr {
@@ -375,7 +417,7 @@ namespace Inventario.Inventario.admin
             padding: 10px;
             font-size: 8px;
             font-family: Arial;
-            width: auto; /* Ajustamos el ancho a automático */
+            width: auto; 
         }
         .table tr {
             background: #fff;
@@ -428,7 +470,7 @@ namespace Inventario.Inventario.admin
                                         <td>{row[9]}</td>
                                 
                                     </tr>";
-                            i++;
+                    i++;
                 }
             }
             html += @"</tbody>
@@ -442,4 +484,5 @@ namespace Inventario.Inventario.admin
         {
         }
     }
+   
 }

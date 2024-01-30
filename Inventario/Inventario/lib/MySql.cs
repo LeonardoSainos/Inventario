@@ -59,14 +59,11 @@ namespace Inventario.Scripts
                             object value = reader.GetValue(i);
                             columnValues.Add(value);
                         }
-
                         object[] registro = columnValues.ToArray();
                         registros.Add(registro);
                     }
-
                     reader.Close();
                 }
-
                 conexion.Close();
                 mensaje = "Consulta realizada correctamente";
             }

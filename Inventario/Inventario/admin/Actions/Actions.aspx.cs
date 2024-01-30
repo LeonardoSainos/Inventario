@@ -198,8 +198,7 @@ namespace Inventario.Inventario.admin.Actions
                         {
                             texto = "ERROR: No fue posible actualizar, revisa tu conexión y vuelve a intentarlo ";  
                             Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
-                        }
-                        
+                        }  
                     }
                 }
                 else

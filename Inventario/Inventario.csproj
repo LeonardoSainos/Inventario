@@ -290,6 +290,7 @@
     <Content Include="Inventario\admin-view.ascx" />
     <Content Include="Inventario\admin\Actions\Actions.aspx" />
     <Content Include="Inventario\admin\Actions\AddUser.ascx" />
+    <Content Include="Inventario\admin\searchUsers-view.ascx" />
     <Content Include="Inventario\admin\admin-view.ascx" />
     <Content Include="Inventario\admin\almacenista-view.ascx" />
     <Content Include="Inventario\admin\Actions\DeleteUser.ascx" />
@@ -535,6 +536,13 @@
     </Compile>
     <Compile Include="Inventario\admin\Actions\AddUser.ascx.designer.cs">
       <DependentUpon>AddUser.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\searchUsers-view.ascx.cs">
+      <DependentUpon>searchUsers-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\searchUsers-view.ascx.designer.cs">
+      <DependentUpon>searchUsers-view.ascx</DependentUpon>
     </Compile>
     <Compile Include="Inventario\admin\admin-view.ascx.cs">
       <DependentUpon>admin-view.ascx</DependentUpon>

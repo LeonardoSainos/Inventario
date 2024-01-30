@@ -82,7 +82,7 @@
                                   
                                     <div class="container">
                                            <% switch(content){
-                                                case "index": { %>  <uc:IndexView runat="server" /> <%
+                                                case "searchUsers": { %>  <uc:SearchUsers runat="server" /> <%
                                                         break;
                                                 }
                                                 default:
