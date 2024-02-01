@@ -14,7 +14,7 @@ namespace Inventario.Inventario.admin.Actions
         MySql AdminView = new MySql();
         Functions Funciones = new Functions();
         private int numeropaginas = 0, paginaas = 1, r1 = 0, r2 = 0, r3 = 0, encontrados =0;
-        string aler = "", consulta = "", mens = "";
+        string aler = "", consulta = "", mens = "", busqueda="";
         public int numPagina
         {
             set { numeropaginas = value; }
@@ -56,6 +56,11 @@ namespace Inventario.Inventario.admin.Actions
             set { mens = value; }
             get { return mens; }
         }
+        public string Buscar
+        {
+            set { busqueda = value; }
+            get { return busqueda; }
+        }
         public int totalEncontrados
         {
             set { encontrados = value; }
@@ -63,16 +68,55 @@ namespace Inventario.Inventario.admin.Actions
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            string[] orderby = { "c.nombre_completo", "c.email_cliente", "c.Fecha_creacion", "e.Nombre" };
+            string ordenamuestra = orderby[0];
+
+            if (Request.QueryString["admin"] != null && Request.QueryString["admin"] != "")
+            {
+                ordenamuestra = Functions.RequestGet(Request.QueryString["admin"]);
+                switch (ordenamuestra)
+                {
+                    case "Nombre":
+                        {
+                            ordenamuestra = orderby[0];
+                            break;
+                        }
+                    case "Correo":
+                        {
+                            ordenamuestra = orderby[1];
+                            break;
+                        }
+                    case "Fecha":
+                        {
+                            ordenamuestra = orderby[2];
+                            break;
+                        }
+                    case "Estatus":
+                        {
+                            ordenamuestra = orderby[3];
+                            break;
+                        }
+
+                }
+
+            }
+
+            else
+            {
+                ordenamuestra = orderby[0];
+
+            }
             encontrados = 0;
             string tipo = "admin";
-            string busqueda = "";
-            if (Request.QueryString["admin"] == null || Request.QueryString["admin"] == "")
+           
+            
+            if (Request.QueryString["busqueda"] == null || Request.QueryString["busqueda"] == "")
             {
-                busqueda = "漢字";//Functions.RequestPost(Request.Form["admin"]);
+                busqueda = "";//Functions.RequestPost(Request.Form["admin"]);
             }
             else
             {
-                busqueda = Functions.RequestGet(Request.QueryString["admin"]);
+                busqueda = Functions.RequestGet(Request.QueryString["busqueda"]);
             }
             int tipoRol = 0;
             switch (tipo)
@@ -162,7 +206,7 @@ namespace Inventario.Inventario.admin.Actions
             }
             if (!IsPostBack)
             {
-              
+
                 //***************************Codigo que cuenta usuarios *************************************//
                 consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046";
                 Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
@@ -188,9 +232,7 @@ namespace Inventario.Inventario.admin.Actions
                 }
                 //*********************************Codigo para mostrar*********************************// 
                 pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
-                string[] orderby = { "c.nombre_completo", "c.email_cliente", "c.Fecha_creacion", "e.Nombre" };
-                string ordenamuestra = orderby[0];
-                int inicio = 0, regpagina = 50;
+               int inicio = 0, regpagina = 50;
                 string mensaje = "";
 
                consulta = $"SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT SQL_CALC_FOUND_ROWS c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra +" LIMIT " + inicio + "," + regpagina + "')";      
@@ -213,7 +255,6 @@ namespace Inventario.Inventario.admin.Actions
             }
         
         }
-
         protected void tabla_PreRender(object sender, EventArgs e)
         {
             if (tabla.Rows.Count > 0)
@@ -368,7 +409,6 @@ namespace Inventario.Inventario.admin.Actions
             foreach (GridViewRow rowe in tabla.Rows)
             {
                 CheckBox chkUsuario = (CheckBox)rowe.FindControl("chkUsuario");
-
                 if (chkUsuario.Checked)
                 {
                     contadorSeleccionados++;
@@ -382,9 +422,9 @@ namespace Inventario.Inventario.admin.Actions
             string consulta = $" SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT c.Anydesk,c.id_cliente, c.fecha_creacion, c.nombre_completo, c.email_cliente, c.telefono_celular, c.nombre_usuario, d.nombre as Depa,r.Nombre as Rol, e.Nombre as Esta FROM cliente c INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r on c.id_rol = r.idRol WHERE c.id_rol = {rol} ORDER BY c.nombre_completo')";
             Tuple<List<object[]>, int> exportPdf = AdminView.Consulta(ref mens, consulta);
             List<object[]> totalExport = exportPdf.Item1;
-            string html = $@"<!DOCTYPE html>  
-<html lang='es'> 
-<head>      
+                string html = $@"<!DOCTYPE html>  
+    <html lang='es'> 
+    <head>      
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />              
     <title>Usuarios</title>  

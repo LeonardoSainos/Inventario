@@ -16,10 +16,10 @@
     string completoName = Session["nombre_completo"] as string;
     string[] ViewDiferent = {"searchUsers","searchDepa","searchTicket","filterDepa","filterTicket","filterUsers" };
     string[] WhiteList = {"ticketadmin" ,"interno","ticketedit","users","admin","config","tec","depa","depaedit","useredit","acciones" };
-            if (Request.QueryString["view"]!= null && Session["id"]!= null)
-            {
-                 string content = Request.QueryString["view"];
-               if ((Request.QueryString["view"] != null && WhiteList.Contains(Request.QueryString["view"])) &&   System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))){
+    if (Request.QueryString["view"] != null && Session["id"] != null)
+    {
+        string content = Request.QueryString["view"];
+        if ((content != null && WhiteList.Contains(content)) && System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))) {
                %>
                  <!DOCTYPE html>
                                 <html>
@@ -50,16 +50,16 @@
                                         </div>                          
                                     </div>
                                         <div class="container">
-                                        <% switch(content){
+                                        <% switch (content) {
                                                 case "index": { %>  <uc:IndexView runat="server" /> <%
-                                                       break;
-                                                }
-                                                case "admin": { %>  <uc:AdminView runat="server" />  <%      
-                                                       break;
-                                                }
-                                                default:  %> <script> window.history.go(-1); </script> <% 
-                                                       break;
-                                                }
+                                                                break;
+                                                            }
+                                                        case "admin": { %>  <uc:AdminView runat="server" />  <%      
+                                                                 break;
+                                                             }
+                                                         default:  %> <script> window.history.go(-1); </script> <% 
+                                                               break;
+                                                           }
                                             %>
                                             </div>
                               </div>
@@ -69,8 +69,8 @@
                                 </body>
                                 </html>
                <%
-                }
-                else if((Request.QueryString["view"]!=null && ViewDiferent.Contains(Request.QueryString["view"])) &&  System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))){
+                       }
+                       else if ((content != null && ViewDiferent.Contains(content)) &&  System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))){
                        %>
                      <!DOCTYPE html>
                                 <html>

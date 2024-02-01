@@ -106,7 +106,6 @@
     <RowStyle />
     <SelectedRowStyle Font-Bold="True" ForeColor="Navy" />  
 </asp:GridView>
- 
     <asp:Button ID="btnBloquear" runat="server" form="mostrar" Style="display:none;" OnClick="btnBloquear_Click" />
      <asp:Button ID="btnDesbloquear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnDesbloquear_Click" />
      <asp:Button ID="btnResetear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnResetear_Click" />
@@ -115,7 +114,6 @@
        <asp:Button ID="btnExcel" runat="server"  form="mostrar" Style="display:none;" OnClick="btnExcel_Click"  />
         <button id="btnNuevo" type="button" style="display:none;" data-toggle='modal' data-target='#modal1'></button>
 </form>
-
                    </div>
      </div>
  </div>
@@ -167,108 +165,15 @@
 <%} %>
 </div>     
     </div>
-    
   <uc:DeleteUser runat="server" />
   <uc:InsertUser runat="server" />
-   
-<script>
+<script>   
     $(document).ready(function () {
         $("#mt").click(BuscarUsuario);
-
-        function BuscarUsuario() {
-            var URL = "./admin.aspx?view=searchUsers&admin=" + $("#busqueda").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
-
         $("#nombree").click(FiltroUsers);
-        function FiltroUsers() {
-            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#nombre").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
-
         $("#fechaa").click(FiltroFecha);
-        function FiltroFecha() {
-            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#fecha").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
-
         $("#correoo").click(FiltroCorreo);
-        function FiltroCorreo() {
-            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#correo").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
         $("#estatuss").click(FiltroEstatus);
-        function FiltroEstatus() {
-            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#estatusss").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
     });
-
-
-    function ActivarBoton(opcion) {
-        // Activar el botón dentro del formulario
-        switch (opcion) {
-            case "Bloquear": {
-                    var boton = document.getElementById("<%= btnBloquear.ClientID %>");
-                    if (boton) {
-                        boton.click();
-                }
-                break;
-            }
-            case "Desbloquear": {
-                var boton = document.getElementById("<%= btnDesbloquear.ClientID %>");
-                if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Resetear": {
-                var boton = document.getElementById("<%= btnResetear.ClientID %>");
-                if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Eliminar": {
-                var boton = document.getElementById("<%= btnEliminar.ClientID %>");
-                if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Nuevo": {
-                var boton = document.getElementById("btnNuevo");
-                if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Pdf": {
-                var boton = document.getElementById("<%= btnPdf.ClientID %>");
-                  if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Excel": {
-                var boton = document.getElementById("<%= btnExcel.ClientID %>");
-               if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            default: "Ninguno";
-        }
-     }
 </script>
  

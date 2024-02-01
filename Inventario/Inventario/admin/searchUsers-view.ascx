@@ -65,7 +65,7 @@
     <div class="col-md-12">
        <div class="table-responsive">
           
-        <% if (totalEncontrados > 0) { %>
+        <% if (totalEncontrados > 0 && (Buscar!=null && Buscar !="")) { %>
     <div class="col-sm-10">
         <p class="lead text-info"><strong><%= totalEncontrados %></strong> registros coinciden con tu búsqueda</p>
     </div>
@@ -108,7 +108,6 @@
     <RowStyle />
     <SelectedRowStyle Font-Bold="True" ForeColor="Navy" />  
 </asp:GridView>
- 
     <asp:Button ID="btnBloquear" runat="server" form="mostrar" Style="display:none;" OnClick="btnBloquear_Click" />
      <asp:Button ID="btnDesbloquear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnDesbloquear_Click" />
      <asp:Button ID="btnResetear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnResetear_Click" />
@@ -169,54 +168,17 @@
 <%} %>
 </div>     
     </div>
-    
   <uc:DeleteUser runat="server" />
   <uc:InsertUser runat="server" />
-   
 <script>
     $(document).ready(function () {
         $("#mt").click(BuscarUsuario);
-
-        function BuscarUsuario() {
-            var URL = "./admin.aspx?view=searchUsers&admin=" + $("#busqueda").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
-
         $("#nombree").click(FiltroUsers);
-        function FiltroUsers() {
-            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#nombre").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
-
         $("#fechaa").click(FiltroFecha);
-        function FiltroFecha() {
-            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#fecha").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
-
         $("#correoo").click(FiltroCorreo);
-        function FiltroCorreo() {
-            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#correo").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
         $("#estatuss").click(FiltroEstatus);
-        function FiltroEstatus() {
-            var URL = "./admin.aspx?view=filterUsers&admin=" + $("#estatusss").val();
-            $.get(URL, function (datos, estado) {
-                $("#contenido").html(datos);
-            });
-        }
+
     });
-
-
     function ActivarBoton(opcion) {
         // Activar el botón dentro del formulario
         switch (opcion) {
@@ -224,7 +186,7 @@
                     var boton = document.getElementById("<%= btnBloquear.ClientID %>");
                     if (boton) {
                         boton.click();
-                }
+                    }
                 break;
             }
             case "Desbloquear": {
@@ -271,6 +233,5 @@
             }
             default: "Ninguno";
         }
-     }
+    }
 </script>
- 

@@ -59,6 +59,10 @@ namespace Inventario.Inventario.admin
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            string[] orderby = { "c.nombre_completo", "c.email_cliente", "c.Fecha_creacion", "e.Nombre" };
+            string ordenamuestra =  orderby[0];
+
+          
             // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
             if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
             {
@@ -124,6 +128,9 @@ namespace Inventario.Inventario.admin
             }
             if (!IsPostBack)
             {
+
+
+
                 //***************************Codigo que cuenta usuarios *************************************//
                 consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046";
                 Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
@@ -149,11 +156,10 @@ namespace Inventario.Inventario.admin
                 }
                 //*********************************Codigo para mostrar*********************************// 
                 pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
-                string[] orderby = { "cliente.nombre_completo", "cliente.email_cliente", "cliente.Fecha_creacion", "estatus.Nombre" };
-                string ordenamuestra = orderby[0];
+               
                 int inicio = 0, regpagina = 50;
                 string mensaje = "";
-                consulta = "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT SQL_CALC_FOUND_ROWS cliente.id_cliente,cliente.telefono_celular AS celular, cliente.nombre_completo,cliente.nombre_usuario,cliente.email_cliente,departamento.nombre AS Depa,estatus.Nombre AS Esta,cliente.Fecha_creacion,cliente.anydesk FROM cliente INNER JOIN departamento ON cliente.id_departamento = departamento.idDepartamento INNER JOIN estatus ON estatus.idEstatus = cliente.idEstatus WHERE cliente.id_rol = 4046 ORDER BY " + ordenamuestra + " LIMIT " + inicio + "," + regpagina + "')";
+                consulta = "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT SQL_CALC_FOUND_ROWS c.id_cliente,c.telefono_celular AS celular, c.nombre_completo,c.nombre_usuario,c.email_cliente,d.nombre AS Depa,e.Nombre AS Esta,c.Fecha_creacion,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus WHERE c.id_rol = 4046 ORDER BY " + ordenamuestra + " LIMIT " + inicio + "," + regpagina + "')";
                 Tuple<List<object[]>, int> res = AdminView.Consulta(ref mensaje, consulta);
                 List<object[]> registros = res.Item1;
                 int contador = resultado.Item2;

@@ -31,6 +31,108 @@ var loadFile = function(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
   };
-
-
  
+ 
+
+function BuscarUsuario() {
+    var URL = "./admin.aspx?view=searchUsers&busqueda=" + $("#busqueda").val();
+    $.get(URL, function (datos, estado) {
+        $("#contenido").html(datos);
+    });
+}
+
+function FiltroUsers() {
+    //admin.php?view=ticketadmin&ticket=all
+    var URL = "./admin.aspx?view=searchUsers&admin=Nombre";
+
+    $.get(URL, function (datos, estado) {
+        $("#contenido").html(datos);
+    }
+    );
+}
+function FiltroFecha() {
+    //admin.php?view=ticketadmin&ticket=all
+    var URL = "./admin.aspx?view=searchUsers&admin=Fecha";
+
+    $.get(URL, function (datos, estado) {
+        $("#contenido").html(datos);
+    }
+    );
+}
+
+function FiltroCorreo() {
+    //admin.php?view=ticketadmin&ticket=all
+    var URL = "./admin.aspx?view=searchUsers&admin=Correo";
+
+    $.get(URL, function (datos, estado) {
+        $("#contenido").html(datos);
+    }
+    );
+}
+function FiltroEstatus() {
+    //admin.php?view=ticketadmin&ticket=all
+    var URL = "./admin.aspx?view=searchUsers&admin=Estatus";
+
+    $.get(URL, function (datos, estado) {
+        $("#contenido").html(datos);
+    }
+    );
+}
+
+
+
+function ActivarBoton(opcion) {
+    // Activar el botón dentro del formulario
+    switch (opcion) {
+        case "Bloquear": {
+            var boton = document.getElementById("<%= btnBloquear.ClientID %>");
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Desbloquear": {
+            var boton = document.getElementById("<%= btnDesbloquear.ClientID %>");
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Resetear": {
+            var boton = document.getElementById("<%= btnResetear.ClientID %>");
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Eliminar": {
+            var boton = document.getElementById("<%= btnEliminar.ClientID %>");
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Nuevo": {
+            var boton = document.getElementById("btnNuevo");
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Pdf": {
+            var boton = document.getElementById("<%= btnPdf.ClientID %>");
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Excel": {
+            var boton = document.getElementById("<%= btnExcel.ClientID %>");
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        default: "Ninguno";
+    }
+}
