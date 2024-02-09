@@ -1,0 +1,154 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="almacenista.ascx.cs" Inherits="Inventario.includes.almacenista" %>
+<%@ Import Namespace="System" %>
+<%@ Import Namespace="System.Web"%>
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.Data.SqlClient" %>
+<% object idObject = Session["id"];
+    if (idObject != null && idObject is int)
+    {
+        int id = (int)idObject;
+        if (id != 7845) {
+            HttpContext.Current.Response.Redirect("~/Inventario/process/logout.ascx");
+        }
+    }
+    string nombre = Session["Nombre"] as string;
+    string [] ViewDiferent = { "searchUsers", "interno", "searchDepa", "searchTicket", "filterDepa", "filterTicket", "filterUsers" };
+    string [] WhiteList = { "ticketTecni", "ticketedit", "users", "tecni", "config", "tec", "useredit" };
+    if (Request.QueryString["view"] != null && Session["id"] != null)
+    {
+        string content = Request.QueryString["view"];
+        if ((Request.QueryString["view"] != null && WhiteList.Contains(Request.QueryString["view"])) && System.IO.File.Exists(Server.MapPath("~/Inventario/almacenista/" + content + "-view.ascx")))
+        {%>
+              <!DOCTYPE html>
+                                <html>
+                                <head>
+                                    <uc:Links runat="server"/>
+                                    <meta charset="UTF8" />
+                                    <title>Almacén</title>
+                                    <link rel="icon" href="favicon.png">              
+                                 </head>
+                                <body>
+                                     <div id="wrapper">
+                                      <uc:Navbar runat="server"/> 
+                                        <uc:NavBar2 runat="server" />
+                                    <div id="page-wrapper">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="page-header">
+                                                    <h1 class="animated lightSpeedIn">Alcomex <small>México</small></h1>
+                                                    <span class="label label-warning">Transporte de logística S.A de C.V</span>
+                                                    <p class="pull-right text-primary">
+                                                        <strong>
+                                                 <uc:TimeZone runat="server"/>
+                                                        </strong>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>                          
+                                    </div>
+                                        <% switch(content){
+                                                case "index": {
+
+                                                        %>  <uc:IndexView runat="server" />
+                                                       <%
+                                                        break;
+                                                }
+                                                default:
+                                                              %> <script> window.history.go(-1);</script> <% 
+                                                                   break;
+                                                }
+                                            %>
+                              </div>
+                                         </div>
+                                    <uc:Script2 runat="server" />
+                                </body>
+                                </html>
+        <%
+        }
+        else if((Request.QueryString["view"]!=null && ViewDiferent.Contains(Request.QueryString["view"])) && System.IO.File.Exists(Server.MapPath("~/Inventario/almacen/" + content + "-view.ascx"))) {
+%>
+            <!DOCTYPE html>
+                <html>
+                    <head>
+                        <meta charset="utf-8" />
+                        <title>Almacén</title>
+                    </head>
+                    <body>
+                        <uc:Navbar runat="server" />
+                        <UC:Navbar2 runat="server" />
+                        <div class="container">
+                            <%switch (content) {
+                                    case "index": { 
+                                        %> <uc:IndexView runat="server" />
+                                       <% break;
+                                    }
+                                      default:
+                                        %> <script> window.history.go(-1);</script> <% 
+                                              break;     
+                                }
+                            %>
+                        </div>
+                    </body>
+                </html>
+          <%
+         }
+         else { %>
+           <!DOCTYPE html>
+                    <html>
+                        <head>
+                            <title>Almacén</title>
+                           <uc:Links runat="server" />
+                        </head>
+                        <body>   
+                            <div id="wrapper">
+                            <uc:Navbar runat="server" />
+                                <uc:Navbar2 runat="server" />
+                                <div id="page-wrapper">
+                            <div class="container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                              <div class="page-header">
+                                                    <h1 class="animated lightSpeedIn">Alcomex <small>México</small></h1>
+                                                    <span class="label label-warning">Transporte de logística S.A de C.V</span>
+                                                    <p class="pull-right text-primary">
+                                                        <strong>
+                                                 <uc:TimeZone runat="server"/>
+                                                        </strong>
+                                                    </p>
+                                                </div>
+                                </div>
+                                <h1 class="text-center">Lo sentimos,la opción que ha seleccionado no se encuentra disponible</h1>
+
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                                      <uc:Script2 runat="server" />
+                            </body>
+                        </html>
+         <% }
+    }
+%>
+
+<script>
+    $(document).ready(function () {
+        $("#input_user").keyup(function () {
+            $.ajax({
+                url: "./process/val_admin.php?id=" + $(this).val(),
+                success: function (data) {
+                    $("#com_form").html(data);
+                }
+            });
+        });
+        $("#input_user2").keyup(function () {
+            $.ajax({
+                url: "./process/val_admin.php?id=" + $(this).val(),
+                success: function (data) {
+                    $("#com_form2").html(data);
+                }
+            });
+        });
+    });
+</script>
