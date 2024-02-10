@@ -3,7 +3,7 @@
 
 <div id="contenido">
     <div class="container">
-        <%Response.Write(alerta); %>
+
         <div class="row">
             <div class="col-sm-2">
                 <img src="../Inventario/img/card_identy.png" alt="Animacion" class="img-responsive animated flipInY" />
@@ -161,6 +161,8 @@
 <%} %>
 </div>     
     </div>
+
+        <%Response.Write(alerta); %>
   <uc:DeleteUser runat="server" />
   <uc:InsertUser runat="server" />
 <script>   

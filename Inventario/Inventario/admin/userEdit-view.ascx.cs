@@ -146,7 +146,7 @@ namespace Inventario.Inventario.admin
             {
                 int user = Convert.ToInt32(Functions.RequestGet(Request.QueryString["id"]));
                 id_edit = user;
-                Tuple<List<object[]>, int> UserData = UpdateUser.Consulta(ref mensaje, $"SELECT * FROM OPENQUERY(mysql_ticket,'SELECT DISTINCT r.idRol,r.Nombre as Nrol, c.telefono_celular,c.Fecha_creacion,c.id_cliente,c.nombre_completo,c.email_cliente,c.nombre_usuario,e.Nombre as NombreE, e.idEstatus, d.nombre, d.idDepartamento, c.anydesk FROM cliente c INNER JOIN estatus e ON c.idEstatus = e.idEstatus INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN rol r ON c.id_rol = r.idRol WHERE c.id_cliente = " + user + "')");
+                Tuple<List<object[]>, int> UserData = UpdateUser.Consulta(ref mensaje, $"SELECT * FROM OPENQUERY(" + UpdateUser.LinkedServer + ",'SELECT DISTINCT r.idRol,r.Nombre as Nrol, c.telefono_celular,c.Fecha_creacion,c.id_cliente,c.nombre_completo,c.email_cliente,c.nombre_usuario,e.Nombre as NombreE, e.idEstatus, d.nombre, d.idDepartamento, c.anydesk FROM cliente c INNER JOIN estatus e ON c.idEstatus = e.idEstatus INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN rol r ON c.id_rol = r.idRol WHERE c.id_cliente = " + user + "')");
                 int contador = UserData.Item2;
 
                 idRolText = Convert.ToInt32(UserData.Item1[0][0]);
@@ -180,12 +180,12 @@ namespace Inventario.Inventario.admin
                 {
 
 
-                    if (UpdateUser.Actualizar("mysql_ticket", "cliente", "anydesk=" + anydesk + ", nombre_completo='" + nombre_completo + "', telefono_celular=" + telefono + ", email_cliente='" + correo + "',id_departamento=" + departamento + ", id_rol=" + role + ",idEstatus =" + estado, "id_cliente = " + id_edit))
+                    if (UpdateUser.Actualizar(UpdateUser.LinkedServer, "cliente", "anydesk=" + anydesk + ", nombre_completo='" + nombre_completo + "', telefono_celular=" + telefono + ", email_cliente='" + correo + "',id_departamento=" + departamento + ", id_rol=" + role + ",idEstatus =" + estado, "id_cliente = " + id_edit))
                     {
 
                         string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        UpdateUser.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", SessionId + ",\"Actualizar\",\"" + fecha + "\"," + "\"cliente\"");
+                        UpdateUser.ProcedimientoAlmacenado("registro_alteracionesCliente", UpdateUser.LinkedServer, SessionId + ",\"Actualizar\",\"" + fecha + "\"," + "\"cliente\"");
                         
                             alerta = @"< div class='alert alert-info alert - dismissible fade in col - sm - 3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10; '> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
                                  < h4 class='text-center'>Usuario Actualizado</h4>
@@ -214,7 +214,7 @@ namespace Inventario.Inventario.admin
 
 
             }
-            query = "SELECT * FROM mysql_ticket ... estatus WHERE (( Nombre <> '" +  txtEstado +  "' ) AND ((idEstatus = 31448 OR idEstatus = 94573) OR (idEstatus=19231 OR idEstatus = 25542))) ORDER BY Nombre";
+            query = "SELECT * FROM " + UpdateUser.LinkedServer + " ... estatus WHERE (( Nombre <> '" +  txtEstado +  "' ) AND ((idEstatus = 31448 OR idEstatus = 94573) OR (idEstatus=19231 OR idEstatus = 25542))) ORDER BY Nombre";
             Tuple<List<object[]>, int> estatus = UpdateUser.Consulta(ref mens, query);
             // List<object[]> arrayEstatus = estatus.Item1;
             if (estatus.Item2 >= 1)
@@ -228,7 +228,7 @@ namespace Inventario.Inventario.admin
                     idEs[i] = Convert.ToInt32(estatus.Item1[i][0]);
                 }
             }
-            query = "SELECT * FROM mysql_ticket ... rol where Nombre<>'" + txtRol +"'";
+            query = "SELECT * FROM " + UpdateUser.LinkedServer + " ... rol where Nombre<>'" + txtRol +"'";
             Tuple<List<object[]>, int> rol =  UpdateUser.Consulta(ref mens, query);
             //List<object[]> arrayRol = rol.Item1;
             if (rol.Item2 >= 1)
@@ -242,7 +242,7 @@ namespace Inventario.Inventario.admin
                     idR[j] = Convert.ToInt32(rol.Item1[j][0]);
                 }
             }
-            query = "SELECT idDepartamento,nombre FROM mysql_ticket ... departamento where nombre <> '" + txtDepa + "'";
+            query = "SELECT idDepartamento,nombre FROM " + UpdateUser.LinkedServer + " ... departamento where nombre <> '" + txtDepa + "'";
             Tuple<List<object[]>, int> depa = UpdateUser.Consulta(ref mens, query);
             //List<object[]> arrayDepa = depa.Item1;
             if (depa.Item2 >= 1)

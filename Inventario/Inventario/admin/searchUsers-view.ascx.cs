@@ -140,9 +140,10 @@ namespace Inventario.Inventario.admin.Actions
             // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
             if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
             {
+                string texto = "";
                 int SessionId = Convert.ToInt32(Session["id"]);
                 string id = Functions.RequestPost(Request.Form["id_dele"]);
-                consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE id_cliente =" + id + "')";
+                consulta = "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ",'SELECT * FROM cliente WHERE id_cliente =" + id + "')";
                 Tuple<List<object[]>, int> drop = AdminView.Consulta(ref mens, consulta);
                 List<object[]> arrayUser = drop.Item1;
                 if (drop.Item2 >= 1)
@@ -155,62 +156,62 @@ namespace Inventario.Inventario.admin.Actions
                     }
                     else
                     {
-                        consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE ((id_departamento = " + departamento + " AND id_cliente <> " + id + " ) AND id_departamento<> 2505)  AND (id_rol = 4046 OR id_rol = 5267)')";
+                        consulta = "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ",'SELECT * FROM cliente WHERE ((id_departamento = " + departamento + " AND id_cliente <> " + id + " ) AND id_departamento<> 2505)  AND (id_rol = 4046 OR id_rol = 5267)')";
                         Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mens, consulta);
                         List<object[]> arrayTec = tec.Item1; cu = tec.Item2;
                     }
                     if (cu >= 1)
                     {
                         string eliminar = id;
-                        consulta = "SELECT * FROM mysql_ticket ... ticket WHERE idUsuario = " + eliminar;
+                        consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE idUsuario = " + eliminar;
                         Tuple<List<object[]>, int> cr = AdminView.Consulta(ref mens, consulta);
                         int creados = cr.Item2;
 
-                        consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576";
+                        consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576";
                         Tuple<List<object[]>, int> re = AdminView.Consulta(ref mens, consulta);
                         int resueltos = re.Item2;
 
-                        consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
+                        consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
                         Tuple<List<object[]>, int> pe = AdminView.Consulta(ref mens, consulta);
                         int pendientes = pe.Item2;
 
-                        consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
+                        consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
                         Tuple<List<object[]>, int> pro = AdminView.Consulta(ref mens, consulta);
                         int proceso = pro.Item2;
 
                         DateTime fechaActual = DateTime.Now;
                         string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", "mysql_ticket", "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
+                        if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", AdminView.LinkedServer, "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
                         {
-                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
-                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
-                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
-                            aler = "<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><h4 class='text-center'>ADMINISTRADOR ELIMINADO</h4><p class='text-center'>El administrador fue eliminado del sistema con éxito</p></div>";
-                            id = "";
+                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
+                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
+                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
+                            texto = "Usuario eliminado correctamente";
+                            Response.Write("<script>alert('" + texto + "');</script>"); id = "";
                         }
                         else
                         {
-                            aler = "<div class='alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>OCURRIÓ UN ERROR</h4> <p class='text-center'> No hemos podido eliminar el administrador </p> </div>";
+                            texto = "<div class='alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>OCURRIÓ UN ERROR</h4> <p class='text-center'> No hemos podido eliminar el administrador </p> </div>";
                         }
                     }
                 }
                 else
                 {
-                    Response.Write("<script>alert('Por el momento no es posible eliminar el usuario porque no hay más técnicos'); window.history.go(-1);</ script > ");
+                    Response.Write("<script>alert('Por el momento no es posible eliminar el usuario porque no hay más técnicos');</ script > ");
                 }
             }
             if (!IsPostBack)
             {
 
                 //***************************Codigo que cuenta usuarios *************************************//
-                consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 4046";
+                consulta = "SELECT COUNT(*) AS contador FROM " + AdminView.LinkedServer + " ...cliente WHERE id_rol = 4046";
                 Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
                 if (resultado.Item2 > 0)
                 {
                     row1 = Convert.ToInt32(resultado.Item1[0][0]);
                 }
-                consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 7845 ";
+                consulta = "SELECT COUNT(*) AS contador FROM " + AdminView.LinkedServer + " ...cliente WHERE id_rol = 7845 ";
                 Tuple<List<object[]>, int> resultado2 = AdminView.Consulta(ref mens, consulta);
                 List<object[]> registros2 = resultado2.Item1;
 
@@ -218,7 +219,7 @@ namespace Inventario.Inventario.admin.Actions
                 {
                     row2 = Convert.ToInt32(resultado2.Item1[0][0]);
                 }
-                consulta = "SELECT COUNT(*) AS contador FROM mysql_ticket ...cliente WHERE id_rol = 2736";
+                consulta = "SELECT COUNT(*) AS contador FROM " + AdminView.LinkedServer + " ...cliente WHERE id_rol = 2736";
                 Tuple<List<object[]>, int> resultado3 = AdminView.Consulta(ref mens, consulta);
                 List<object[]> registros3 = resultado3.Item1;
 
@@ -231,12 +232,12 @@ namespace Inventario.Inventario.admin.Actions
                int inicio = 0, regpagina = 50;
                 string mensaje = "";
 
-               consulta = $"SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT SQL_CALC_FOUND_ROWS c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra +" LIMIT " + inicio + "," + regpagina + "')";      
+               consulta = $"SELECT * FROM OPENQUERY({ AdminView.LinkedServer}, 'SELECT SQL_CALC_FOUND_ROWS c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra +" LIMIT " + inicio + "," + regpagina + "')";      
                 Tuple<List<object[]>, int> res = AdminView.Consulta(ref mensaje, consulta);
                 List<object[]> registros = res.Item1;
                 int contador = res.Item2;
                 encontrados = contador;
-                Tuple<List<object[]>, int> tr = AdminView.Consulta(ref mensaje, "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT count(*) FROM CLIENTE')");
+                Tuple<List<object[]>, int> tr = AdminView.Consulta(ref mensaje, "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ", 'SELECT count(*) FROM CLIENTE')");
                 List<object[]> totalregistros = tr.Item1;
                 int total = 0;
                 if (tr.Item2 > 0)
@@ -414,7 +415,7 @@ namespace Inventario.Inventario.admin.Actions
         protected void btnPdf_Click(object sender, EventArgs e)
         {
             int rol = 4046;
-            string consulta = $" SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT c.Anydesk,c.id_cliente, c.fecha_creacion, c.nombre_completo, c.email_cliente, c.telefono_celular, c.nombre_usuario, d.nombre as Depa,r.Nombre as Rol, e.Nombre as Esta FROM cliente c INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r on c.id_rol = r.idRol WHERE c.id_rol = {rol} ORDER BY c.nombre_completo')";
+            string consulta = $" SELECT * FROM OPENQUERY({AdminView.LinkedServer}, 'SELECT c.Anydesk,c.id_cliente, c.fecha_creacion, c.nombre_completo, c.email_cliente, c.telefono_celular, c.nombre_usuario, d.nombre as Depa,r.Nombre as Rol, e.Nombre as Esta FROM cliente c INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r on c.id_rol = r.idRol WHERE c.id_rol = {rol} ORDER BY c.nombre_completo')";
             Tuple<List<object[]>, int> exportPdf = AdminView.Consulta(ref mens, consulta);
             List<object[]> totalExport = exportPdf.Item1;
                 string html = $@"<!DOCTYPE html>  

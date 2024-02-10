@@ -97,17 +97,17 @@ namespace Inventario.Inventario.admin
                 int Gestatus = Convert.ToInt32(Functions.RequestPost(Request.Form["Gestatus"]));
                 string Gtelefono = Functions.RequestPost(Request.Form["Gtelefono"]);
                 string Gusuario = Functions.RequestPost(Request.Form["Gusuario"]);
-                consulta = "SELECT * FROM mysql_ticket ... cliente WHERE email_cliente = ' " + Gcorreo + "' OR telefono_celular  = '" + Gtelefono + "'";
+                consulta = "SELECT * FROM " + AddUsers.LinkedServer + " ... cliente WHERE email_cliente = ' " + Gcorreo + "' OR telefono_celular  = '" + Gtelefono + "'";
                 Tuple<List<object[]>, int> verifica = AddUsers.Consulta(ref mens, consulta);
                 if (verifica.Item2 <= 0)
                 {
-                    bool insertar=  AddUsers.Insertar("cliente", "mysql_ticket", "nombre_completo,nombre_usuario,email_cliente,id_departamento,id_rol,idEstatus,telefono_celular", "'" + GNcompleto + "','" + Gusuario + "','" + Gcorreo + "'," + Gdepartamento + "," + Grol + "," + Gestatus + "," + Gtelefono , ref mens);
+                    bool insertar=  AddUsers.Insertar("cliente", AddUsers.LinkedServer, "nombre_completo,nombre_usuario,email_cliente,id_departamento,id_rol,idEstatus,telefono_celular", "'" + GNcompleto + "','" + Gusuario + "','" + Gcorreo + "'," + Gdepartamento + "," + Grol + "," + Gestatus + "," + Gtelefono , ref mens);
                     if (insertar == true)
                     {
                         DateTime hoy = DateTime.Now;
                         string ahora = Convert.ToString(hoy);
                         alert = "<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>REGISTRO EXITOSO</h4><p class='text-center'>Cuenta creada exitosamente, resetea la contraseña del usuario para que posteriormente se le notifique que ya puede iniciar sesión.</p></div>";
-                        AddUsers.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\'Insertar\",\"" + ahora + "\"," + "\"cliente\"");
+                        AddUsers.ProcedimientoAlmacenado("registro_alteracionesCliente", AddUsers.LinkedServer, "" + SessionId + ",\'Insertar\",\"" + ahora + "\"," + "\"cliente\"");
                         // Response.Redirect("./admin.aspx?view=admin");
                     }
                     else
@@ -116,7 +116,7 @@ namespace Inventario.Inventario.admin
                     }
                 }
             }
-            query = "SELECT * FROM mysql_ticket ... estatus WHERE ((idEstatus = 31448 OR idEstatus = 94573) OR (idEstatus=19231 OR idEstatus = 25542)) ORDER BY Nombre";
+            query = "SELECT * FROM " + AddUsers.LinkedServer + " ... estatus WHERE ((idEstatus = 31448 OR idEstatus = 94573) OR (idEstatus=19231 OR idEstatus = 25542)) ORDER BY Nombre";
             Tuple<List<object[]>, int> estatus = AddUsers.Consulta(ref mens, query);
             // List<object[]> arrayEstatus = estatus.Item1;
             if (estatus.Item2 >= 1)
@@ -130,7 +130,7 @@ namespace Inventario.Inventario.admin
                     idEs[i] = Convert.ToInt32(estatus.Item1[i][0]);
                 }
             }
-            query = "SELECT * FROM mysql_ticket ... rol";
+            query = "SELECT * FROM " + AddUsers.LinkedServer + " ... rol";
             Tuple<List<object[]>, int> rol = AddUsers.Consulta(ref mens, query);
             //List<object[]> arrayRol = rol.Item1;
             if (rol.Item2 >= 1)
@@ -144,7 +144,7 @@ namespace Inventario.Inventario.admin
                     idR[j] = Convert.ToInt32(rol.Item1[j][0]);
                 }
             }
-            query = "SELECT idDepartamento,nombre FROM mysql_ticket...departamento";
+            query = "SELECT idDepartamento,nombre FROM " + AddUsers.LinkedServer + " ... departamento";
             Tuple<List<object[]>, int> depa = AddUsers.Consulta(ref mens, query);
             //List<object[]> arrayDepa = depa.Item1;
             if (depa.Item2 >= 1)

@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Data;
 using System.Data.OleDb;
+using System.Configuration;
 using Inventario.Inventario.lib;
 
 namespace Inventario.Inventario.inc
@@ -25,10 +26,7 @@ namespace Inventario.Inventario.inc
         {
             MySql obj = new MySql();
             Functions Funciones = new Functions();
-
-            string mens = "";
-            obj.BD = "Inventario";
-            obj.ServidorSQL = @"ALCOMPC02";
+            string mens = "";       
             string clave = Convert.ToString(Funciones.CalculateMD5(txtPassword.Text));
             string consulta = "";
             string texto = rblLogin.SelectedItem.Text;
@@ -41,7 +39,7 @@ namespace Inventario.Inventario.inc
                 {
                     case "1":
                         {
-                            consulta = "SELECT * FROM mysql_ticket... cliente WHERE((email_cliente = '" + txtUsuario.Text + "' OR nombre_usuario = '" + txtUsuario.Text + "') AND clave = '" + clave + "')  AND (id_rol = 2736   AND idEstatus <> 25542 )";
+                            consulta = "SELECT * FROM "  + obj.LinkedServer + " ... cliente WHERE((email_cliente = '" + txtUsuario.Text + "' OR nombre_usuario = '" + txtUsuario.Text + "') AND clave = '" + clave + "')  AND (id_rol = 2736   AND idEstatus <> 25542 )";
                             Tuple<List<object[]>, int> resultado = obj.Consulta(ref mens, consulta);
                             List<object[]> registros = resultado.Item1;
                             int contador = resultado.Item2;
@@ -87,7 +85,7 @@ namespace Inventario.Inventario.inc
                         }
                     case "2":
                         {
-                            consulta = "SELECT * FROM mysql_ticket... cliente WHERE((email_cliente = '" + txtUsuario.Text + "' OR nombre_usuario = '" + txtUsuario.Text + "') AND clave = '" + clave + "')  AND (id_rol = 7845   AND idEstatus <> 25542 )";
+                            consulta = "SELECT * FROM " + obj.LinkedServer + " ... cliente WHERE((email_cliente = '" + txtUsuario.Text + "' OR nombre_usuario = '" + txtUsuario.Text + "') AND clave = '" + clave + "')  AND (id_rol = 7845   AND idEstatus <> 25542 )";
                             Tuple<List<object[]>, int> resultado = obj.Consulta(ref mens, consulta);
 
                             List<object[]> registros = resultado.Item1;
@@ -136,7 +134,7 @@ namespace Inventario.Inventario.inc
                         }
                     case "3":
                         {
-                            consulta = "SELECT * FROM mysql_ticket... cliente WHERE((email_cliente = '" + txtUsuario.Text + "' OR nombre_usuario = '" + txtUsuario.Text + "') AND clave = '" + clave + "')  AND (id_rol = 4046   AND idEstatus <> 25542 )";
+                            consulta = "SELECT * FROM " + obj.LinkedServer + " ... cliente WHERE((email_cliente = '" + txtUsuario.Text + "' OR nombre_usuario = '" + txtUsuario.Text + "') AND clave = '" + clave + "')  AND (id_rol = 4046   AND idEstatus <> 25542 )";
                             Tuple<List<object[]>, int> resultado = obj.Consulta(ref mens, consulta);
                             List<object[]> registros = resultado.Item1;
                             int contador = resultado.Item2;

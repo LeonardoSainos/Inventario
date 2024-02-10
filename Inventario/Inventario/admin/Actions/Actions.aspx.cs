@@ -10,7 +10,7 @@ namespace Inventario.Inventario.admin.Actions
 {
     public partial class Actions : System.Web.UI.Page
     {
-
+        MySql Acciones = new MySql();
         string aler = "", consulta = "", mens = "";
 
         public string alerta
@@ -30,7 +30,7 @@ namespace Inventario.Inventario.admin.Actions
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            MySql Acciones = new MySql();
+
             Functions Funciones = new Functions();
             int SessionId = Convert.ToInt32(Session["id"]);
             string texto = "";
@@ -52,9 +52,9 @@ namespace Inventario.Inventario.admin.Actions
                     {
                         try
                         {
-                            if (Acciones.Actualizar("mysql_ticket", "cliente", "idEstatus=25542", "id_cliente = " + id))
+                            if (Acciones.Actualizar(Acciones.LinkedServer, "cliente", "idEstatus=25542", "id_cliente = " + id))
                             {
-                                Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
+                                Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", Acciones.LinkedServer, "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
                                 texto = "Usuario bloqueado exitosamente";
                                 Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
                             }
@@ -74,9 +74,9 @@ namespace Inventario.Inventario.admin.Actions
                         try
                         {
 
-                            if (Acciones.Actualizar("mysql_ticket", "cliente", "idEstatus=31448", "id_cliente = " + id))
+                            if (Acciones.Actualizar(Acciones.LinkedServer, "cliente", "idEstatus=31448", "id_cliente = " + id))
                             {
-                                Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
+                                Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", Acciones.LinkedServer, "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
 
                                 texto = "Usuario desbloqueado exitosamente";
                                      Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
@@ -96,7 +96,7 @@ namespace Inventario.Inventario.admin.Actions
                 {
                     foreach (int ide in eliminados)
                     {
-                        consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE id_cliente =" + ide + "')";
+                        consulta = "SELECT * FROM OPENQUERY(" + Acciones.LinkedServer + ",'SELECT * FROM cliente WHERE id_cliente =" + ide + "')";
                         Tuple<List<object[]>, int> drop = Acciones.Consulta(ref mens, consulta);
                         List<object[]> arrayUser = drop.Item1;
                         if (drop.Item2 >= 1)
@@ -109,47 +109,49 @@ namespace Inventario.Inventario.admin.Actions
                             }
                             else
                             {
-                                consulta = "SELECT * FROM OPENQUERY(mysql_ticket,'SELECT * FROM cliente WHERE ((id_departamento = " + departamento + " AND id_cliente <> " + ide + " ) AND id_departamento<> 2505)  AND (id_rol = 4046 OR id_rol = 5267)')";
+                                consulta = "SELECT * FROM OPENQUERY(" + Acciones.LinkedServer + ",'SELECT * FROM cliente WHERE ((id_departamento = " + departamento + " AND id_cliente <> " + ide + " ) AND id_departamento<> 2505)  AND (id_rol = 4046 OR id_rol = 5267)')";
                                 Tuple<List<object[]>, int> tec = Acciones.Consulta(ref mens, consulta);
                                 List<object[]> arrayTec = tec.Item1; cu = tec.Item2;
                             }
                             if (cu >= 1)
                             {
                                 int eliminar = ide;
-                                consulta = "SELECT * FROM mysql_ticket ... ticket WHERE idUsuario = " + eliminar;
+                                consulta = "SELECT * FROM " + Acciones.LinkedServer + " ... ticket WHERE idUsuario = " + eliminar;
                                 Tuple<List<object[]>, int> cr = Acciones.Consulta(ref mens, consulta);
                                 int creados = cr.Item2;
 
-                                consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576";
+                                consulta = "SELECT * FROM " + Acciones.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576";
                                 Tuple<List<object[]>, int> re = Acciones.Consulta(ref mens, consulta);
                                 int resueltos = re.Item2;
 
-                                consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
+                                consulta = "SELECT * FROM " + Acciones.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
                                 Tuple<List<object[]>, int> pe = Acciones.Consulta(ref mens, consulta);
                                 int pendientes = pe.Item2;
 
-                                consulta = "SELECT * FROM mysql_ticket ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
+                                consulta = "SELECT * FROM " + Acciones.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
                                 Tuple<List<object[]>, int> pro = Acciones.Consulta(ref mens, consulta);
                                 int proceso = pro.Item2;
 
-                               
 
-                                if (Acciones.ProcedimientoAlmacenado("EliminarUsuario", "mysql_ticket", "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
+
+                                if (Acciones.ProcedimientoAlmacenado("EliminarUsuario", Acciones.LinkedServer, "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
                                 {
-                                    Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
-                                    Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
-                                    Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", "mysql_ticket", "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
-                                    aler = "<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><h4 class='text-center'>ADMINISTRADOR ELIMINADO</h4><p class='text-center'>El administrador fue eliminado del sistema con éxito</p></div>";
-                                    
+                                    Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", Acciones.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
+                                    Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", Acciones.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
+                                    Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", Acciones.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
+                                    texto = "Usuario eliminado correctamente";
+                                    Response.Write("<script>alert('" + texto + "');window.history.go(-1);</script>");
                                 }
                                 else
                                 {
-                                    aler ="<div class='alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>OCURRIÓ UN ERROR</h4> <p class='text-center'> No hemos podido eliminar el administrador </p> </div>";
+                                    texto = "ERROR: Ocurrió un error, vuelve a intentarlo";
+                                    Response.Write("<script>alert('" + texto + "');window.history.go(-1);</script>");
                                 }
                             }
                             else
                             {
-                                aler= "<script>alert('Por el momento no es posible eliminar el usuario porque no hay más técnicos');  window.history.go(-1);</ script > ";
+                                texto = "Por el momento no es posible eliminar el usuario porque no hay más usuarios de su rol";
+                                    Response.Write("<script>alert('" + texto + "');window.history.go(-1);</script>");
                             }
                         }
                     }
@@ -163,8 +165,8 @@ namespace Inventario.Inventario.admin.Actions
                         string permittedChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
                         string cifrado = Functions.GenerarCadenaAleatoria(permittedChars, 16);
                         string NewPassword = Convert.ToString(Funciones.CalculateMD5(cifrado));
-                        actualizado = Acciones.Actualizar("mysql_ticket","cliente","clave='" + NewPassword + "'","id_cliente=" + id);
-                        consulta = "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT c.email_cliente,c.nombre_completo, c.id_cliente, d.nombre as Depa FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento WHERE c.id_cliente=" + id + "')";
+                        actualizado = Acciones.Actualizar(Acciones.LinkedServer, "cliente","clave='" + NewPassword + "'","id_cliente=" + id);
+                        consulta = "SELECT * FROM OPENQUERY(" + Acciones.LinkedServer + ", 'SELECT c.email_cliente,c.nombre_completo, c.id_cliente, d.nombre as Depa FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento WHERE c.id_cliente=" + id + "')";
                         Tuple<List<object[]>, int> arrayPassword = Acciones.Consulta(ref mens, consulta);
                         List<object[]> InfoUser = arrayPassword.Item1;
                         int cu = arrayPassword.Item2;
@@ -177,7 +179,7 @@ namespace Inventario.Inventario.admin.Actions
                                 string nombre_completo = Convert.ToString(arrayPassword.Item1[0][1]);
                                 string departamento = Convert.ToString(arrayPassword.Item1[0][3]);
 
-                                consulta = "SELECT * FROM OPENQUERY(mysql_ticket, 'SELECT cast(aes_decrypt(e.contraseña, \"AES\") as char) as RECUPERAR ,d.correo FROM enviocorreo e INNER JOIN departamento d ON e.correo = d.idDepartamento WHERE e.id = 2')";
+                                consulta = "SELECT * FROM OPENQUERY(" + Acciones.LinkedServer + ", 'SELECT cast(aes_decrypt(e.contraseña, \"AES\") as char) as RECUPERAR ,d.correo FROM enviocorreo e INNER JOIN departamento d ON e.correo = d.idDepartamento WHERE e.id = 2')";
                                 Tuple<List<object[]>, int> ListCorreo = Acciones.Consulta(ref mens, consulta);
                                 List<object[]> InfoCorreo = ListCorreo.Item1;
                                 int registrosCorreo = ListCorreo.Item2;

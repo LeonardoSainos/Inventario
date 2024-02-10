@@ -6,19 +6,27 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Data.OleDb;
 using System.Text;
+using System.Configuration;
 
 namespace Inventario.Scripts
 {
      class MySql
     {
       public System.Data.DataRowCollection Rows { get; }
-        public string ServidorSQL { get; set; }
-        public string BD { set; get; }
-        string nombre;
-        public string Propiedad_nombre
-        {
-            set { nombre = value; }
-            get { return nombre; }
+
+        private string Base = ConfigurationManager.AppSettings["BD"];
+        private string dirección = ConfigurationManager.AppSettings["SERVER"];         
+        private string server = ConfigurationManager.AppSettings["LINKEDSERVER"];
+        public string ServidorSQL {
+            get { return dirección; }
+        }
+        public string BD {
+            get { return Base; } 
+        }
+        public string LinkedServer {
+      
+         get { return server; }
+
         }
         public SqlConnection Conectar(ref String cad)
         {
