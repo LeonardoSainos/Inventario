@@ -137,70 +137,7 @@ namespace Inventario.Inventario.admin.Actions
                     }
             }
 
-            // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
-            if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
-            {
-                string texto = "";
-                int SessionId = Convert.ToInt32(Session["id"]);
-                string id = Functions.RequestPost(Request.Form["id_dele"]);
-                consulta = "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ",'SELECT * FROM cliente WHERE id_cliente =" + id + "')";
-                Tuple<List<object[]>, int> drop = AdminView.Consulta(ref mens, consulta);
-                List<object[]> arrayUser = drop.Item1;
-                if (drop.Item2 >= 1)
-                {
-                    int cu = 0;
-                    int departamento = Convert.ToInt32(drop.Item1[0][5]);
-                    if (departamento == 2505)
-                    {
-                        cu = 1;
-                    }
-                    else
-                    {
-                        consulta = "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ",'SELECT * FROM cliente WHERE ((id_departamento = " + departamento + " AND id_cliente <> " + id + " ) AND id_departamento<> 2505)  AND (id_rol = 4046 OR id_rol = 5267)')";
-                        Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mens, consulta);
-                        List<object[]> arrayTec = tec.Item1; cu = tec.Item2;
-                    }
-                    if (cu >= 1)
-                    {
-                        string eliminar = id;
-                        consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE idUsuario = " + eliminar;
-                        Tuple<List<object[]>, int> cr = AdminView.Consulta(ref mens, consulta);
-                        int creados = cr.Item2;
-
-                        consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576";
-                        Tuple<List<object[]>, int> re = AdminView.Consulta(ref mens, consulta);
-                        int resueltos = re.Item2;
-
-                        consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
-                        Tuple<List<object[]>, int> pe = AdminView.Consulta(ref mens, consulta);
-                        int pendientes = pe.Item2;
-
-                        consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
-                        Tuple<List<object[]>, int> pro = AdminView.Consulta(ref mens, consulta);
-                        int proceso = pro.Item2;
-
-                        DateTime fechaActual = DateTime.Now;
-                        string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
-
-                        if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", AdminView.LinkedServer, "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
-                        {
-                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
-                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
-                            AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
-                            texto = "Usuario eliminado correctamente";
-                            Response.Write("<script>alert('" + texto + "');</script>"); id = "";
-                        }
-                        else
-                        {
-                            texto = "<div class='alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>OCURRIÓ UN ERROR</h4> <p class='text-center'> No hemos podido eliminar el administrador </p> </div>";
-                        }
-                    }
-                }
-                else
-                {
-                    Response.Write("<script>alert('Por el momento no es posible eliminar el usuario porque no hay más técnicos');</ script > ");
-                }
-            }
+           
             if (!IsPostBack)
             {
 
@@ -249,7 +186,95 @@ namespace Inventario.Inventario.admin.Actions
                  AdminView.Mostrar(tabla, ref mensaje, consulta);
                
             }
-        
+
+            // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
+            if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
+            {
+                int SessionId = Convert.ToInt32(Session["id"]);
+                string id = Functions.RequestPost(Request.Form["id_dele"]);
+                consulta = "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ",'SELECT * FROM cliente WHERE id_cliente =" + id + "')";
+                Tuple<List<object[]>, int> drop = AdminView.Consulta(ref mens, consulta);
+                List<object[]> arrayUser = drop.Item1;
+                try
+                {
+                    if (drop.Item2 >= 1)
+                    {
+                        int cu = 0;
+                        int departamento = Convert.ToInt32(drop.Item1[0][5]);
+                        if (departamento == 2505)
+                        {
+                            cu = -1;
+                        }
+                        else
+                        {
+                            consulta = "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ",'SELECT * FROM cliente WHERE ((id_departamento = " + departamento + " AND id_cliente <> " + id + " ) AND id_departamento<> 2505)  AND (id_rol = 4046 OR id_rol = 5267)')";
+                            Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mens, consulta);
+                            List<object[]> arrayTec = tec.Item1; cu = tec.Item2;
+                        }
+                        if (cu > 1)
+                        {
+                            string eliminar = id;
+                            consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE idUsuario = " + eliminar;
+                            Tuple<List<object[]>, int> cr = AdminView.Consulta(ref mens, consulta);
+                            int creados = cr.Item2;
+
+                            consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94576";
+                            Tuple<List<object[]>, int> re = AdminView.Consulta(ref mens, consulta);
+                            int resueltos = re.Item2;
+
+                            consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94574";
+                            Tuple<List<object[]>, int> pe = AdminView.Consulta(ref mens, consulta);
+                            int pendientes = pe.Item2;
+
+                            consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE id_Atiende = " + eliminar + " AND idStatus = 94575";
+                            Tuple<List<object[]>, int> pro = AdminView.Consulta(ref mens, consulta);
+                            int proceso = pro.Item2;
+
+                            DateTime fechaActual = DateTime.Now;
+                            string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
+
+                            if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", AdminView.LinkedServer, "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
+                            {
+                                AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
+                                AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
+                                AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
+
+                                eliminar = null;
+                                id = null;
+                                aler = @"<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z-index:10;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><h4 class='text-center'>Usuario eliminado</h4><p class='text-center'>El usuario fue eliminado con éxito</p></div>";
+                            }
+                            else
+                            {
+                                aler = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10;'> 
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                                    <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
+                                    <p class='text-center'>
+                                        No hemos podido actualizar el usuario
+                                    </p> </div>";
+                            }
+                        }
+                        else if (cu == 0)
+                        {
+                            aler = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10;'> 
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                                    <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
+                                    <p class='text-center'>
+                                        No hemos podido actualizar el usuario porque es el único de su rol
+                                    </p> </div>";
+                        }
+                    }
+
+                }
+                catch (Exception c)
+                {
+                    aler = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10;'> 
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                                    <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
+                                    <p class='text-center'>
+                                     " + c + " </p> </div>";
+                }
+            }
+
         }
         protected void tabla_PreRender(object sender, EventArgs e)
         {

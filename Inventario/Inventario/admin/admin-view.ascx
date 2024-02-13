@@ -1,11 +1,11 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="admin-view.ascx.cs" Inherits="Inventario.Inventario.admin.WebUserControl1" %>
  <%@ Import Namespace="Inventario.Scripts" %>
 
-<div id="contenido">
+<div id="contenido"> 
     <div class="container">
-
         <div class="row">
             <div class="col-sm-2">
+                    <%Response.Write(alerta); %>
                 <img src="../Inventario/img/card_identy.png" alt="Animacion" class="img-responsive animated flipInY" />
             </div>
             <div class="col-sm-10">
@@ -67,7 +67,7 @@
 
          
 <form runat="server" id="mostrar">
-<asp:GridView ID="tabla"    OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%"   >
+<asp:GridView ID="tabla"    OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%" PageSize="50"   >
     <Columns>
         <asp:TemplateField>
             <ItemTemplate>
@@ -162,7 +162,7 @@
 </div>     
     </div>
 
-        <%Response.Write(alerta); %>
+      
   <uc:DeleteUser runat="server" />
   <uc:InsertUser runat="server" />
 <script>   

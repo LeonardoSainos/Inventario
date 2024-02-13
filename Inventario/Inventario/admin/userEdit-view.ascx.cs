@@ -187,8 +187,8 @@ namespace Inventario.Inventario.admin
 
                         UpdateUser.ProcedimientoAlmacenado("registro_alteracionesCliente", UpdateUser.LinkedServer, SessionId + ",\"Actualizar\",\"" + fecha + "\"," + "\"cliente\"");
                         
-                            alerta = @"< div class='alert alert-info alert - dismissible fade in col - sm - 3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10; '> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
-                                 < h4 class='text-center'>Usuario Actualizado</h4>
+                            alerta = @"<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10; '> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                                 <h4 class='text-center'>Usuario Actualizado</h4>
                        <p class='text-center'>
                         El usuario fue actualizado con éxito
                         </p>
@@ -198,7 +198,7 @@ namespace Inventario.Inventario.admin
                     }
                     else
                     {
-                        alerta = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10; '> 
+                        alerta = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10;'> 
                                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
                     <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
                     <p class='text-center'>
