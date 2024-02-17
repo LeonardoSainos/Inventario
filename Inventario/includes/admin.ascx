@@ -95,16 +95,17 @@
                                            <% 
                                                switch(content){
                                                   
-                                                case "searchUsers": { %>       <uc:SearchUsers  runat="server" />  <%
+                                                     case "searchUsers": { %>       <uc:SearchUsers  runat="server" />  <%
                                                         break;
-                                                }
+                                                     }
 
                                                 default:
                                                 %> <script> window.history.go(-1);</script> <% 
                                                         break;
-                                                }
+                                               }
                                             %>
                                     </div>
+                                      
                                     </body>
                                     </html>
                 <%
@@ -145,23 +146,4 @@
                         </html>
          <% }
     }
-%>                                     <script>
-                                         $(document).ready(function () {
-                                             $("#input_user").keyup(function () {
-                                                 $.ajax({
-                                                     url: "./process/val_admin.php?id=" + $(this).val(),
-                                                     success: function (data) {
-                                                         $("#com_form").html(data);
-                                                     }
-                                                 });
-                                             });
-                                             $("#input_user2").keyup(function () {
-                                                 $.ajax({
-                                                     url: "./process/val_admin.aspx?id=" + $(this).val(),
-                                                     success: function (data) {
-                                                         $("#com_form2").html(data);
-                                                     }
-                                                 });
-                                             });
-                                         });
-                                    </script>                    
+%>                                                

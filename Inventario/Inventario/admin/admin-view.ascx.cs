@@ -14,8 +14,13 @@ namespace Inventario.Inventario.admin
     {
         MySql AdminView = new MySql();
         Functions Funciones = new Functions();
-        private int numeropaginas=0, paginaas=0, r1=0, r2=0, r3=0;
+        private int numeropaginas = 0, paginaas = 0, r1 = 0, r2 = 0, r3 = 0, inicio= 0;
         string aler = "",consulta="",mens="", rol="";
+        public int inicializacion
+        {
+            set { inicio = value; }
+            get { return inicio; }
+        }
         public int numPagina
         {
             set { numeropaginas = value; }
@@ -120,12 +125,9 @@ namespace Inventario.Inventario.admin
 
                     }
             }
-            // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
-        
+      
             if (!IsPostBack)
               {
-
-
                 //***************************Codigo que cuenta usuarios *************************************//
                 consulta = "SELECT COUNT(*) AS contador FROM " + AdminView.LinkedServer + " ...cliente WHERE id_rol = 4046";
                 Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
@@ -152,7 +154,8 @@ namespace Inventario.Inventario.admin
                 //*********************************Codigo para mostrar*********************************// 
                 pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
 
-                int  regpagina = 50, inicio = (pagina*regpagina)-regpagina, acaba = pagina * regpagina;
+                int regpagina = 50, acaba = pagina * regpagina;
+                inicio = (pagina * regpagina) - regpagina;
                 
 
                 string mensaje = "";
@@ -173,6 +176,7 @@ namespace Inventario.Inventario.admin
                 {
                     AdminView.Mostrar(tabla, ref mensaje, consulta);
                 }
+                // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
                 if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
                 {
                     int SessionId = Convert.ToInt32(Session["id"]);
@@ -277,7 +281,7 @@ namespace Inventario.Inventario.admin
                     CheckBox bloquear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
                     if (bloquear.Checked && tabla.Rows[i].RowType != 0)
                     {
-                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
                         bloqueados[j] = id;
                         j++; 
                     }
@@ -310,7 +314,7 @@ namespace Inventario.Inventario.admin
                     CheckBox desbloquear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
                     if (desbloquear.Checked && tabla.Rows[i].RowType != 0)
                     {
-                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
                         desbloqueados[j] = id;
                         j++;
                     }
@@ -343,7 +347,7 @@ namespace Inventario.Inventario.admin
                     CheckBox eliminar = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
                     if (eliminar.Checked && tabla.Rows[i].RowType != 0)
                     {
-                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
                         eliminados[j] = id;
                         j++;
                     }
@@ -376,7 +380,7 @@ namespace Inventario.Inventario.admin
                     CheckBox resetear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
                     if (resetear.Checked && tabla.Rows[i].RowType != 0)
                     {
-                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
                         reseteados[j] = id;
                         j++;
                     }
@@ -532,6 +536,8 @@ namespace Inventario.Inventario.admin
                 newRow.Cells.Add(cell);
                 tabla.Controls[0].Controls.Add(newRow);
             }
-        }      
+        }
+      
+
     }
 }

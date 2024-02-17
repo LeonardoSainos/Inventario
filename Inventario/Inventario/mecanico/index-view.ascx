@@ -20,19 +20,19 @@
                 <li data-target="#carousel-example-generic" data-slide-to="3"></li>
             </ol>
             <div class="carousel-inner">
-                <div class="item active">
-                    <img class="img-fluid d-block" src="../Inventario/img/2T.jpg" alt="2T"/>
+                <div class="item active ">
+                    <img class="img-fluid d-block " src="../Inventario/img/2T.jpg" alt="2T"/>
                     <div class="carousel-caption"></div>
                 </div>
-                <div class="item">
-                    <img class="img-fluid d-block" src="../Inventario/img/track1.jpg" alt="Track"/>
+                <div class="item ">
+                    <img class="img-fluid d-block " src="../Inventario/img/track1.jpg" alt="Track"/>
                     <div class="carousel-caption"></div>
                 </div>
-                <div class="item">
-                    <img class="img-fluid d-block" src="../Inventario/img/1T.jpg" alt="1T"/>
+                <div class="item  ">
+                    <img class="img-fluid d-block " src="../Inventario/img/1T.jpg" alt="1T"/>
                     <div class="carousel-caption"></div>
                 </div>
-                <div class="item">
+                <div class="item  ">
                     <img class="img-fluid d-block" src="../Inventario/img/3T.jpg" alt="3T"/>
                     <div class="carousel-caption"></div>
                 </div>
@@ -62,7 +62,7 @@
         </div>
     </div>
 </div>
-<br>
+<br/>
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-md-12 thumbnail">
@@ -115,23 +115,6 @@
                 </div>
                 <!-- /. PAGE INNER  -->
 <!--************************************Carousel******************************-->
-    
-<style>
-    .carousel-inner .item img {
-        width: 1200px;
-        height: 500px;
-    }
+     
 
-    .xp {
-        width: 600px;
-        height: 250px;
-    }
-</style>
-
-<script>
-    $(document).ready(function () {
-        $("#carousel-example-generic").carousel({
-            interval: 2500,
-        });
-    });
-</script>
+ 

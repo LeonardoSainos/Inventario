@@ -326,7 +326,6 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="index.aspx" />
     <Content Include="Inventario\css\bootstrap.min.css.map" />
-    <Content Include="Inventario\funciones_panel.js" />
     <Content Include="Inventario\galleryCustom.js" />
     <Content Include="Inventario\img\1T.jpg" />
     <Content Include="Inventario\img\2T.jpg" />

@@ -8,16 +8,6 @@
 
     <%// Server.Execute("~/process/login.aspx"); %><% } %> 
 
-
-<style>
-
-  @media (min-width: 768px) {
-    .notdisplay {
-        display: none;
-    }
-}
-
-</style>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -34,7 +24,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"  >
             <% if(Session["rol"] != null && Session["nombre"] != null) { %>
             <ul class="nav navbar-nav navbar-right" >
-                <li class="dropdown"  >
+                <li class="dropdown" id="main">
                     <a id="expanded" href="#"  class="dropdown-toggle nombre" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-user"></span> &nbsp; <%= Session["nombre"] %><b class="caret"></b>
                     </a>
@@ -225,42 +215,7 @@
   </nav>
           <% if (Session["rol"] == null || Session["nombre"] == null){ %>
                     <uc:Login runat="server" /><%}
-          else if (Session["rol"] != null && Session["nombre"] != null) { %>
-                <script>
-                    // Obtener una referencia al modal por su ID y eliminarlo del DOM
-                    var modalElement = document.getElementById('modalLog');
-                    if (modalElement) {
-                        modalElement.parentNode.removeChild(modalElement);
-                        console.log("elemento eliminado");
-                    }
-                </script>
-<% } %>
-                   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
-                    <script>
-                        $(document).ready(function () {
-                            // Evento clic para abrir/cerrar el menú desplegable
-                            $(".configuracion-link").click(function (e) {
-                                e.preventDefault(); // Evita la acción predeterminada del enlace
-                                var dropdownMenu = $(this).closest(".dropdown").find(".dropdown-menu");
-                                dropdownMenu.toggleClass("show");
-                            });
-                            // Evento clic para cerrar el menú desplegable al hacer clic fuera de él
-                            $(".nombre").click(function (e) {
-                                e.preventDefault(); // Evita la acción predeterminada del enlace
-                                //    var dropdownMenu = $(this).closest(".dropdown").find(".dropdown-menu");
-                                dropdownMenu.toggleClass("open");
-                            });
-                            // Evitar que se cierre el menú al hacer clic en un enlace interno
-                            $(".dropdown-menu").on("click", function (e) {
-                                e.stopPropagation();
-                            });
-                            $(".inventario").click(function (e) {
-                                e.preventDefault();
-                                $(".principal, .secundario, .terciario").removeClass("show");
-                            });
-                            $(".principal, .secundario, .terciario").click(function (e) {
-                                e.preventDefault();
-                                $(this).addClass("show");
-                            });        
-                        });
-                    </script>
+          %>
+                  
+                  
+ 

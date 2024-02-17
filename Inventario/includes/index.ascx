@@ -97,7 +97,6 @@
                     <title>Alcomex soporte técnico</title>
                 </head>
                 <body>
-                 
                                  <uc:Navbar runat="server"/>
                              <uc:Navbar2 runat="server" />
                         <div id="wrapper">
@@ -118,7 +117,6 @@
                             <h1 class="text-center">Lo sentimos, la opción que ha seleccionado no se encuentra disponible</h1>
                         </div>
                     </div>
-                               
                           </div><br/>      
                  
                          <uc:Footer runat="server" />
@@ -194,17 +192,4 @@
                                 <%} %>
                                 </body>
                               </html> 
-                                  <script>
-                                      if ('serviceWorker' in navigator) {
-                                          navigator.serviceWorker.register('./sw/sw.js')
-                                              .then(
-                                                  function (registration) {
-                                                      console.log('Reg. satisfactorio del sw en el ámbito: ', registration.scope);
-                                                  }
-                                              ).catch(
-                                                  function (err) {
-                                                      console.log('El SW no se registró', err);
-                                                  }
-                                              );
-                                      }
-                                  </script>  <%  /* include "./user/index-view.php"; */   } %>
+                            <% } %>

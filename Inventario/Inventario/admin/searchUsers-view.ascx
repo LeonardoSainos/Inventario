@@ -39,10 +39,10 @@
  <div class='btn-group' style="display:flex; float:left">
   <button class='btn dropdown-toggle btn-success' data-toggle='dropdown' value='Más'><span class='fa fa-reorder'></span></button>
       <ul class='dropdown-menu'>
-        <li ><a  id="nombree" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Nombre</a></li>  
-        <li ><a id="correoo" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Correo</a></li>  
-        <li ><a  id="fechaa" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Fecha</a></li>  
-        <li ><a id="estatuss" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Estatus</a></li>  
+        <li><a  id="nombree" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Nombre</a></li>  
+        <li><a id="correoo" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Correo</a></li>  
+        <li><a  id="fechaa" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Fecha</a></li>  
+        <li><a id="estatuss" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Estatus</a></li>  
      </ul>
  </div>
    
@@ -73,14 +73,19 @@
           
          
 <form runat="server" id="mostrar">
-<asp:GridView ID="tabla"    OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%"   >
+<asp:GridView ID="tabla"    OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%" PageSize="50"   >
     <Columns>
         <asp:TemplateField>
             <ItemTemplate>
        <asp:CheckBox ID="chkUsuario" runat="server"  OnCheckedChanged="chkUsuario_CheckedChanged"  />
        </ItemTemplate>
         </asp:TemplateField>
-        <asp:BoundField DataField="id_cliente" HeaderText="#" SortExpression="Id_cliente" />
+          <asp:TemplateField HeaderText="#">
+            <ItemTemplate>
+              <%# (Container.DataItemIndex + 1) + inicializacion %>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:BoundField DataField="id_cliente" HeaderText="ID Cliente" SortExpression="id_cliente" HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden" />
         <asp:BoundField DataField="Fecha_creacion" HeaderText="Creado" SortExpression="Fecha_creacion" />
         <asp:BoundField DataField="nombre_completo" HeaderText="Nombre completo" SortExpression="nombre_completo" />
         <asp:BoundField DataField="nombre_usuario" HeaderText="Nombre de usuario" SortExpression="nombre_usuario" />
@@ -120,7 +125,8 @@
                    </div>
      </div>
  </div>
-<% if (numPagina >= 1) { %>
+<% int i = 0;
+    if (numPagina >= 1) { %>
     <nav arial-label="Page navigation" class="text-center">
         <ul class="pagination">
             <%if (pagina == 1)
@@ -133,18 +139,19 @@
             <%}
               else {%>
               <li>
-                  <a href="./admin.aspx?view=admin&pagina=<%Response.Write(pagina-1); %>" aria-label="Previous">
-                      <span aria-hidden="true">&laquo</span>
-                  </a>
+                  <% Response.Write("<a href='javascript:void();' id='retrocede' type='submit'  aria-label='Previous'> "); %>
+                        <span aria-hidden="true">&laquo</span>
+                      <% Response.Write("</a>"); %>
               </li>
               <%}
-                  for(int i=1; i<=numPagina; i++)
+                  for(i=1; i<=numPagina; i++)
                   {
-                      if (pagina == i){
-                          Response.Write("<li class='active'><a href='./admin.aspx?view=admin&pagina=" + i + "'>" + i + "</a></li>");
-                      }
+         
+                        if (pagina == i){
+                          Response.Write("<li class='active'><a id='paginador' href='javascript:void();' type='submit'>" + i + "</a></li>");
+                        }
                       else {
-                          Response.Write("<li><a href='./admin.aspx?view=admin&pagina=" + i + "'>" + i + "</a></li>");
+                          Response.Write("<li><a id='paginador2'  href='javascript:void();' type='submit'>" + i + "</a></li>");
                       }
                   }
                   if(pagina == numPagina) {%>
@@ -157,9 +164,10 @@
                   }
                   else {%>
                     <li>
-                        <a href="./admin.aspx?view=admin&pagina=<%Response.Write(pagina+1); %>" aria-label="Previous">
+                        <% Response.Write("<a href='javascript:void();' id='incremento' type='submit'  aria-label='Previous'>");  %>
+                     
                             <span aria-hidden="true">&raquo;</span>
-                        </a>
+                        <% Response.Write("</a>"); %>
                     </li>
                   <%}
               %>
@@ -227,12 +235,13 @@
              default: "Ninguno";
          }
      }
-    $(document).ready(function () {
-        $("#mt").click(BuscarUsuario);
-        $("#nombree").click(FiltroUsers);
-        $("#fechaa").click(FiltroFecha);
-        $("#correoo").click(FiltroCorreo);
-        $("#estatuss").click(FiltroEstatus);
+  
+        $("#retrocede").click(function () {
+            BuscarUsuario(<%=(pagina-1) %>);
+});
 
-    });
+$("#incremento").click(function() {
+    BuscarUsuario(<%=(pagina+1) %>);
+}); 
+     
 </script>

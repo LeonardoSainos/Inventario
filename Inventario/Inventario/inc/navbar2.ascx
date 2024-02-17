@@ -3,14 +3,8 @@
 <%@ Import Namespace="System.Web" %>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
- 
-<% if(Request.Form["nombre_login"] != null && Request.Form["contrasena_login"] != null) { %>
-    <%@ Import Namespace="System.Web" %>
 
-    <%// Server.Execute("~/process/login.aspx"); %><% }
-
-  string completoName = Session["nombre_completo"] as string;
-                                                       %> 
+<%  string completoName = Session["nombre_completo"] as string; %> 
 
                                     
     <nav id="mobile-only" class="navbar-nav navbar-default navbar-side" role="navigation">

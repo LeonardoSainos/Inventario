@@ -13,8 +13,13 @@ namespace Inventario.Inventario.admin.Actions
     {
         MySql AdminView = new MySql();
         Functions Funciones = new Functions();
-        private int numeropaginas = 0, paginaas = 1, r1 = 0, r2 = 0, r3 = 0, encontrados =0;
+        private int numeropaginas = 0, paginaas = 1, r1 = 0, r2 = 0, r3 = 0, encontrados =0, inicio = 0;
         string aler = "", consulta = "", mens = "", busqueda="",rol="";
+        public int inicializacion
+        {
+            set { inicio = value; }
+            get { return inicio; }
+        }
         public int numPagina
         {
             set { numeropaginas = value; }
@@ -139,8 +144,7 @@ namespace Inventario.Inventario.admin.Actions
 
            
             if (!IsPostBack)
-            {
-
+            {  
                 //***************************Codigo que cuenta usuarios *************************************//
                 consulta = "SELECT COUNT(*) AS contador FROM " + AdminView.LinkedServer + " ...cliente WHERE id_rol = 4046";
                 Tuple<List<object[]>, int> resultado = AdminView.Consulta(ref mens, consulta);
@@ -166,20 +170,24 @@ namespace Inventario.Inventario.admin.Actions
                 }
                 //*********************************Codigo para mostrar*********************************// 
                 pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
-               int inicio = 0, regpagina = 50;
+                int regpagina = 50, acaba = pagina * regpagina;
                 string mensaje = "";
+                inicio = (pagina * regpagina) - regpagina;
 
-               consulta = $"SELECT * FROM OPENQUERY({ AdminView.LinkedServer}, 'SELECT SQL_CALC_FOUND_ROWS c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra +" LIMIT " + inicio + "," + regpagina + "')";      
+               consulta = $"SELECT * FROM OPENQUERY({ AdminView.LinkedServer}, 'SELECT c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra +" LIMIT " + inicio + "," + acaba + "')";      
                 Tuple<List<object[]>, int> res = AdminView.Consulta(ref mensaje, consulta);
                 List<object[]> registros = res.Item1;
                 int contador = res.Item2;
-                encontrados = contador;
-                Tuple<List<object[]>, int> tr = AdminView.Consulta(ref mensaje, "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ", 'SELECT count(*) FROM CLIENTE')");
+
+
+                Tuple<List<object[]>, int> tr = AdminView.Consulta(ref mensaje, $"SELECT COUNT(*) as total_resultados FROM OPENQUERY({ AdminView.LinkedServer}, 'SELECT c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra + "')");
                 List<object[]> totalregistros = tr.Item1;
                 int total = 0;
                 if (tr.Item2 > 0)
                 {
+                    
                     total = Convert.ToInt32(tr.Item1[0][0]);
+                    encontrados = total;
                 }
                 numeropaginas = (int)Math.Ceiling((double)total / regpagina);
                 tabla.DataBind();
@@ -303,7 +311,7 @@ namespace Inventario.Inventario.admin.Actions
                     CheckBox bloquear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
                     if (bloquear.Checked && tabla.Rows[i].RowType != 0)
                     {
-                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
                         bloqueados[j] = id;
                         j++;
                     }
@@ -336,7 +344,7 @@ namespace Inventario.Inventario.admin.Actions
                     CheckBox desbloquear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
                     if (desbloquear.Checked && tabla.Rows[i].RowType != 0)
                     {
-                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
                         desbloqueados[j] = id;
                         j++;
                     }
@@ -369,7 +377,7 @@ namespace Inventario.Inventario.admin.Actions
                     CheckBox eliminar = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
                     if (eliminar.Checked && tabla.Rows[i].RowType != 0)
                     {
-                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
                         eliminados[j] = id;
                         j++;
                     }
@@ -402,7 +410,7 @@ namespace Inventario.Inventario.admin.Actions
                     CheckBox resetear = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkUsuario");
                     if (resetear.Checked && tabla.Rows[i].RowType != 0)
                     {
-                        int id = Convert.ToInt32(tabla.Rows[i].Cells[1].Text);
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
                         reseteados[j] = id;
                         j++;
                     }

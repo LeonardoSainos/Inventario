@@ -28,7 +28,7 @@
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-refresh'></span> <button type="button" class='btn btn-link'  onclick="ActivarBoton('Desbloquear');" style='text-decoration:none;' name="Desbloquear">Desbloquear</button></li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button type="button" class='btn btn-link' style='text-decoration:none;' name="ExportarPdf" onclick="ActivarBoton('Pdf');">Exportar PDF</button></li>
                 <li><span style='margin-left:22px;' class='glyphicon glyphicon-user'></span> <button type="button" class='btn btn-link' style='text-decoration:none;' name="ExportarExcel" onclick="ActivarBoton('Excel');" >Exportar EXCEL</button></li>
-          <li ><a href='#' class='btn btn-link'> <span class='glyphicon glyphicon-log-in'></span><input  onclick="ActivarBoton('Resetear');"  class='btn btn-link ' style='text-decoration:none;'  type="button" value=" Resetear contraseña" name="Resetear"/> </a></li>     
+          <li><a href='#' class='btn btn-link'> <span class='glyphicon glyphicon-log-in'></span><input  onclick="ActivarBoton('Resetear');"  class='btn btn-link ' style='text-decoration:none;'  type="button" value=" Resetear contraseña" name="Resetear"/> </a></li>     
         </ul>
 </div> 
 
@@ -40,10 +40,10 @@
  <div class='btn-group' style="display:flex; float:left">
   <button class='btn dropdown-toggle btn-success' data-toggle='dropdown' value='Más'><span class='fa fa-reorder'></span></button>
       <ul class='dropdown-menu'>
-        <li ><a id="nombree" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Nombre</a></li>  
-        <li ><a id="correoo" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Correo</a></li>  
-        <li ><a id="fechaa" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Fecha</a></li>  
-        <li ><a id="estatuss" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Estatus</a></li>  
+        <li><a id="nombree" href='javascript:void();' class='btn btn-link ' type="submit" style='text-decoration:none;'>Nombre</a></li>  
+        <li><a id="correoo" href='javascript:void();' class='btn btn-link ' type="submit" style='text-decoration:none;'>Correo</a></li>  
+        <li><a id="fechaa" href='javascript:void();' class='btn btn-link ' type="submit" style='text-decoration:none;'>Fecha</a></li>  
+        <li><a id="estatuss" href='javascript:void();' class='btn btn-link ' type="submit" style='text-decoration:none;'>Estatus</a></li>  
      </ul>
  </div>
    
@@ -63,18 +63,27 @@
 <div class="row">
     <div class="col-md-12">
        <div class="table-responsive">
-           <% %>
-
+         
          
 <form runat="server" id="mostrar">
-<asp:GridView ID="tabla"    OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%" PageSize="50"   >
+<asp:GridView ID="tabla"    OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%" PageSize="50" PageIndex="5"   >
     <Columns>
         <asp:TemplateField>
             <ItemTemplate>
        <asp:CheckBox ID="chkUsuario" runat="server"  OnCheckedChanged="chkUsuario_CheckedChanged"  />
        </ItemTemplate>
         </asp:TemplateField>
-        <asp:BoundField DataField="id_cliente" HeaderText="#" SortExpression="Id_cliente" />
+
+        <asp:TemplateField HeaderText="#">
+            <ItemTemplate>
+                <%# (Container.DataItemIndex + 1) + inicializacion %>
+            </ItemTemplate>
+        </asp:TemplateField> 
+        <asp:BoundField DataField="id_cliente" HeaderText="ID Cliente" SortExpression="id_cliente" HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden" >
+<HeaderStyle CssClass="hidden"></HeaderStyle>
+
+<ItemStyle CssClass="hidden"></ItemStyle>
+        </asp:BoundField>
         <asp:BoundField DataField="Fecha_creacion" HeaderText="Creado" SortExpression="Fecha_creacion" />
         <asp:BoundField DataField="nombre_completo" HeaderText="Nombre completo" SortExpression="nombre_completo" />
         <asp:BoundField DataField="nombre_usuario" HeaderText="Nombre de usuario" SortExpression="nombre_usuario" />
@@ -223,12 +232,6 @@
          }
     }
 
-    $(document).ready(function () {
-        $("#mt").click(BuscarUsuario);
-        $("#nombree").click(FiltroUsers);
-        $("#fechaa").click(FiltroFecha);
-        $("#correoo").click(FiltroCorreo);
-        $("#estatuss").click(FiltroEstatus);
-    });
+    
 </script>
  

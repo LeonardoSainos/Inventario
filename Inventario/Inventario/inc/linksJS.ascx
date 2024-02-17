@@ -1,6 +1,8 @@
 ﻿﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="linksJS.ascx.cs" Inherits="Inventario.Inventario.inc.linksJS" %>
-
-
+ 
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+                    
+                      
 <script src="/Inventario/js/bootstrap.js"></script>
 <script src="/Inventario/js/jquery-ui-1.10.4.custom.min.js"></script> 
     <!-- METISMENU SCRIPTS -->

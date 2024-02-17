@@ -204,9 +204,7 @@ namespace Inventario.Inventario.admin.Actions
                         catch (Exception c)
                         {
                             texto = "ERROR : " + c;
-                        }
-
-                 
+                        }                
                     }
                     if (i > 1 && asegura == false)
                     {

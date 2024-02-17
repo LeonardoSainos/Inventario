@@ -40,27 +40,29 @@ nav ul li a:hover{
   
   }
 
-/*
-  
-tr td:hover{
-	  color: #E67E22;  
-	  background-color: #E67E22;
-	  background: #E67E22;
-  }
-
- 
-*/
-
-.carousel-inner .item img {
-	width: 500px;
-	height: 300px;
-  }
-
-
+.hidden {
+	width: 0;
+	height: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	visibility: hidden;
+}
 
 
 @media (min-width: 768px) {
 	.notdisplay {
 		display: none;
 	}
+}
+
+
+.carousel-inner .item img {
+	width: 1200px;
+	height: 500px;
+}
+
+.xp {
+	width: 600px;
+	height: 250px;
 }
