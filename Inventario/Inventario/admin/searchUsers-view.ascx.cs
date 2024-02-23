@@ -14,7 +14,7 @@ namespace Inventario.Inventario.admin.Actions
         MySql AdminView = new MySql();
         Functions Funciones = new Functions();
         private int numeropaginas = 0, paginaas = 1, r1 = 0, r2 = 0, r3 = 0, encontrados =0, inicio = 0;
-        string aler = "", consulta = "", mens = "", busqueda="",rol="";
+        string aler = "", consulta = "", mens = "", busqueda="",rol="", tipo="";
         public int inicializacion
         {
             set { inicio = value; }
@@ -50,6 +50,11 @@ namespace Inventario.Inventario.admin.Actions
         {
             set { aler = value; }
             get { return aler; }
+        }
+        public string tipoBusqueda
+        {
+            set { tipo = value; }
+            get { return tipo; }
         }
         public string query
         {
@@ -90,7 +95,7 @@ namespace Inventario.Inventario.admin.Actions
             }
             string[] orderby = { "c.nombre_completo", "c.email_cliente", "c.Fecha_creacion", "e.Nombre" };
             string ordenamuestra = orderby[0];
-            string tipo = Request.QueryString["admin"] ?? Request.QueryString["mecanico"] ?? Request.QueryString["almacenista"] ?? "";
+            tipo = Request.QueryString["admin"] ?? Request.QueryString["mecanico"] ?? Request.QueryString["almacenista"] ?? "";
             string roles = Request.QueryString["admin"] != null ? "admin" : Request.QueryString["mecanico"] != null ? "mecanico" : Request.QueryString["almacenista"] != null ? "almacenista" : "";
             rol = roles;
             if (tipo!= null && tipo!= "")

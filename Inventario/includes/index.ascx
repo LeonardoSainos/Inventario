@@ -16,7 +16,7 @@
                 <html>
                 <head>
                     <uc:Links runat="server"/>
-                    <meta charset="UTF8" />
+                 
                     <title>Alcomex soporte técnico</title>
                     <link rel="icon" href="favicon.png">              
                  </head>
@@ -131,7 +131,7 @@
                         <html>
                             <head>
                                 <uc:Links runat="server"/>
-                                 <meta charset="UTF8"/>
+                               
                                  <title>Alcomex soporte técnico</title>
                                 <link rel="icon" href="favicon.png">
                             </head>

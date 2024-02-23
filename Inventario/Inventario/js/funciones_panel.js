@@ -67,29 +67,61 @@ function BuscarUsuario(pagina) {
     }
     $.get(URL, function (datos) {
         $("#contenido").html(datos);
+
     });
 }
 
-function FiltroUsers(ordenador) {
+function FiltroUsers(ordenador,pagina) {
     var URL;
     if (typeof ordenador === 'undefined') {
         ordenador = 'Nombre'
     }
-    var URL = "./admin.aspx?view=searchUsers&" + $("#rol").val() + "=" + ordenador;
-    alert(URL);
+    if (typeof pagina === 'undefined') {
+        pagina = 1;
+    }
+
+    if (pagina <= 1) {
+         URL = "./admin.aspx?view=searchUsers&" + $("#rol").val() + "=" + ordenador;
+    }
+    else if (pagina > 1) {
+          URL = "./admin.aspx?view=searchUsers&" + $("#rol").val() + "=" + ordenador + "&pagina=" + pagina;
+    }
+    
+   
     $.get(URL, function (datos) {
         $("#contenido").html(datos);
+        ValidaId();
     });
 }
- 
+function ValidaId() {
+    var retrocrede = document.getElementById("retrocede");
+    var incremento = document.getElementById("incremento");
+    var paginador = document.getElementById("paginador");
+    var paginador2 = document.getElementById("paginador2");
+    // Verificar si el elemento existe
+    if (retrocrede) {
+        retrocrede.id = "retrocedeOrder";
+    }
+    if (incremento) {
+        incremento.id = "incrementoOrder";
+    }
+    if (paginador) {
+        paginador.id = "paginadorOrder";
+    }
+    if (paginador2) {
+        paginador2.id = "paginadorOrder2";
+    }
+}
 
+function PaginaActual() {
+    var pagina = document.getElementById("paginaActual").value;
+    return pagina;
+}
 $(document).ready(function () {
- 
     //// BUSCAR USUARIO
     $(document).on("click", "#mt", function () {
         BuscarUsuario();
     });
-
     // ORDENAR POR NOMBRE
     $(document).on("click", "#nombree", function () {
         FiltroUsers();
@@ -114,45 +146,98 @@ $(document).ready(function () {
     // ORDENAR POR ESTATUS
     $(document).on("click", "#estatuss", function () {
         FiltroUsers('Estatus');
+        
     });
     $("#estatuss").click(function () {
         FiltroUsers('Estatus');
+    });   
+    //PAGINADOR BUSCAR
+   /* $(document).on("click", "#paginador", function () {
+        var num = parseInt($(this).text()); // Convertir el texto a un número entero
+        //console.log(num);
+        BuscarUsuario(num);
+    });*/
+    //PAGINADOR 2 BUSCAR
+    $(document).on("click", "[id^='paginador']", function () {
+        var num = parseInt($(this).text()); // Convertir el texto a un número entero
+       // console.log(num);
+        BuscarUsuario(num);
+    });
+    //PAGINADOR FILTRO pendiente sabado 2:04 pm
+    /*$(document).on("click", "#paginadorOrder", function () {
+        var num = parseInt($(this).text()); // Convertir el texto a un número entero
+        var tipoOrden = document.getElementById("tipoBusqueda");
+        tipoOrden = tipoOrden.value;
+        //alert(num + tipoOrden);
+        FiltroUsers(tipoOrden,num);
+    });*/
+    //PAGINADOR 2 FILTRO
+    $(document).on("click", "[id^='paginadorOrder']", function () {
+        var num = parseInt($(this).text()); // Convertir el texto a un número entero
+        var tipoOrden = document.getElementById("tipoBusqueda");
+        tipoOrden = tipoOrden.value;
+        //alert(num + tipoOrden);
+        FiltroUsers(tipoOrden,num);
+    });
+
+
+    // INCREMENTOS 
+    $("#retrocede").click(function () {
+        var pagina = document.getElementById("paginaActual").value;
+         
+        BuscarUsuario(pagina-1);
+    });
+    $(document).on("click", "#retrocede", function () {
+        var pagina = document.getElementById("paginaActual").value;
+        pagina = parseInt(pagina);
+        BuscarUsuario(pagina - 1);
     });
     
-    //PAGINADOR BUSCAR
-    $(document).on("click", "#paginador", function () {
-        var num = parseInt($(this).text()); // Convertir el texto a un número entero
-        console.log(num);
-        BuscarUsuario(num);
+    $("#incremento").click(function () {
+        var pagina = document.getElementById("paginaActual").value;
+        pagina = parseInt(pagina);
+        BuscarUsuario(pagina+1);
     });
-    //PAGINADOR 2 BUSCAR
-    $(document).on("click", "#paginador2", function () {
-        var num = parseInt($(this).text()); // Convertir el texto a un número entero
-        console.log(num);
-        BuscarUsuario(num);
+    $(document).on("click", "#incremento", function () {
+        var pagina = document.getElementById("paginaActual").value;
+        pagina = parseInt(pagina);
+        BuscarUsuario(pagina + 1);
     });
 
-
-    //PAGINADOR FILTRO
-    $(document).on("click", "#paginador", function () {
-        var num = parseInt($(this).text()); // Convertir el texto a un número entero
-        console.log(num);
-        BuscarUsuario(num);
+    //INCREMENTOS ORDER 
+    $("#retrocedeOrder").click(function () {
+        var pagina = document.getElementById("paginaActual").value;
+        pagina = parseInt(pagina);
+        var tipoBusqueda = document.getElementById("tipoBusqueda").value;
+        FiltroUsers(tipoBusqueda, pagina-1);
+       
     });
-    //PAGINADOR 2 FILTRO
-    $(document).on("click", "#paginador2", function () {
-        var num = parseInt($(this).text()); // Convertir el texto a un número entero
-        console.log(num);
-        BuscarUsuario(num);
+    $(document).on("click", "#retrocedeOrder", function () {
+        var pagina = document.getElementById("paginaActual").value;
+        pagina = parseInt(pagina);
+        var tipoBusqueda = document.getElementById("tipoBusqueda").value;
+        FiltroUsers(tipoBusqueda, pagina - 1);
+
+    });
+    $("#incrementoOrder").click(function () {
+        var pagina = document.getElementById("paginaActual").value;
+        pagina = parseInt(pagina);
+        var tipoBusqueda = document.getElementById("tipoBusqueda").value;
+        FiltroUsers(tipoBusqueda, pagina+1);
+    });
+    $(document).on("click", "#incrementoOrder", function () {
+        var pagina = document.getElementById("paginaActual").value;
+        pagina = parseInt(pagina);
+        var tipoBusqueda = document.getElementById("tipoBusqueda").value;
+        FiltroUsers(tipoBusqueda, pagina + 1);
     });
 
+    // Carousel
     $(document).ready(function () {
         $("#carousel-example-generic").carousel({
             interval: 2500,
         });
     });
-
-
     ////////////////////////////////////////// FUNCIONES PARA VALIDAR ADMIN 
     $("#input_user").keyup(function () {
         $.ajax({
@@ -186,7 +271,7 @@ $(document).ready(function () {
     $(".dropdown-menu").on("click", function (e) {
         e.stopPropagation();
     });
-    $(".inventario").click(function (e) {
+    $(".inventario").click(function(e) {
         e.preventDefault();
         $(".principal, .secundario, .terciario").removeClass("show");
     });

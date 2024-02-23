@@ -579,4 +579,3 @@ C:\Users\Administrator\source\repos\Inventario-Enero2024\Inventario\obj\Debug\In
 C:\Users\Administrator\source\repos\Inventario-Enero2024\Inventario\obj\Debug\Inventario.csproj.CopyComplete
 C:\Users\Administrator\source\repos\Inventario-Enero2024\Inventario\obj\Debug\Inventario.dll
 C:\Users\Administrator\source\repos\Inventario-Enero2024\Inventario\obj\Debug\Inventario.pdb
-C:\Users\Administrator\source\repos\Inventario-Enero2024\Inventario\obj\Debug\Inventario.csproj.AssemblyReference.cache

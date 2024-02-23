@@ -146,12 +146,12 @@
               <%}
                   for(i=1; i<=numPagina; i++)
                   {
-         
-                        if (pagina == i){
+
+                      if (pagina == i) {
                           Response.Write("<li class='active'><a id='paginador' href='javascript:void();' type='submit'>" + i + "</a></li>");
-                        }
+                      }
                       else {
-                          Response.Write("<li><a id='paginador2'  href='javascript:void();' type='submit'>" + i + "</a></li>");
+                          Response.Write("<li><a id='paginador" + i +  "'  href='javascript:void();' type='submit'>" + i + "</a></li>");
                       }
                   }
                   if(pagina == numPagina) {%>
@@ -176,6 +176,9 @@
 <%} %>
 </div>     
     </div>
+<input type="hidden" value ="<%=tipoBusqueda %>" id="tipoBusqueda" />
+<input type="hidden" value ="<%=pagina %>" id="paginaActual" />
+ 
   <uc:DeleteUser runat="server" />
   <uc:InsertUser runat="server" />
 <script>
@@ -234,14 +237,6 @@
              }
              default: "Ninguno";
          }
-     }
-  
-        $("#retrocede").click(function () {
-            BuscarUsuario(<%=(pagina-1) %>);
-});
-
-$("#incremento").click(function() {
-    BuscarUsuario(<%=(pagina+1) %>);
-}); 
-     
+    }
+       
 </script>

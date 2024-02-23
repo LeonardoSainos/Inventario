@@ -3,14 +3,10 @@
 <%@ Import Namespace="System.Web"%>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
-<%  object idObject = Session["rol"];
-    if (idObject != null && idObject is int)
+<%  int idObject= Convert.ToInt32(Session["rol"]);
+    if (idObject!=4046)
     {
-        int id = (int)idObject;
-        if (id != 4046)
-        {
             HttpContext.Current.Response.Redirect("~/Inventario/process/logout.aspx");
-        }
     }
        
     string nombre = Session["Nombre"] as string;
@@ -27,7 +23,7 @@
                                 <html>
                                 <head>
                                     <uc:Links runat="server"/>
-                                    <meta charset="UTF8" />
+                                   
                                     <title>Administración</title>
                                     <link rel="icon" href="favicon.png">              
                                  </head>
@@ -86,7 +82,7 @@
                      <!DOCTYPE html>
                                 <html>
                                 <head>
-                                    <meta charset="UTF8" />
+                                   
                                     <title>Administración</title>
                                  </head>
                                 <body>
