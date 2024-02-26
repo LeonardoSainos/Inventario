@@ -111,12 +111,12 @@
     <RowStyle />
     <SelectedRowStyle Font-Bold="True" ForeColor="Navy" />  
 </asp:GridView>
-    <asp:Button ID="btnBloquear" runat="server" form="mostrar" Style="display:none;" OnClick="btnBloquear_Click" />
-     <asp:Button ID="btnDesbloquear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnDesbloquear_Click" />
-     <asp:Button ID="btnResetear" runat="server"  form="mostrar" Style="display:none;" OnClick="btnResetear_Click" />
-      <asp:Button ID="btnEliminar" runat="server"  form="mostrar" Style="display:none;" OnClick="btnEliminar_Click" />
-       <asp:Button ID="btnPdf" runat="server"  form="mostrar" Style="display:none;" Onclick="btnPdf_Click" />
-       <asp:Button ID="btnExcel" runat="server"  form="mostrar" Style="display:none;" OnClick="btnExcel_Click"  />
+  <asp:Button   runat="server"  form="mostrar" Style="display:none;" OnClick="btnBloquear_Click" CssClass="btnBloquearClass" />
+ <asp:Button   runat="server"  form="mostrar" Style="display:none;" OnClick="btnDesbloquear_Click" CssClass="btnDesbloquearClass" />
+     <asp:Button   runat="server"  form="mostrar" Style="display:none;" OnClick="btnResetear_Click" CssClass="btnResetearClass" />
+      <asp:Button   runat="server"  form="mostrar" Style="display:none;" OnClick="btnEliminar_Click" CssClass="btnEliminarClass" />
+       <asp:Button   runat="server"  form="mostrar" Style="display:none;" Onclick="btnPdf_Click"  CssClass="btnPdfClass" />
+       <asp:Button ID="btnExcel" runat="server"  form="mostrar" Style="display:none;" OnClick="btnExcel_Click" CssClass="btnExcelClass" />
         <button id="btnNuevo" type="button" style="display:none;" data-toggle='modal' data-target='#modal1'></button>
 </form>
                    </div>
@@ -169,69 +169,8 @@
     </nav>
 <%} %>
 </div>     
-    </div>
-
-      
-  <uc:DeleteUser runat="server" />
-  <uc:InsertUser runat="server" />
-<script>   
-    
-    function ActivarBoton(opcion) {
-        // Activar el botón dentro del formulario
-        switch (opcion) {
-            case "Bloquear": {
-                var boton = document.getElementById("<%= btnBloquear.ClientID %>");
-                if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Desbloquear": {
-                var boton = document.getElementById("<%= btnDesbloquear.ClientID %>");
-                if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Resetear": {
-                var boton = document.getElementById("<%= btnResetear.ClientID %>");
-                if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Eliminar": {
-                var boton = document.getElementById("<%= btnEliminar.ClientID %>");
-                if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Nuevo": {
-                var boton = document.getElementById("btnNuevo");
-                if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Pdf": {
-                var boton = document.getElementById("<%= btnPdf.ClientID %>");
-                  if (boton) {
-                    boton.click();
-                }
-                break;
-            }
-            case "Excel": {
-                 var boton = document.getElementById("<%= btnExcel.ClientID %>");
-                 if (boton) {
-                     boton.click();
-                 }
-                 break;
-             }
-             default: "Ninguno";
-         }
-    }
-
-    
-</script>
+    </div>      
+<uc:DeleteUser runat="server" />
+<uc:InsertUser runat="server" />
+ 
  

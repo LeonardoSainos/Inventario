@@ -456,7 +456,7 @@ namespace Inventario.Inventario.admin.Actions
             string consulta = $" SELECT * FROM OPENQUERY({AdminView.LinkedServer}, 'SELECT c.Anydesk,c.id_cliente, c.fecha_creacion, c.nombre_completo, c.email_cliente, c.telefono_celular, c.nombre_usuario, d.nombre as Depa,r.Nombre as Rol, e.Nombre as Esta FROM cliente c INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r on c.id_rol = r.idRol WHERE c.id_rol = {rol} ORDER BY c.nombre_completo')";
             Tuple<List<object[]>, int> exportPdf = AdminView.Consulta(ref mens, consulta);
             List<object[]> totalExport = exportPdf.Item1;
-                string html = $@"<!DOCTYPE html>  
+            string html = $@"<!DOCTYPE html>  
     <html lang='es'> 
     <head>      
     <meta charset='UTF-8' />

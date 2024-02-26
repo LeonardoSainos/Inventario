@@ -52,7 +52,67 @@ var loadFile = function(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
 };
-
+function ActivarBoton(opcion) {
+    // Activar el botón dentro del formulario
+    switch (opcion) {
+        case "Bloquear": {
+            var boton = document.querySelector('.btnBloquearClass');
+            alert(boton);
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Desbloquear": {
+            var boton = document.querySelector('.btnDesbloquearClass');
+            alert(boton);
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Resetear": {
+            var boton = document.querySelector('.btnResetearClass');
+            alert(boton);
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Eliminar": {
+            var boton = document.querySelector('.btnEliminarClass');
+            alert(boton);
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Nuevo": {
+            var boton = document.getElementById("btnNuevo");
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Pdf": {
+            var boton = document.querySelector('.btnPdfClass');
+            alert(boton);
+            if (boton) {
+                boton.click();
+            }
+            break;
+        }
+        case "Excel": {
+            var boton = document.querySelector('.btnExcelClass');
+            alert(boton);
+            if (boton){
+                boton.click();
+            }
+            break;
+        }
+        default: "Ninguno";
+    }
+}
 function BuscarUsuario(pagina) {
     var URL; // Declara la variable URL aquí
     // Verifica si se proporcionó un valor para el parámetro pagina
@@ -96,21 +156,15 @@ function FiltroUsers(ordenador,pagina) {
 function ValidaId() {
     var retrocrede = document.getElementById("retrocede");
     var incremento = document.getElementById("incremento");
-    var paginador = document.getElementById("paginador");
-    var paginador2 = document.getElementById("paginador2");
+   
+
     // Verificar si el elemento existe
     if (retrocrede) {
         retrocrede.id = "retrocedeOrder";
     }
     if (incremento) {
         incremento.id = "incrementoOrder";
-    }
-    if (paginador) {
-        paginador.id = "paginadorOrder";
-    }
-    if (paginador2) {
-        paginador2.id = "paginadorOrder2";
-    }
+    }   
 }
 
 function PaginaActual() {
@@ -151,40 +205,31 @@ $(document).ready(function () {
     $("#estatuss").click(function () {
         FiltroUsers('Estatus');
     });   
-    //PAGINADOR BUSCAR
-   /* $(document).on("click", "#paginador", function () {
-        var num = parseInt($(this).text()); // Convertir el texto a un número entero
-        //console.log(num);
-        BuscarUsuario(num);
-    });*/
     //PAGINADOR 2 BUSCAR
-    $(document).on("click", "[id^='paginador']", function () {
+   /* $(document).on("click", "[id^='paginador']", function () {
         var num = parseInt($(this).text()); // Convertir el texto a un número entero
        // console.log(num);
-        BuscarUsuario(num);
-    });
-    //PAGINADOR FILTRO pendiente sabado 2:04 pm
-    /*$(document).on("click", "#paginadorOrder", function () {
-        var num = parseInt($(this).text()); // Convertir el texto a un número entero
-        var tipoOrden = document.getElementById("tipoBusqueda");
-        tipoOrden = tipoOrden.value;
-        //alert(num + tipoOrden);
-        FiltroUsers(tipoOrden,num);
+      
     });*/
+   
     //PAGINADOR 2 FILTRO
-    $(document).on("click", "[id^='paginadorOrder']", function () {
+    $(document).on("click", "[id^='paginador']", function () {
         var num = parseInt($(this).text()); // Convertir el texto a un número entero
         var tipoOrden = document.getElementById("tipoBusqueda");
         tipoOrden = tipoOrden.value;
-        //alert(num + tipoOrden);
-        FiltroUsers(tipoOrden,num);
+        if ($("#busqueda").val() == null || $("#busqueda").val() == "") {
+
+            //alert(num + tipoOrden);
+            FiltroUsers(tipoOrden, num);
+        }
+        else {
+            BuscarUsuario(num);
+        }
+       
     });
-
-
     // INCREMENTOS 
     $("#retrocede").click(function () {
         var pagina = document.getElementById("paginaActual").value;
-         
         BuscarUsuario(pagina-1);
     });
     $(document).on("click", "#retrocede", function () {
@@ -232,7 +277,7 @@ $(document).ready(function () {
         FiltroUsers(tipoBusqueda, pagina + 1);
     });
 
-    // Carousel
+    // /////////////////////////////////Carousel
     $(document).ready(function () {
         $("#carousel-example-generic").carousel({
             interval: 2500,
