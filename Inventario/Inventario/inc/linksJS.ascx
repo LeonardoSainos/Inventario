@@ -9,6 +9,7 @@
 <script src="/Inventario/js/jquery.metisMenu.js"></script>
    <!-- CUSTOM SCRIPTS -->
 <script src="/Inventario/js/custom.js"></script>
+<script type="text/javascript" src="/Inventario/js/ActionsUsersAdmin.js"></script>
 <script type="text/javascript" src="/Inventario/js/funciones_panel.js"></script> 
 <script src="/Inventario/js/scripts.js"></script>
 

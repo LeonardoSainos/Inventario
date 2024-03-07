@@ -76,10 +76,10 @@
                                             <li>
                                                  <a href="#"><i class="fa fa-bus" aria-hidden="true"></i>  <span class="fa arrow" ></span> Vehiculos </a>
                                                  <ul class="nav nav-second-level">
-                                                     <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i>Todos los vehiculos</a></li>
-                                                     <li><a href="#"><i class="fa fa-car" aria-hidden="true"></i>Modelo de vehiculos</a></li>
-                                                     <li><a href="#"><i class="fa fa-taxi" aria-hidden="true"></i>Tipo de vehiculos</a></li>
-                                                     <li><a href="#"><i class="fa fa-ambulance" aria-hidden="true"></i>Marcas</a></li>
+                                                     <li><a href="../../admin.aspx?view=Vehiculos/cars"><i class="fa fa-globe" aria-hidden="true"></i>Todos los vehiculos</a></li>
+                                                     <li><a href="../../admin.aspx?view=ModeloVehiculos/models"><i class="fa fa-car" aria-hidden="true"></i>Modelo de vehiculos</a></li>
+                                                     <li><a href="../../admin.aspx?view=TipoVehiculos/types"><i class="fa fa-taxi" aria-hidden="true"></i>Tipo de vehiculos</a></li>
+                                                     <li><a href="../../admin.aspx?view=Marcas/brands"><i class="fa fa-ambulance" aria-hidden="true"></i>Marcas</a></li>
                                                  </ul>
                                             </li>
                                          

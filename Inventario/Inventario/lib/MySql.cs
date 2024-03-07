@@ -10,10 +10,11 @@ using System.Configuration;
 
 namespace Inventario.Scripts
 {
-     class MySql
-    {
-      public System.Data.DataRowCollection Rows { get; }
 
+  
+    public class MySql
+    {
+       public System.Data.DataRowCollection Rows { get; }
         private string Base = ConfigurationManager.AppSettings["BD"];
         private string dirección = ConfigurationManager.AppSettings["SERVER"];         
         private string server = ConfigurationManager.AppSettings["LINKEDSERVER"];
@@ -28,7 +29,16 @@ namespace Inventario.Scripts
          get { return server; }
 
         }
-        public SqlConnection Conectar(ref String cad)
+        // Constructor
+        public MySql()
+        {   Base = ConfigurationManager.AppSettings["BD"];
+            dirección = ConfigurationManager.AppSettings["SERVER"];
+            server = ConfigurationManager.AppSettings["LINKEDSERVER"];        
+       
+        }
+
+
+    public SqlConnection Conectar(ref String cad)
         {
             SqlConnection conexion = new SqlConnection();
             conexion.ConnectionString = "data source=" + ServidorSQL + "; Initial Catalog=" + BD + "; Integrated security=true";
@@ -112,7 +122,7 @@ namespace Inventario.Scripts
             }
             return conexion;
         }
-        public bool Insertar(String tabla,string server, string campos, string valores, ref String mensaje)
+        public virtual bool Insertar(String tabla,string server, string campos, string valores, ref String mensaje)
         {
             string texto = "";
             SqlConnection conexion = Conectar(ref texto);
@@ -136,7 +146,7 @@ namespace Inventario.Scripts
                 return false;
             }
         }
-        public bool Actualizar(string server, String tabla, string campos, string condicion)
+        public virtual bool Actualizar(string server, String tabla, string campos, string condicion)
         {
             string texto = "";
             SqlConnection conexion = Conectar(ref texto);
@@ -160,7 +170,7 @@ namespace Inventario.Scripts
                 return false;
             }
         }
-        public void Eliminar(string server, string tabla, string condicion)
+        public virtual void Eliminar(string server, string tabla, string condicion)
         {
             string texto = "";
             SqlConnection conexion = Conectar(ref texto);
@@ -182,7 +192,7 @@ namespace Inventario.Scripts
                 texto = "ERROR : " + t.Message;
             }
         }
-        public bool ProcedimientoAlmacenado(string nombre, string server,string parametros)
+        public virtual bool ProcedimientoAlmacenado(string nombre, string server,string parametros)
         {
             string texto = "";
             SqlConnection conexion = Conectar(ref texto);

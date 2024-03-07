@@ -177,11 +177,13 @@
                                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-taxi" aria-hidden="true"></i>&nbsp;Tipo de vehiculos 
                                                  </a>
                                              </li>
+                                             <ul class="dropdown-menu">
                                               <li class="dropdown notdisplay">
-                                                 <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                 <a href="../../admin.aspx?view=Marcas/brands" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
                                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-ambulance" aria-hidden="true"></i>&nbsp;Marcas  
                                                  </a>
                                              </li>
+                                                 </ul>
                                          </ul>
                                      </li>
                        </li>

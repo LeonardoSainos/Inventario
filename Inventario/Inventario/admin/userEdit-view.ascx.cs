@@ -10,6 +10,7 @@ namespace Inventario.Inventario.admin
 {
     public partial class userEdit_view : System.Web.UI.UserControl
     {
+      
         MySql UpdateUser = new MySql();
         private string query = "", mens = "", alert = "";
         private string[] ValEs, ValR, ValDe;
@@ -175,8 +176,7 @@ namespace Inventario.Inventario.admin
                 string nombre_completo = Functions.RequestPost(Request.Form["nombre_completo"]);
                 nombre_completo = nombre_completo.ToUpper();
 
-
-                try
+                   try
                 {
 
 

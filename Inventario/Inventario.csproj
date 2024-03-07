@@ -286,13 +286,37 @@
     <Content Include="includes\index.ascx" />
     <Content Include="Inventario\admin-view.ascx" />
     <Content Include="Inventario\admin\Actions\Actions.aspx" />
+    <Content Include="Inventario\admin\Actions\ActionsBrands.aspx" />
+    <Content Include="Inventario\admin\Actions\ActionsCars.aspx" />
+    <Content Include="Inventario\admin\Actions\ActionsModels.aspx" />
+    <Content Include="Inventario\admin\Actions\ActionsTypes.aspx" />
+    <Content Include="Inventario\admin\Actions\AddBrands.ascx" />
+    <Content Include="Inventario\admin\Actions\AddCar.ascx" />
+    <Content Include="Inventario\admin\Actions\AddModels.ascx" />
+    <Content Include="Inventario\admin\Actions\AddTypes.ascx" />
     <Content Include="Inventario\admin\Actions\AddUser.ascx" />
+    <Content Include="Inventario\admin\Actions\DeleteBrand.ascx" />
+    <Content Include="Inventario\admin\Actions\DeleteCar.ascx" />
+    <Content Include="Inventario\admin\Actions\DeleteModels.ascx" />
+    <Content Include="Inventario\admin\Actions\DeleteTypes.ascx" />
+    <Content Include="Inventario\admin\almacenista-view.ascx" />
+    <Content Include="Inventario\admin\Marcas\brands-view.ascx" />
+    <Content Include="Inventario\admin\Marcas\brandsEdit-view.ascx" />
+    <Content Include="Inventario\admin\Marcas\searchBrands-view.ascx" />
+    <Content Include="Inventario\admin\mecanico-view.ascx" />
+    <Content Include="Inventario\admin\ModeloVehiculos\models-view.ascx" />
+    <Content Include="Inventario\admin\ModeloVehiculos\modelsEdit-view.ascx" />
+    <Content Include="Inventario\admin\ModeloVehiculos\searchModels-view.ascx" />
     <Content Include="Inventario\admin\searchUsers-view.ascx" />
     <Content Include="Inventario\admin\admin-view.ascx" />
-    <Content Include="Inventario\admin\almacenista-view.ascx" />
     <Content Include="Inventario\admin\Actions\DeleteUser.ascx" />
-    <Content Include="Inventario\admin\mecanico-view.ascx" />
+    <Content Include="Inventario\admin\TipoVehiculos\searchTypes-view.ascx" />
+    <Content Include="Inventario\admin\TipoVehiculos\typeEdit-view.ascx" />
+    <Content Include="Inventario\admin\TipoVehiculos\types-view.ascx" />
     <Content Include="Inventario\admin\userEdit-view.ascx" />
+    <Content Include="Inventario\admin\Vehiculos\searchCars-view.ascx" />
+    <Content Include="Inventario\admin\Vehiculos\cars-view.ascx" />
+    <Content Include="Inventario\admin\Vehiculos\carEdit-view.ascx" />
     <Content Include="Inventario\almacenista\almacen-view.ascx" />
     <Content Include="Inventario\assets\demo\chart-area-demo.js" />
     <Content Include="Inventario\assets\demo\chart-bar-demo.js" />
@@ -382,6 +406,7 @@
     <Content Include="Inventario\inc\links2.ascx" />
     <Content Include="Inventario\inc\linksJS.ascx" />
     <Content Include="Inventario\inc\linksJS2.ascx" />
+    <Content Include="Inventario\js\ActionsUsersAdmin.js" />
     <Content Include="Inventario\process\Login.ascx" />
     <Content Include="Inventario\inc\navbar.ascx" />
     <Content Include="Inventario\inc\navbar2.ascx" />
@@ -505,12 +530,152 @@
     <Compile Include="Inventario\admin\Actions\Actions.aspx.designer.cs">
       <DependentUpon>Actions.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Inventario\admin\Actions\ActionsBrands.aspx.cs">
+      <DependentUpon>ActionsBrands.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\ActionsBrands.aspx.designer.cs">
+      <DependentUpon>ActionsBrands.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\ActionsCars.aspx.cs">
+      <DependentUpon>ActionsCars.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\ActionsCars.aspx.designer.cs">
+      <DependentUpon>ActionsCars.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\ActionsModels.aspx.cs">
+      <DependentUpon>ActionsModels.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\ActionsModels.aspx.designer.cs">
+      <DependentUpon>ActionsModels.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\ActionsTypes.aspx.cs">
+      <DependentUpon>ActionsTypes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\ActionsTypes.aspx.designer.cs">
+      <DependentUpon>ActionsTypes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\AddBrands.ascx.cs">
+      <DependentUpon>AddBrands.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\AddBrands.ascx.designer.cs">
+      <DependentUpon>AddBrands.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\AddCar.ascx.cs">
+      <DependentUpon>AddCar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\AddCar.ascx.designer.cs">
+      <DependentUpon>AddCar.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\AddModels.ascx.cs">
+      <DependentUpon>AddModels.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\AddModels.ascx.designer.cs">
+      <DependentUpon>AddModels.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\AddTypes.ascx.cs">
+      <DependentUpon>AddTypes.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\AddTypes.ascx.designer.cs">
+      <DependentUpon>AddTypes.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Inventario\admin\Actions\AddUser.ascx.cs">
       <DependentUpon>AddUser.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Inventario\admin\Actions\AddUser.ascx.designer.cs">
       <DependentUpon>AddUser.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteBrand.ascx.cs">
+      <DependentUpon>DeleteBrand.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteBrand.ascx.designer.cs">
+      <DependentUpon>DeleteBrand.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteCar.ascx.cs">
+      <DependentUpon>DeleteCar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteCar.ascx.designer.cs">
+      <DependentUpon>DeleteCar.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteModels.ascx.cs">
+      <DependentUpon>DeleteModels.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteModels.ascx.designer.cs">
+      <DependentUpon>DeleteModels.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteTypes.ascx.cs">
+      <DependentUpon>DeleteTypes.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Actions\DeleteTypes.ascx.designer.cs">
+      <DependentUpon>DeleteTypes.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\almacenista-view.ascx.cs">
+      <DependentUpon>almacenista-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\almacenista-view.ascx.designer.cs">
+      <DependentUpon>almacenista-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Marcas\brands-view.ascx.cs">
+      <DependentUpon>brands-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Marcas\brands-view.ascx.designer.cs">
+      <DependentUpon>brands-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Marcas\brandsEdit-view.ascx.cs">
+      <DependentUpon>brandsEdit-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Marcas\brandsEdit-view.ascx.designer.cs">
+      <DependentUpon>brandsEdit-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Marcas\searchBrands-view.ascx.cs">
+      <DependentUpon>searchBrands-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Marcas\searchBrands-view.ascx.designer.cs">
+      <DependentUpon>searchBrands-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\mecanico-view.ascx.cs">
+      <DependentUpon>mecanico-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\mecanico-view.ascx.designer.cs">
+      <DependentUpon>mecanico-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\ModeloVehiculos\models-view.ascx.cs">
+      <DependentUpon>models-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\ModeloVehiculos\models-view.ascx.designer.cs">
+      <DependentUpon>models-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\ModeloVehiculos\modelsEdit-view.ascx.cs">
+      <DependentUpon>modelsEdit-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\ModeloVehiculos\modelsEdit-view.ascx.designer.cs">
+      <DependentUpon>modelsEdit-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\ModeloVehiculos\searchModels-view.ascx.cs">
+      <DependentUpon>searchModels-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\ModeloVehiculos\searchModels-view.ascx.designer.cs">
+      <DependentUpon>searchModels-view.ascx</DependentUpon>
     </Compile>
     <Compile Include="Inventario\admin\searchUsers-view.ascx.cs">
       <DependentUpon>searchUsers-view.ascx</DependentUpon>
@@ -526,13 +691,6 @@
     <Compile Include="Inventario\admin\admin-view.ascx.designer.cs">
       <DependentUpon>admin-view.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Inventario\admin\almacenista-view.ascx.cs">
-      <DependentUpon>almacenista-view.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Inventario\admin\almacenista-view.ascx.designer.cs">
-      <DependentUpon>almacenista-view.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Inventario\admin\Actions\DeleteUser.ascx.cs">
       <DependentUpon>DeleteUser.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -540,12 +698,26 @@
     <Compile Include="Inventario\admin\Actions\DeleteUser.ascx.designer.cs">
       <DependentUpon>DeleteUser.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Inventario\admin\mecanico-view.ascx.cs">
-      <DependentUpon>mecanico-view.ascx</DependentUpon>
+    <Compile Include="Inventario\admin\TipoVehiculos\searchTypes-view.ascx.cs">
+      <DependentUpon>searchTypes-view.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Inventario\admin\mecanico-view.ascx.designer.cs">
-      <DependentUpon>mecanico-view.ascx</DependentUpon>
+    <Compile Include="Inventario\admin\TipoVehiculos\searchTypes-view.ascx.designer.cs">
+      <DependentUpon>searchTypes-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\TipoVehiculos\typeEdit-view.ascx.cs">
+      <DependentUpon>typeEdit-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\TipoVehiculos\typeEdit-view.ascx.designer.cs">
+      <DependentUpon>typeEdit-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\TipoVehiculos\types-view.ascx.cs">
+      <DependentUpon>types-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\TipoVehiculos\types-view.ascx.designer.cs">
+      <DependentUpon>types-view.ascx</DependentUpon>
     </Compile>
     <Compile Include="Inventario\admin\userEdit-view.ascx.cs">
       <DependentUpon>userEdit-view.ascx</DependentUpon>
@@ -553,6 +725,27 @@
     </Compile>
     <Compile Include="Inventario\admin\userEdit-view.ascx.designer.cs">
       <DependentUpon>userEdit-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Vehiculos\searchCars-view.ascx.cs">
+      <DependentUpon>searchCars-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Vehiculos\searchCars-view.ascx.designer.cs">
+      <DependentUpon>searchCars-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Vehiculos\cars-view.ascx.cs">
+      <DependentUpon>cars-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Vehiculos\cars-view.ascx.designer.cs">
+      <DependentUpon>cars-view.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventario\admin\Vehiculos\carEdit-view.ascx.cs">
+      <DependentUpon>carEdit-view.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventario\admin\Vehiculos\carEdit-view.ascx.designer.cs">
+      <DependentUpon>carEdit-view.ascx</DependentUpon>
     </Compile>
     <Compile Include="Inventario\almacenista\almacen-view.ascx.cs">
       <DependentUpon>almacen-view.ascx</DependentUpon>
@@ -709,7 +902,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Inventario\lib\Pdf\" />
     <Folder Include="Inventario\sw\" />
     <Folder Include="Models\" />
   </ItemGroup>

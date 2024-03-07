@@ -7,17 +7,16 @@
     if (idObject!=4046)
     {
             HttpContext.Current.Response.Redirect("~/Inventario/process/logout.aspx");
-    }
-       
+    }   
     string nombre = Session["Nombre"] as string;
     string completoName = Session["nombre_completo"] as string;
-    string[] ViewDiferent = {"searchUsers","searchDepa","searchTicket","filterDepa","filterTicket","filterUsers" };
-    string[] WhiteList = {"ticketadmin" ,"interno","ticketedit","mecanico","admin","config","almacenista","depa","depaedit","userEdit","acciones" };
+    string[] ViewDiferent = {"searchUsers","searchDepa","searchTicket","searchBrands","searchModels","searchTypes","searchCars"};
+    string[] WhiteList = {"ticketadmin" ,"interno","ticketedit","mecanico","admin","config","almacenista","depa","depaedit","userEdit","acciones", "brands","brandsEdit","models","modelsEdit","types","typeEdit","cars","carEdit"};
     if (Request.QueryString["view"] != null && Session["id"] != null)
     {
         string content = Request.QueryString["view"];
-   
-        if ((content != null && WhiteList.Contains(content)) && System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))) {
+        string result = content.Substring(content.LastIndexOf('/') + 1);
+        if ((content != null && WhiteList.Contains(result)) && System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))) {
                %>
                  <!DOCTYPE html>
                                 <html>
@@ -48,23 +47,29 @@
                                         </div>                          
                                     </div>
                                         <div class="container">
-                                        <% switch (content) {
-                                                case "index": { %>  <uc:IndexView runat="server" /> <%
-                                                                break;
-                                                            }
+                                        <% switch (result) {
+                                                        case "index": { %>  <uc:IndexView runat="server" /> <%
+                                                            break;
+                                                                    }
                                                         case "admin": { %>  <uc:AdminView TipoRol="admin" runat="server" />  <%      
-                                                                 break;
+                                                             break;
                                                              }
                                                         case "almacenista": { %>  <uc:AdminView  TipoRol="almacenista" runat="server" />  <%      
-                                                                 break;
+                                                             break;
                                                              }
-                                                        case "mecanico": { %>  <uc:AdminView TipoRol="mecanico" runat="server" />  <%      
+                                                        case "mecanico": { %><uc:AdminView TipoRol="mecanico" runat="server" />  <%      
                                                               break;  }
-                                                        case "userEdit": { %>   <uc:UserEditAdmin runat="server" /> <% 
+                                                        case "userEdit": { %> <uc:UserEditAdmin runat="server" /> <% 
                                                             break; }
-                                                        
-
-                                                         default:  %> <script> window.history.go(-1); </script> <% 
+                                                        case "brands" : { %> <uc:AdminBrandView runat="server" /> <%
+                                                            break; }
+                                                        case "models": { %> <uc:AdminModelView runat="server" /> <%
+                                                            break; }
+                                                        case "types": { %> <uc:AdminTypeView runat="server" /> <% 
+                                                            break; }
+                                                        case "cars": { %> <uc:AdminCarView runat="server" /> <% 
+                                                               break;      }
+                                                        default:  %> <script> window.history.go(-1); </script> <% 
                                                                break;
                                                            }
                                             %>
@@ -77,24 +82,33 @@
                                 </html>
                <%
                        }
-                       else if ((content != null && ViewDiferent.Contains(content)) &&  System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))){
+                       else if ((content != null && ViewDiferent.Contains(result)) &&  System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))){
                        %>
                      <!DOCTYPE html>
                                 <html>
                                 <head>
-                                   
                                     <title>Administración</title>
                                  </head>
                                 <body>
-                                  
                                     <div class="container">
                                            <% 
-                                               switch(content){
+                                               switch(result){
                                                   
-                                                     case "searchUsers": { %>       <uc:SearchUsers  runat="server" />  <%
+                                                     case "searchUsers": { %> <uc:SearchUsers  runat="server" />  <%
                                                         break;
                                                      }
-
+                                                     case "searchBrands": { %> <uc:SearchBrandsAdmin runat="server" /> <% 
+                                                        break;
+                                                     }
+                                                     case "searchModels": { %> <uc:SearchModelsAdmin runat="server" /> <% 
+                                                       break;
+                                                     }
+                                                     case "searchTypes": { %> <uc:SearchTypesAdmin runat="server" /> <%
+                                                       break;
+                                                     }
+                                                     case "searchCars": { %> <uc:SearchCarsAdmin runat="server" /> <%
+                                                       break;
+                                                     }
                                                 default:
                                                 %> <script> window.history.go(-1);</script> <% 
                                                         break;
