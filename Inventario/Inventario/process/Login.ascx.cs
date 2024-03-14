@@ -76,6 +76,7 @@ namespace Inventario.Inventario.inc
                                 Session["estatus"] = row10;
                                 Session["anydesk"] = row11;
                                 Response.Redirect("index.aspx?view=index");
+                               
                             }
                             else
                             {
@@ -170,8 +171,42 @@ namespace Inventario.Inventario.inc
                                 Session["fecha"] = row9;
                                 Session["estatus"] = row10;
                                 Session["anydesk"] = row11;
+
+                                // Obtener el ID del usuario de la base de datos u otra fuente de datos
+                                int userId = Convert.ToInt32(Session["id"]);
+                                HttpCookie userIdCookie = new HttpCookie("UserId");
+                                userIdCookie.Value = userId.ToString();
+                                userIdCookie.Expires = DateTime.Now.AddHours(1); // Expira en 1 hora
+                                Response.Cookies.Add(userIdCookie);
+
+
+
+                                int RolId = Convert.ToInt32(Session["rol"]);
+                                HttpCookie rolcookie = new HttpCookie("RolId");
+                                rolcookie.Value = RolId.ToString();
+                                rolcookie.Expires = DateTime.Now.AddHours(1); // Expira 
+                                Response.Cookies.Add(rolcookie);
+
+
+                                string completo = Convert.ToString(Session["nombre_completo"]);
+                                HttpCookie completoCookie = new HttpCookie("CompletoName");
+                                completoCookie.Value = completo;
+                                completoCookie.Expires = DateTime.Now.AddHours(1);
+                                Response.Cookies.Add(completoCookie);
+
+
+                                string username = Convert.ToString(Session["nombre"]);
+                                HttpCookie nameCookie = new HttpCookie("UserName");
+                                nameCookie.Value = username;
+                                nameCookie.Expires = DateTime.Now.AddHours(1);
+                                Response.Cookies.Add(nameCookie);
+
+                                string emailUser = Convert.ToString(Session["email"]);
+                                HttpCookie emailCookie = new HttpCookie("Email");
+                                emailCookie.Value = emailUser;
+                                emailCookie.Expires = DateTime.Now.AddHours(1);
+                                Response.Cookies.Add(emailCookie);
                                 // Paral impiar radiobutton se usa rblLogin.SelectedIndex = -1;
-                                Response.Write(@"<script> alert('Usuario valido');</script>");
                                 Response.Redirect("index.aspx?view=index");
                             }
                             else

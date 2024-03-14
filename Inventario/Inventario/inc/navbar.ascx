@@ -3,11 +3,18 @@
 <%@ Import Namespace="System.Web" %>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
-<% if(Request.Form["nombre_login"] != null && Request.Form["contrasena_login"] != null) { %>
-    <%@ Import Namespace="System.Web" %>
-
-    <%// Server.Execute("~/process/login.aspx"); %><% } %> 
-
+<%
+     string nombreCompleto = Session["nombre"] as string;
+    HttpCookie userIdCookie = Request.Cookies["UserId"];
+    HttpCookie rolCookie = Request.Cookies["RolId"];
+    HttpCookie emailCookie = Request.Cookies["Email"];
+    HttpCookie userCookie = Request.Cookies["UserName"];
+    HttpCookie fullnameCookie = Request.Cookies["CompletoName"];
+    string rolC = ""; 
+       nombreCompleto = (!string.IsNullOrEmpty(nombreCompleto)) ? nombreCompleto : 
+                        (userCookie!= null && !string.IsNullOrEmpty(userCookie.Value)) ? userCookie.Value : 
+                        string.Empty;
+%>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -22,15 +29,17 @@
 </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"  >
-            <% if(Session["rol"] != null && Session["nombre"] != null) { %>
+            <% if((Session["rol"] != null || rolCookie!=null) && (Session["nombre"] != null || userCookie!=null)) { %>
             <ul class="nav navbar-nav navbar-right" >
                 <li class="dropdown" id="main">
                     <a id="expanded" href="#"  class="dropdown-toggle nombre" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-user"></span> &nbsp; <%= Session["nombre"] %><b class="caret"></b>
+                        <span class="glyphicon glyphicon-user"></span> &nbsp; <%= nombreCompleto %><b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- usuarios -->
-                        <% if(Session["rol"].ToString() == "2736") { %>
+                        <% rolC = Convert.ToString(rolCookie.Value);
+
+                            if(Session["rol"]?.ToString() == "2736" || rolC=="2736") { %>
                         <li>
                             <a href="./index.php?view=configuracion"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Configuración</a>
                         </li> 
@@ -39,7 +48,7 @@
                         </li>
                             <% } %>
                         <!-- tecnico -->
-                            <% if(Session["rol"].ToString() == "7845") { %>
+                            <% if(Session["rol"]?.ToString() == "7845" || rolC=="7845") { %>
                         <li>
                             <a href="tecni.php?view=ticketTecni"><span class="glyphicon glyphicon-envelope"></span> &nbsp; Tus Tickets</a>
                         </li>
@@ -52,7 +61,9 @@
 
                             <% } %>
                          <!-- admins -->
-                    <% if(Session["rol"].ToString() == "4046") { %>
+
+                    <% 
+                        if(Session["rol"]?.ToString() == "4046" || rolC == "4046") { %>
                  
                                     <!-- Configuracion  -->
                                     <li class="dropdown notdisplay" >
@@ -203,7 +214,7 @@
                 <li> 
                     <a href="http://192.168.11.5:8888/TicketAlcomex/Ticket/index.php?view=ticket"><span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;Soporte técnico</a>
                 </li>
-                    <% if(Session["rol"] == null || Session["nombre"] == null) { %>
+                    <% if((Session["rol"] == null || Session["nombre"] == null) && (rolCookie== null || userCookie==null) ) { %>
                 <li>
                     <a href="./index.php?view=registro"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Registro</a>
                 </li>
@@ -215,7 +226,7 @@
         </div>
     </div>
   </nav>
-          <% if (Session["rol"] == null || Session["nombre"] == null){ %>
+          <% if ((Session["rol"] == null || Session["nombre"] == null) && (rolCookie==null || userCookie==null)){ %>
                     <uc:Login runat="server" /><%}
           %>
                   

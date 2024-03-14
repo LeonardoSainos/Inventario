@@ -3,20 +3,7 @@
 <%@ Import Namespace="System.Web"%>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
-<%  int idObject= Convert.ToInt32(Session["rol"]);
-    if (idObject!=4046)
-    {
-            HttpContext.Current.Response.Redirect("~/Inventario/process/logout.aspx");
-    }   
-    string nombre = Session["Nombre"] as string;
-    string completoName = Session["nombre_completo"] as string;
-    string[] ViewDiferent = {"searchUsers","searchDepa","searchTicket","searchBrands","searchModels","searchTypes","searchCars"};
-    string[] WhiteList = {"ticketadmin" ,"interno","ticketedit","mecanico","admin","config","almacenista","depa","depaedit","userEdit","acciones", "brands","brandsEdit","models","modelsEdit","types","typeEdit","cars","carEdit"};
-    if (Request.QueryString["view"] != null && Session["id"] != null)
-    {
-        string content = Request.QueryString["view"];
-        string result = content.Substring(content.LastIndexOf('/') + 1);
-        if ((content != null && WhiteList.Contains(result)) && System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))) {
+<%  if ((content != null && WhiteList.Contains(result)) && System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + lastVisitedUrl + "-view.ascx"))) {
                %>
                  <!DOCTYPE html>
                                 <html>
@@ -155,5 +142,5 @@
                             </body>
                         </html>
          <% }
-    }
+    
 %>                                                

@@ -45,6 +45,27 @@ var loadFile = function(event) {
 };
 
 
+function ModificaUrl() {
+    let currentUrl = window.location.href;
+
+    if (currentUrl.includes("TipoVehiculos/")) {
+        var newUrl = currentUrl.replace("TipoVehiculos/", "");
+        window.history.replaceState({}, document.title, newUrl);
+    } else if (currentUrl.includes("Marcas/")) {
+        var newUrl = currentUrl.replace("Marcas/", "");
+        window.history.replaceState({}, document.title, newUrl);
+    } else if (currentUrl.includes("ModeloVehiculos/")) {
+        var newUrl = currentUrl.replace("ModeloVehiculos/", "");
+        window.history.replaceState({}, document.title, newUrl);
+    } else if (currentUrl.includes("Vehiculos/")) {
+        var newUrl = currentUrl.replace("Vehiculos/", "");
+        window.history.replaceState({}, document.title, newUrl);
+    } else {
+        console.log("URL no modificada:", currentUrl);
+    }
+}
+
+
 
 function PaginaActual() {
     var pagina = document.getElementById("paginaActual").value;
@@ -52,11 +73,14 @@ function PaginaActual() {
 }
 $(document).ready(function () {
     // /////////////////////////////////Carousel
+
+    ModificaUrl();
+
     
         $("#carousel-example-generic").carousel({
             interval: 2500,
         });
-   
+    
     ////////////////////////////////////////// FUNCIONES PARA VALIDAR ADMIN 
     $("#input_user").keyup(function () {
         $.ajax({

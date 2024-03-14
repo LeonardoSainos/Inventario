@@ -4,7 +4,16 @@
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
 
-<%  string completoName = Session["nombre_completo"] as string; %> 
+<%  string nombreCompleto = Session["nombre_completo"] as string;
+    HttpCookie userIdCookie = Request.Cookies["UserId"];
+    HttpCookie rolCookie = Request.Cookies["RolId"];
+    HttpCookie emailCookie = Request.Cookies["Email"];
+    HttpCookie userCookie = Request.Cookies["UserName"];
+    HttpCookie fullnameCookie = Request.Cookies["CompletoName"];
+    nombreCompleto = (!string.IsNullOrEmpty(nombreCompleto)) ? nombreCompleto : 
+                        (fullnameCookie != null && !string.IsNullOrEmpty(fullnameCookie.Value)) ? fullnameCookie.Value : 
+                        string.Empty;
+ %> 
 
                                     
     <nav id="mobile-only" class="navbar-nav navbar-default navbar-side" role="navigation">
@@ -15,20 +24,18 @@
                                                 <div class="user-img-div">
                                                     <img src="assets/img/user.png" class="img-thumbnail" />
                                                     <div class="inner-text">    
-                                                  <% Response.Write(completoName);
+                                                  <% Response.Write(nombreCompleto);
 %>         
                                                     </div>
                                                 </div>
                                             </li>
-                                            <%
-                                            if (Session["rol"].ToString() == "4046") { %>
-                                         
+                                            <%          
+                                                if (Session["rol"]?.ToString() == "4046" || rolCookie != null)
+
+                                                { %>
                                             <li class="dropdown">
                                                  <a href="#"><i class="fa fa-cog"  aria-hidden="true"> </i> <span class="fa arrow" ></span> Configuración </a>
                                             </li>
-
-
-
                                             <li class="dropdown">
                                                 <a href="#"><i class="fa fa-database" aria-hidden="true"></i> <span class="fa arrow"></span>Inventario</a>
                                                  <ul class="nav nav-second-level">
@@ -84,11 +91,11 @@
                                             </li>
                                          
                                             <%
-                                             }
-                                             else if (Session["rol"].ToString()=="7845"){
+                                                    }
+                                                    else if (Session["rol"]?.ToString() == "7845" || rolCookie!=null){
                                              
                                              }
-                                            else if (Session["rol"].ToString() =="2736")
+                                            else if (Session["rol"]?.ToString() =="2736" || rolCookie!=null)
                                             {
                                             }   
                                              %>
