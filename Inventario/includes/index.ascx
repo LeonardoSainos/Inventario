@@ -5,19 +5,12 @@
 <%@ Import Namespace="System.Data.SqlClient" %>
 <% /* Links, NavBar,TimeZone,Script2*/ %> 
         <% 
-            string nombre = Session["Nombre"] as string;
-            string completoName = Session["nombre_completo"] as string;
-            string[] ViewDiferent = { "searchTicket", "filterTicket" };
-            string[] WhiteList = { "index", "productos", "soporte", "ticket", "ticketcon", "registro", "configuracion", "ticketClient"};
-            HttpCookie userIdCookie = Request.Cookies["UserId"];
-            HttpCookie rolIdCookie = Request.Cookies["RolId"];
-            HttpCookie emailCookie = Request.Cookies["Email"];
-            HttpCookie userCookie = Request.Cookies["UserName"];
-            HttpCookie fullnameCookie = Request.Cookies["CompletoName"];
+          
 
-            if (Request.QueryString["view"] != null || (Session["id"]!= null || userIdCookie!=null )){
-                string content = Request.QueryString["view"];
-                if ((Request.QueryString["view"] != null && WhiteList.Contains(Request.QueryString["view"])) &&   System.IO.File.Exists(Server.MapPath("~/Inventario/mecanico/" + content + "-view.ascx"))){%>
+            if (content != null || (Session["id"]!= null || userIdCookie!=null )){
+            
+
+                if (content != null && WhiteList.Contains(content) &&   System.IO.File.Exists(Server.MapPath("~/Inventario/mecanico/" + content + "-view.ascx"))){%>
                 <!DOCTYPE html>
                 <html>
                 <head>
@@ -71,7 +64,7 @@
                         /* include "./user/" + Request.QueryString["view"] + "-view.aspx";
                          include "./inc/footer.php";*/
                     }
-                    else if (Request.QueryString["view"] != null && ViewDiferent.Contains(Request.QueryString["view"]) && System.IO.File.Exists(Server.MapPath("~/Inventario/mecanico/" + Request.QueryString["view"] + "-view.ascx"))){                %>
+               else if (content!= null && ViewDiferent.Contains(content) && System.IO.File.Exists(Server.MapPath("~/Inventario/mecanico/" + content + "-view.ascx"))){                %>
                 <!DOCTYPE html>
                 <html>
                 <head>

@@ -42,8 +42,13 @@ namespace Inventario.Inventario.admin.Actions
             int[] eliminados = (int[])Session["Eliminados"];
             int[] Reseteados = (int[])Session["Reseteados"];
             Session.Remove("Bloqueados"); Session.Remove("Desbloqueados"); Session.Remove("Eliminados"); Session.Remove("Reseteados");
-           
-            if (Session["nombre"] != null && Session["rol"].ToString() == "4046" && Session["id"] != null)
+            HttpCookie idUserCookie = Request.Cookies["UserId"];
+            HttpCookie rolIdCookie = Request.Cookies["RolId"];
+            HttpCookie emailCookie = Request.Cookies["Email"];
+            HttpCookie userCookie = Request.Cookies["UserName"];
+            HttpCookie fullnameCookie = Request.Cookies["CompletoName"];
+
+            if ((Session["nombre"] != null && Session["rol"].ToString() == "4046" && Session["id"] != null) || (idUserCookie!=null &&  Convert.ToString(rolIdCookie.Value)=="4046" ) )
             {
 
                 if (bloqueados != null && bloqueados.Length != 0)

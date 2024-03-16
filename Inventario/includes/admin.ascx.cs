@@ -55,7 +55,7 @@ namespace Inventario.includes
             HttpCookie userCookie = Request.Cookies["UserName"];
             HttpCookie fullnameCookie = Request.Cookies["CompletoName"];
 
-            if (idObject!=4046 && Convert.ToString(rolIdCookie)!="4046")
+            if (idObject != 4046 && Convert.ToString(rolIdCookie.Value)!="4046")
             {
                 HttpContext.Current.Response.Redirect("~/Inventario/process/logout.aspx");
             }
@@ -63,7 +63,8 @@ namespace Inventario.includes
             completoName = Session["nombre_completo"] as string;
             ViewDiferent = new string[] { "searchUsers", "searchDepa", "searchTicket", "searchBrands", "searchModels", "searchTypes", "searchCars" };
             WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "mecanico", "admin", "config", "almacenista", "depa", "depaedit", "userEdit", "acciones", "brands", "brandsEdit", "models", "modelsEdit", "types", "typeEdit", "cars", "carEdit" };
-            if (Request.QueryString["view"] != null && Session["id"] != null)
+           
+            if (Request.QueryString["view"] != null && (Session["id"] != null || userIdCookie!=null))
             {
                 content = Request.QueryString["view"];
                 result = content.Substring(content.LastIndexOf('/') + 1);
@@ -73,8 +74,8 @@ namespace Inventario.includes
                 {
                     urlCookie.Value = content;
                     lastVisitedUrl = urlCookie.Value;
-                    // urlCookie.Expires = DateTime.Now.AddDays(1); // La cookie expirará en 1 día
-                    urlCookie.Expires = DateTime.MinValue;
+                    urlCookie.Expires = DateTime.Now.AddDays(1); // La cookie expirará en 1 día
+                    //urlCookie.Expires = DateTime.MinValue;
                     Response.Cookies.Add(urlCookie);
                 }
                 else if(content == result && !content.Contains("/") && content!=i )

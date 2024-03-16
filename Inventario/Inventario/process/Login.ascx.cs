@@ -179,21 +179,17 @@ namespace Inventario.Inventario.inc
                                 userIdCookie.Expires = DateTime.Now.AddHours(1); // Expira en 1 hora
                                 Response.Cookies.Add(userIdCookie);
 
-
-
                                 int RolId = Convert.ToInt32(Session["rol"]);
                                 HttpCookie rolcookie = new HttpCookie("RolId");
                                 rolcookie.Value = RolId.ToString();
                                 rolcookie.Expires = DateTime.Now.AddHours(1); // Expira 
                                 Response.Cookies.Add(rolcookie);
 
-
                                 string completo = Convert.ToString(Session["nombre_completo"]);
                                 HttpCookie completoCookie = new HttpCookie("CompletoName");
                                 completoCookie.Value = completo;
                                 completoCookie.Expires = DateTime.Now.AddHours(1);
                                 Response.Cookies.Add(completoCookie);
-
 
                                 string username = Convert.ToString(Session["nombre"]);
                                 HttpCookie nameCookie = new HttpCookie("UserName");
