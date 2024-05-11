@@ -179,7 +179,8 @@ namespace Inventario.Inventario.admin
                 // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
                 if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
                 {
-                    int SessionId = Convert.ToInt32(Session["id"]);
+                    int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
+                   (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
                     string id = Functions.RequestPost(Request.Form["id_dele"]);
                     consulta = "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ",'SELECT * FROM cliente WHERE id_cliente =" + id + "')";
                     Tuple<List<object[]>, int> drop = AdminView.Consulta(ref mens, consulta);
@@ -224,9 +225,9 @@ namespace Inventario.Inventario.admin
 
                                 if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", AdminView.LinkedServer, "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
                                 {
-                                    AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
-                                    AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
-                                    AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + SessionId + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
+                                    AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + idActivo + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
+                                    AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + idActivo + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
+                                    AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + idActivo + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
 
                                     eliminar = null;
                                     id = null;

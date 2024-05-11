@@ -149,7 +149,8 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
                 }
                 if(Request.Form["id_dele"]!=null || Request.Form["borrar_id"] != null)
                 {
-                    int SessionId = Convert.ToInt32(Session["id"]);
+                    int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
+                   (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
                     string id = Functions.RequestPost(Request.Form["id_dele"]);
                     consulta = "SELECT * FROM MODELO WHERE id_modelo =" + id;
                     Tuple<List<object[]>, int> drop = ModelsView.Consulta(ref mens, consulta);
