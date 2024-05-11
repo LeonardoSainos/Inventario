@@ -383,6 +383,7 @@
     <Content Include="Inventario\img\logoUbuntu.png" />
     <Content Include="Inventario\img\lupa.jpg" />
     <Content Include="Inventario\img\mapa.jpg" />
+    <Content Include="Inventario\img\model.png" />
     <Content Include="Inventario\img\msj.png" />
     <Content Include="Inventario\img\new_ticket.png" />
     <Content Include="Inventario\img\old_ticket.png" />
@@ -400,6 +401,7 @@
     <Content Include="Inventario\img\track1.jpg" />
     <Content Include="Inventario\img\trailersAlcomex.jpg" />
     <Content Include="Inventario\img\Transp_ALCOMEX.png" />
+    <Content Include="Inventario\img\type_car.png" />
     <Content Include="Inventario\img\write_email.png" />
     <Content Include="Inventario\inc\footer.ascx" />
     <Content Include="Inventario\inc\links.ascx" />

@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Inventario",
+    "\\Inventario\\includes"
   ],
-  "SelectedNode": "\\Inventario.sln",
+  "SelectedNode": "\\Inventario\\includes\\index.ascx",
   "PreviewInSolutionExplorer": false
 }

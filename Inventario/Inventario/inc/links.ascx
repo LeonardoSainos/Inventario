@@ -5,12 +5,12 @@
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
 
-<meta charset="utf8"/>
- 
+
+
+ <meta charset="utf-8" />
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
  <meta name="description" content="" />
- <meta name="author" content="" />
- 
+ <meta name="author" content="Leonardo Sainos Pérez" />
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
 <link rel="stylesheet" href="/Inventario/css/bootstrap.css"/> 
 <link type="text/css" rel="stylesheet" href="/Inventario/css/style.css"/>  
@@ -24,6 +24,3 @@
 <!--<link rel="stylesheet" href="./sw/w3.css">-->
 <link rel="manifest" href="/Inventario/sw/manifiesto.json"/>
 <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"/>
-
-
-  

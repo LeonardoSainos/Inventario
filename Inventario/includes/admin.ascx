@@ -55,10 +55,14 @@
                                                         case "types": { %> <uc:AdminTypeView runat="server" /> <% 
                                                             break; }
                                                         case "cars": { %> <uc:AdminCarView runat="server" /> <% 
-                                                               break;      }
-                                                        default:  %> <script> window.history.go(-1); </script> <% 
-                                                               break;
-                                                           }
+                                                          break;      }
+                                                        case "typeEdit": { %> <uc:TypeEditAdmin runat="server" /> <%
+                                                          break;      }
+                                                        case "modelEdit": {%> <uc:ModelEditAdmin runat="server" /> <%
+                                                        break;   }
+                                                         default:  %> <script> window.history.go(-1); </script> <% 
+                                                           break;
+                                           }
                                             %>
                                             </div>
                               </div>

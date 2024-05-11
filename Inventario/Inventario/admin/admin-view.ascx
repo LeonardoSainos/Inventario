@@ -136,7 +136,7 @@
               else {%>
               <li>
                   <a href="./admin.aspx?view=admin&pagina=<%Response.Write(pagina-1); %>" aria-label="Previous">
-                      <span aria-hidden="true">&laquo</span>
+                      <span aria-hidden="true">&laquo;</span>
                   </a>
               </li>
               <%}

@@ -13,7 +13,10 @@
     }
     string nombre = Session["Nombre"] as string;
     string [] ViewDiferent = { "searchUsers", "interno", "searchDepa", "searchTicket", "filterDepa", "filterTicket", "filterUsers" };
-    string [] WhiteList = { "ticketTecni", "ticketedit", "users", "tecni", "config", "tec", "useredit" };
+    string [] WhiteList = { "ticketTecni", "ticketedit", "users", "tecni", "config", "tec", "
+            
+            
+            " };
     if (Request.QueryString["view"] != null && Session["id"] != null)
     {
         string content = Request.QueryString["view"];

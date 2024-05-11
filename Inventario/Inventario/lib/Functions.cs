@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
- 
 using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using System.Security.Cryptography;
 using System.Text;
 using System.Net.Mail;
@@ -80,7 +81,7 @@ namespace Inventario.Inventario.lib
             }
             return sb.ToString();
         }
-        public static bool EnviarCorreo(string emailEnvia, string recuperar,string destino,string departamento, string subject, string body)
+        public static bool EnviarCorreo(string emailEnvia, string recuperar, string destino, string departamento, string subject, string body)
         {
             try
             {
@@ -115,6 +116,35 @@ namespace Inventario.Inventario.lib
             }
         }
 
+        public static HttpCookie CrearCookie(string valor, string nombre, HttpResponse response)
+        {
+            HttpCookie cookie = new HttpCookie(nombre);
+
+            cookie.Value = HttpUtility.UrlEncode(valor, Encoding.UTF8);
+            cookie.Expires = DateTime.Now.AddDays(1);
+            response.Cookies.Add(cookie);
+            return cookie;
+        }
+
+        public static HttpCookie ObtenerCookie(string nombre)
+        { 
+            HttpCookie cookie = HttpContext.Current.Request.Cookies[nombre];
+            if (cookie != null && !string.IsNullOrEmpty(cookie.Value))
+            {
+                // Decodificar el valor de la cookie utilizando HTML
+                cookie.Value = Decodificar(cookie.Value);
+                return cookie;
+            }
+            return null; // La cookie no existe o no tiene valor
+        }
+
+        public static string Decodificar(string valor)
+        {
+            // Decodificar utilizando UTF-8
+            string resultado = HttpUtility.UrlDecode(valor, Encoding.UTF8);
+            return resultado;
+        }
+
         public static void CrearPdf(string html)
         {
             using (Document doc = new Document())
@@ -126,7 +156,7 @@ namespace Inventario.Inventario.lib
                 using (MemoryStream ms = new MemoryStream())
                 {
                     PdfWriter writer = PdfWriter.GetInstance(doc, ms);
-                      doc.Open();
+                    doc.Open();
                     StringReader stringReader = new StringReader(html);
                     XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, stringReader);
                     doc.Close();

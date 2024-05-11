@@ -5,11 +5,7 @@
 <%@ Import Namespace="System.Data.SqlClient" %>
 <%
      string nombreCompleto = Session["nombre"] as string;
-    HttpCookie userIdCookie = Request.Cookies["UserId"];
-    HttpCookie rolCookie = Request.Cookies["RolId"];
-    HttpCookie emailCookie = Request.Cookies["Email"];
-    HttpCookie userCookie = Request.Cookies["UserName"];
-    HttpCookie fullnameCookie = Request.Cookies["CompletoName"];
+
     string rolC = ""; 
        nombreCompleto = (!string.IsNullOrEmpty(nombreCompleto)) ? nombreCompleto : 
                         (userCookie!= null && !string.IsNullOrEmpty(userCookie.Value)) ? userCookie.Value : 

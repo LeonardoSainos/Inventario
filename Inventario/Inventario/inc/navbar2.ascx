@@ -4,15 +4,8 @@
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
 
-<%  string nombreCompleto = Session["nombre_completo"] as string;
-    HttpCookie userIdCookie = Request.Cookies["UserId"];
-    HttpCookie rolCookie = Request.Cookies["RolId"];
-    HttpCookie emailCookie = Request.Cookies["Email"];
-    HttpCookie userCookie = Request.Cookies["UserName"];
-    HttpCookie fullnameCookie = Request.Cookies["CompletoName"];
-    nombreCompleto = (!string.IsNullOrEmpty(nombreCompleto)) ? nombreCompleto : 
-                        (fullnameCookie != null && !string.IsNullOrEmpty(fullnameCookie.Value)) ? fullnameCookie.Value : 
-                        string.Empty;
+<%  string nombreCompleto = Session["nombre_completo"] as string;   
+    nombreCompleto = (!string.IsNullOrEmpty(nombreCompleto)) ? nombreCompleto : (fullNameCookie != null && !string.IsNullOrEmpty(fullNameCookie.Value)) ? fullNameCookie.Value :  string.Empty;
  %> 
 
                                     

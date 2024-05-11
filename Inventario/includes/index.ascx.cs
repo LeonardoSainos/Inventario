@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Inventario.Inventario.lib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
- 
-
 namespace Inventario.includes
 {
     public partial class WebUserControl1 : System.Web.UI.UserControl
@@ -14,13 +13,11 @@ namespace Inventario.includes
         private string[] viewd, whitel;
         public string lastVisitedUrl { get; set; }
         public HttpCookie userIdCookie { get; set; }
-
-
+        public Functions funciones = new Functions();
         public string content
         {
-            set { cont = value; }
-            get { return cont; }
-
+            set { cont = value;}
+            get { return cont;}
         }
         public string result
         {
@@ -48,24 +45,20 @@ namespace Inventario.includes
             get { return whitel; }
         }
         protected void Page_Load(object sender, EventArgs e)
-        {
-          
-            userIdCookie = Request.Cookies["UserId"];
-            HttpCookie rolIdCookie = Request.Cookies["RolId"];
-            HttpCookie emailCookie = Request.Cookies["Email"];
-            HttpCookie userCookie = Request.Cookies["UserName"];
-            HttpCookie fullnameCookie = Request.Cookies["CompletoName"];
-
-            if ((content == null || content == "") && (Session["rol"] != null | rolIdCookie != null))
+         {
+            HttpCookie rolIdCookie = Functions.ObtenerCookie("RolId");
+            HttpCookie emailCookie = Functions.ObtenerCookie("Email");
+            HttpCookie userCookie = Functions.ObtenerCookie("UserName");
+            HttpCookie fullName = Functions.ObtenerCookie("CompletoName");
+            HttpCookie userId = Functions.ObtenerCookie("UserId");
+            if ((content == null || content == "") && (Session["rol"] != null || rolIdCookie != null))
             {
                 content = Request.QueryString["view"] ?? "index";
             }
-
             nombre = Session["Nombre"] as string;
             completoName = Session["nombre_completo"] as string;
              ViewDiferent = new string[] { "searchTicket", "filterTicket" };
              WhiteList = new string [] { "index", "productos", "soporte", "ticket", "ticketcon", "registro", "configuracion", "ticketClient" };
-        
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inventario.Inventario.lib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,19 +9,21 @@ namespace Inventario.includes
 {
     public partial class admin : System.Web.UI.UserControl
     {
-        private string name = "", fullname = "", cont="", res="";
+        private string name = "", fullname = "", cont = "", res = "", last;
         private string[] viewd, whitel;
-        public string lastVisitedUrl { get; set; }
-
+        public string lastVisitedUrl
+        {
+            get { return last; }
+            set { last = value; }
+        }
         public string content
         {
-            set { cont= value; }
+            set { cont = value; }
             get { return cont; }
-
         }
         public string result
         {
-            set {res = value; }
+            set { res = value; }
             get { return res; }
         }
         public string nombre
@@ -33,67 +36,60 @@ namespace Inventario.includes
             set { fullname = value; }
             get { return fullname; }
         }
-        public string [] ViewDiferent
+        public string[] ViewDiferent
         {
             set { viewd = value; }
             get { return viewd; }
         }
-        public string [] WhiteList
+        public string[] WhiteList
         {
             set { whitel = value; }
             get { return whitel; }
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-
             int idObject = Convert.ToInt32(Session["rol"]);
-
-
-            HttpCookie userIdCookie = Request.Cookies["UserId"];
-            HttpCookie rolIdCookie = Request.Cookies["RolId"];
-            HttpCookie emailCookie = Request.Cookies["Email"];
-            HttpCookie userCookie = Request.Cookies["UserName"];
-            HttpCookie fullnameCookie = Request.Cookies["CompletoName"];
-
-            if (idObject != 4046 && Convert.ToString(rolIdCookie.Value)!="4046")
+            HttpCookie userIdCookie = Functions.ObtenerCookie("UserId");
+            HttpCookie rolIdCookie = Functions.ObtenerCookie("RolId");
+            HttpCookie emailCookie = Functions.ObtenerCookie("Email");
+            HttpCookie userCookie = Functions.ObtenerCookie("UserName");
+            HttpCookie fullnameCookie = Functions.ObtenerCookie("CompletoName");
+            if (idObject != 4046 && Convert.ToString(rolIdCookie.Value) != "4046")
             {
                 HttpContext.Current.Response.Redirect("~/Inventario/process/logout.aspx");
             }
             nombre = Session["Nombre"] as string;
             completoName = Session["nombre_completo"] as string;
             ViewDiferent = new string[] { "searchUsers", "searchDepa", "searchTicket", "searchBrands", "searchModels", "searchTypes", "searchCars" };
-            WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "mecanico", "admin", "config", "almacenista", "depa", "depaedit", "userEdit", "acciones", "brands", "brandsEdit", "models", "modelsEdit", "types", "typeEdit", "cars", "carEdit" };
-           
-            if (Request.QueryString["view"] != null && (Session["id"] != null || userIdCookie!=null))
+            WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "mecanico", "admin", "config", "almacenista", "depa", "depaedit", "userEdit", "acciones", "brands", "brandsEdit", "models", "modelEdit", "types", "typeEdit", "cars", "carEdit" };
+
+            if (Request.QueryString["view"] != null && (Session["id"] != null || userIdCookie != null))
             {
                 content = Request.QueryString["view"];
                 result = content.Substring(content.LastIndexOf('/') + 1);
-               string i = Request.Cookies["LastVisitedURL"]?.Value;
-                HttpCookie urlCookie = new HttpCookie("LastVisitedURL");
+                string i = Request.Cookies["LastVisitedURL"]?.Value;
+                
+                
+                HttpCookie urlCookie = Functions.CrearCookie("", "LastVisitedURL", Response);   
                 if (content != result)
                 {
                     urlCookie.Value = content;
                     lastVisitedUrl = urlCookie.Value;
-                    urlCookie.Expires = DateTime.Now.AddDays(1); // La cookie expirará en 1 día
-                    //urlCookie.Expires = DateTime.MinValue;
-                    Response.Cookies.Add(urlCookie);
                 }
-                else if(content == result && !content.Contains("/") && content!=i )
+                else if (content == result && !content.Contains("/") && content != i)
                 {
-                    if (content == result && !content.Contains("/") && i!=null)
+                    if (content == result && !content.Contains("/") && i != null)
                     {
-                        urlCookie.Value = content;
-                        lastVisitedUrl = Request.Cookies["LastVisitedURL"]?.Value;
+                        urlCookie.Value = i;
+                        lastVisitedUrl = i;
                     }
                     else
                     {
                         urlCookie.Value = content;
                         lastVisitedUrl = urlCookie.Value;
-                        // urlCookie.Expires = DateTime.Now.AddDays(1); // La cookie expirará en 1 día
-                        urlCookie.Expires = DateTime.MinValue;
-                        Response.Cookies.Add(urlCookie);
-                    } 
-                }              
+                       urlCookie.Expires = DateTime.MinValue;
+                    }
+                }
                 else
                 {
                     urlCookie.Value = content;

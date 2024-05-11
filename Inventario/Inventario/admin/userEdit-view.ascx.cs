@@ -12,6 +12,7 @@ namespace Inventario.Inventario.admin
     {
       
         MySql UpdateUser = new MySql();
+      
         private string query = "", mens = "", alert = "";
         private string[] ValEs, ValR, ValDe;
         private int[] idEs, idR, idDe;
@@ -165,7 +166,8 @@ namespace Inventario.Inventario.admin
             }  
             if (Request.Form["id_edit"] != null && Request.Form["nombre_completo"] != null && Request.Form["email_cliente"] != null)
             {
-                int SessionId = Convert.ToInt32(Session["id"]);
+                int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
+                   (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
                 //int id_edit = Convert.ToInt32(Functions.RequestPost(Request.Form["id_edit"]));
                 int estado = Convert.ToInt32(Functions.RequestPost(Request.Form["estado_cliente"]));
                 int departamento = Convert.ToInt32(Functions.RequestPost(Request.Form["departamento_cliente"]));
@@ -175,37 +177,29 @@ namespace Inventario.Inventario.admin
                 int anydesk = Convert.ToInt32(Functions.RequestPost(Request.Form["anydesk"]));
                 string nombre_completo = Functions.RequestPost(Request.Form["nombre_completo"]);
                 nombre_completo = nombre_completo.ToUpper();
-
-                   try
+                try
                 {
-
-
                     if (UpdateUser.Actualizar(UpdateUser.LinkedServer, "cliente", "anydesk=" + anydesk + ", nombre_completo='" + nombre_completo + "', telefono_celular=" + telefono + ", email_cliente='" + correo + "',id_departamento=" + departamento + ", id_rol=" + role + ",idEstatus =" + estado, "id_cliente = " + id_edit))
                     {
-
                         string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                        UpdateUser.ProcedimientoAlmacenado("registro_alteracionesCliente", UpdateUser.LinkedServer, SessionId + ",\"Actualizar\",\"" + fecha + "\"," + "\"cliente\"");
-                        
+                        //    UpdateUser.ProcedimientoAlmacenado("registro_alteracionesCliente", UpdateUser.LinkedServer, idActivo + ",\"Actualizar\",\"" + fecha + "\"," + "\"cliente\"");
                             alerta = @"<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10; '> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
                                  <h4 class='text-center'>Usuario Actualizado</h4>
-                       <p class='text-center'>
-                        El usuario fue actualizado con éxito
-                        </p>
-                      </div>";
-                        
-                      
+                                   <p class='text-center'>
+                                    El usuario fue actualizado con éxito
+                                    </p>
+                                  </div>";
                     }
                     else
                     {
                         alerta = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10;'> 
                                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
-                    <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
-                    <p class='text-center'>
-                        No hemos podido actualizar el usuario
-                    </p>
-                </div>";
-                    }
+                                    <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
+                                    <p class='text-center'>
+                                        No hemos podido actualizar el usuario
+                                    </p>
+                                </div>";
+                   }
                 }
                 catch(Exception c)
                 {

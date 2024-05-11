@@ -86,7 +86,8 @@ namespace Inventario.Inventario.admin
 
             if (Request.Form["Gnombre"]!= null && Request.Form["Gapellidos1"]!= null && Request.Form["Gcorreo"]!= null) 
             {
-                int SessionId = Convert.ToInt32(Session["id"]);
+                int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
+                    (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
                 string n = Functions.RequestPost(Request.Form["Gnombre"]);
                 string a1 = Functions.RequestPost(Request.Form["Gapellidos1"]);
                 string a2 = Functions.RequestPost(Request.Form["Gapellidos2"]);
@@ -107,7 +108,7 @@ namespace Inventario.Inventario.admin
                         DateTime hoy = DateTime.Now;
                         string ahora = Convert.ToString(hoy);
                         alert = "<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position:fixed; top:70px; right:10px; z-index:10;'> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button> <h4 class='text-center'>REGISTRO EXITOSO</h4><p class='text-center'>Cuenta creada exitosamente, resetea la contraseña del usuario para que posteriormente se le notifique que ya puede iniciar sesión.</p></div>";
-                        AddUsers.ProcedimientoAlmacenado("registro_alteracionesCliente", "'" + AddUsers.LinkedServer+ "'",  + SessionId + ",\"Insertar\",\"" + ahora + "\"," + "\"cliente\"");
+                        AddUsers.ProcedimientoAlmacenado("registro_alteracionesCliente", "'" + AddUsers.LinkedServer + "'", +idActivo + ",\"Insertar\",\"" + ahora + "\"," + "\"cliente\"");
                         // Response.Redirect("./admin.aspx?view=admin");
                     }
                     else

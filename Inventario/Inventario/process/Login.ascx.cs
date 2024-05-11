@@ -10,6 +10,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Configuration;
 using Inventario.Inventario.lib;
+using System.Text;
 
 namespace Inventario.Inventario.inc
 {
@@ -173,35 +174,12 @@ namespace Inventario.Inventario.inc
                                 Session["anydesk"] = row11;
 
                                 // Obtener el ID del usuario de la base de datos u otra fuente de datos
-                                int userId = Convert.ToInt32(Session["id"]);
-                                HttpCookie userIdCookie = new HttpCookie("UserId");
-                                userIdCookie.Value = userId.ToString();
-                                userIdCookie.Expires = DateTime.Now.AddHours(1); // Expira en 1 hora
-                                Response.Cookies.Add(userIdCookie);
-
-                                int RolId = Convert.ToInt32(Session["rol"]);
-                                HttpCookie rolcookie = new HttpCookie("RolId");
-                                rolcookie.Value = RolId.ToString();
-                                rolcookie.Expires = DateTime.Now.AddHours(1); // Expira 
-                                Response.Cookies.Add(rolcookie);
-
-                                string completo = Convert.ToString(Session["nombre_completo"]);
-                                HttpCookie completoCookie = new HttpCookie("CompletoName");
-                                completoCookie.Value = completo;
-                                completoCookie.Expires = DateTime.Now.AddHours(1);
-                                Response.Cookies.Add(completoCookie);
-
-                                string username = Convert.ToString(Session["nombre"]);
-                                HttpCookie nameCookie = new HttpCookie("UserName");
-                                nameCookie.Value = username;
-                                nameCookie.Expires = DateTime.Now.AddHours(1);
-                                Response.Cookies.Add(nameCookie);
-
-                                string emailUser = Convert.ToString(Session["email"]);
-                                HttpCookie emailCookie = new HttpCookie("Email");
-                                emailCookie.Value = emailUser;
-                                emailCookie.Expires = DateTime.Now.AddHours(1);
-                                Response.Cookies.Add(emailCookie);
+     
+                                Functions.CrearCookie(Convert.ToString(Session["id"]),"UserId",Response);                      
+                                Functions.CrearCookie(Convert.ToString(Session["rol"]), "RolId", Response);
+                                Functions.CrearCookie(Convert.ToString(Session["nombre_completo"]), "CompletoName", Response);
+                                Functions.CrearCookie(Convert.ToString(Session["nombre"]), "UserName", Response);
+                                Functions.CrearCookie(Convert.ToString(Session["email"]), "Email", Response);
                                 // Paral impiar radiobutton se usa rblLogin.SelectedIndex = -1;
                                 Response.Redirect("index.aspx?view=index");
                             }
