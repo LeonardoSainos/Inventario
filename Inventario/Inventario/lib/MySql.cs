@@ -170,7 +170,7 @@ namespace Inventario.Scripts
                 return false;
             }
         }
-        public virtual void Eliminar(string server, string tabla, string condicion)
+        public virtual bool Eliminar(string server, string tabla, string condicion)
         {
             string texto = "";
             SqlConnection conexion = Conectar(ref texto);
@@ -185,11 +185,13 @@ namespace Inventario.Scripts
                     texto = "Registro eliminado";
                 }
                 conexion.Close();
+                return true;
             }
             catch (Exception t)
             {
                 conexion = null;
                 texto = "ERROR : " + t.Message;
+                return false;
             }
         }
         public virtual bool ProcedimientoAlmacenado(string nombre, string server,string parametros)

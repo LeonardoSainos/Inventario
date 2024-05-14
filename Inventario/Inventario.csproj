@@ -323,9 +323,6 @@
     <Content Include="Inventario\assets\demo\chart-pie-demo.js" />
     <Content Include="Inventario\assets\demo\datatables-demo.js" />
     <Content Include="Inventario\assets\img\error-404-monochrome.svg" />
-    <Content Include="Inventario\bootstrap-fileupload.js" />
-    <Content Include="Inventario\bootstrap.js" />
-    <Content Include="Inventario\bootstrap.min.js" />
     <Content Include="Inventario\css\animate.css" />
     <Content Include="Inventario\css\basic.css" />
     <Content Include="Inventario\css\bootstrap.css" />
@@ -336,7 +333,6 @@
     <Content Include="Inventario\css\MediaQueries.css" />
     <Content Include="Inventario\css\style.css" />
     <Content Include="Inventario\css\styles.css" />
-    <Content Include="Inventario\custom.js" />
     <Content Include="Inventario\fonts\fontawesome-webfont.svg" />
     <Content Include="Inventario\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -350,7 +346,6 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="index.aspx" />
     <Content Include="Inventario\css\bootstrap.min.css.map" />
-    <Content Include="Inventario\galleryCustom.js" />
     <Content Include="Inventario\img\1T.jpg" />
     <Content Include="Inventario\img\2T.jpg" />
     <Content Include="Inventario\img\3T.jpg" />
@@ -413,12 +408,6 @@
     <Content Include="Inventario\inc\navbar.ascx" />
     <Content Include="Inventario\inc\navbar2.ascx" />
     <Content Include="Inventario\inc\timezone.ascx" />
-    <Content Include="Inventario\jquery-1.10.2.js" />
-    <Content Include="Inventario\jquery-2.1.0.min.js" />
-    <Content Include="Inventario\jquery-ui-1.10.4.custom.min.js" />
-    <Content Include="Inventario\jquery.metisMenu.js" />
-    <Content Include="Inventario\jquery.mixitup.min.js" />
-    <Content Include="Inventario\jquery.prettyPhoto.js" />
     <Content Include="Inventario\js\bootstrap-fileupload.js" />
     <Content Include="Inventario\js\bootstrap.js" />
     <Content Include="Inventario\js\bootstrap.min.js" />

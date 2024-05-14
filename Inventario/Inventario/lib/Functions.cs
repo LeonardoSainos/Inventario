@@ -145,13 +145,13 @@ namespace Inventario.Inventario.lib
             return resultado;
         }
 
-        public static void CrearPdf(string html)
+        public static void CrearPdf(string html, string fileName)
         {
             using (Document doc = new Document())
             {
                   HttpResponse response = HttpContext.Current.Response;
                     response.ContentType = "application/pdf";
-                    response.AddHeader("Content-Disposition", "attachment;filename=Usuarios" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
+                    response.AddHeader("Content-Disposition", "attachment;filename=" + fileName  + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
                 // Escribir el contenido del PDF en el Response
                 using (MemoryStream ms = new MemoryStream())
                 {

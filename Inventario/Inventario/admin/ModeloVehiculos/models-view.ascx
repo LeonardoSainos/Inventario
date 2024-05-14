@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="models-view.ascx.cs" Inherits="Inventario.Inventario.admin.ModeloVehiculos.models_view" %>
 <%@ Import Namespace="Inventario.Scripts" %>
-
 <div id="contenido">
     <div class="container">
         <div class="row">
@@ -68,7 +67,7 @@
                                     <%#(Container.DataItemIndex +1)+ inicializacion %>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField  DataField="id_modelo" HeaderText="ID Modelo" SortExpression="id_modelo" HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden" >
+                            <asp:BoundField  DataField="id_modelo" HeaderText="ID modelo" SortExpression="id_modelo" HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden" >
                                 <HeaderStyle CssClass="hidden"></HeaderStyle>
                                <ItemStyle CssClass="hidden"></ItemStyle>
                             </asp:BoundField>
@@ -82,7 +81,7 @@
                                         NavigateUrl='<%#Eval("id_modelo","~/admin.aspx?view=modelEdit&idM={0}") %>'>
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </asp:HyperLink>
-                                   <button type="button" class="dropbtn btn btn-sm btn-danger" data-toggle="modal" data-target="#pregunta" onclick='document.getElementById("borrar_id").value = <%# Eval("id_modelo") %>";'>
+                                   <button type="button" class="dropbtn btn btn-sm btn-danger" data-toggle="modal" data-target="#pregunta" onclick='document.getElementById("borrar_idM").value="<%# Eval("id_modelo")%>";'>
                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
                                    </button>
                                 </ItemTemplate>
@@ -158,7 +157,6 @@
 
     <%} %>
     </div>
-</div>
-
+</div> 
 <uc:DeleteModel runat="server"/>
 <uc:InsertModel runat="server"/>

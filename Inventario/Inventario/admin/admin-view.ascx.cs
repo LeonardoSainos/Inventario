@@ -249,7 +249,7 @@ namespace Inventario.Inventario.admin
                                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
                                     <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
                                     <p class='text-center'>
-                                        No hemos podido actualizar el usuario porque es el único de su rol
+                                        No hemos podido eliminar el usuario porque es el único de su rol
                                     </p> </div>";
                             }
                         }
@@ -504,7 +504,7 @@ namespace Inventario.Inventario.admin
                 </div>
             </body>
             </html>";
-            Functions.CrearPdf(html);
+            Functions.CrearPdf(html,"Usuarios");
         }
         protected void btnExcel_Click(object sender, EventArgs e)
         {

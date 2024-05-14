@@ -553,7 +553,7 @@ namespace Inventario.Inventario.admin.Actions
                 </div>
             </body>
             </html>";
-            Functions.CrearPdf(html);
+            Functions.CrearPdf(html,"Usuarios");
         }
         protected void btnExcel_Click(object sender, EventArgs e)
         {

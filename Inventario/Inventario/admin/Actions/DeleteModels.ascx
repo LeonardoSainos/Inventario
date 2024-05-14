@@ -7,10 +7,10 @@
                  </div>
             <div class="modal-body">                                              
        </div>
-       <div style="align-items:center; justify-content:center;"class="modal-footer">
+       <div style="align-items:center; justify-content:center;" class="modal-footer">
                     <center> 
                              <form  id="formulario" style="display: inline-block;" method="post" >                  
-                                  <input  type="hidden" name="id_deleM"   id="borrar_id" />       
+                                  <input  type="hidden" name="id_deleM"   id="borrar_idM" />       
                                     <button  type="submit"   class="btn btn-success">SI</button>
                                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
                              </form>                        

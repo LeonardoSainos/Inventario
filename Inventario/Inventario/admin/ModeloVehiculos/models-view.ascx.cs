@@ -11,9 +11,10 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
 {
     public partial class models_view : System.Web.UI.UserControl
     {
-        MySql ModelsView = new MySql();
+        CONEXION ModelsView = new CONEXION();
+        MySql ModelsViewMysql = new MySql();
         Functions Funciones = new Functions();
-        private int numeropaginas = 0, paginaas = 0, r1 = 0, r2 = 0, r3 = 0, inicio = 0;
+        private int numeropaginas = 0, paginaas = 0, r1 = 0,  inicio = 0;
         string aler = "", consulta = "", mens = "", rol = "";
         public int inicializacion
         {
@@ -147,35 +148,64 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
                 {
                     ModelsView.Mostrar(tabla, ref mensaje, consulta);
                 }
-                if(Request.Form["id_dele"]!=null || Request.Form["borrar_id"] != null)
+            }
+
+            if (Request.Form["id_deleM"]!= null || Request.Form["borrar_idM"]!= null)
+            {
+                int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
+               (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
+                string id = Functions.RequestPost(Request.Form["id_deleM"]);
+                consulta = "SELECT * FROM MODELO WHERE id_modelo =" + id;
+                Tuple<List<object[]>, int> drop = ModelsView.Consulta(ref mens, consulta);
+                List<object[]> arrayModel = drop.Item1;
+                try
                 {
-                    int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
-                   (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
-                    string id = Functions.RequestPost(Request.Form["id_dele"]);
-                    consulta = "SELECT * FROM MODELO WHERE id_modelo =" + id;
-                    Tuple<List<object[]>, int> drop = ModelsView.Consulta(ref mens, consulta);
-                    List<object[]> arrayModel = drop.Item1;
-                    try
+                    if (drop.Item2 >= 1)
                     {
-                        if (drop.Item2 >= 1)
+                        consulta = "SELECT * FROM VEHICULO WHERE id_modelo = " + id;
+                        Tuple<List<object[]>, int> modelVehic = ModelsView.Consulta(ref mens, consulta);
+                        if (modelVehic.Item2 >= 1)
                         {
-                            int cu_ = 0;
-
+                            aler = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10;'> 
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                                    <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
+                                    <p class='text-center'>
+                                        No hemos podido eliminar el modelo, ya que hay vehiculos activos con el modelo. Eliminalos o actualiza los datos
+                                    </p> </div>";
                         }
+                        else if (modelVehic.Item2 == 0)
+                        {
+                            if (ModelsView.Eliminar("", "MODELO", "id_modelo=" + id))
+                            {
+                                DateTime fechaActual = DateTime.Now;
+                                string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
+                                ModelsViewMysql.ProcedimientoAlmacenado("registro_alteracionesCLiente", ModelsViewMysql.LinkedServer, "" + idActivo + ",\"Eliminar\",\"" + ahora + "\"," + "\"Modelo\"");
 
+                                id = null;
+                                aler = @"<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z-index:10;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><h4 class='text-center'>Registro eliminado</h4><p class='text-center'>El modelo fue eliminado con éxito</p></div>";
+
+                            }
+                            else
+                            {
+                                aler = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10;'> 
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                                    <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
+                                    <p class='text-center'>
+                                        No hemos podido actualizar el registro, revisa tu conexión o contactate con soporte técnico
+                                    </p> </div>";
+                            }
+                        }
                     }
-                    catch(Exception c)
-                    {
-                        aler = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10;'> 
+
+                }
+                catch (Exception c)
+                {
+                    aler = @"<div class='alert alert-danger alert-dismissible fade in col -sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10;'> 
                                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
                                     <h4 class='text-center'>OCURRIÓ UN ERROR</h4>
                                     <p class='text-center'>
                                      " + c + " </p> </div>";
-                    }
-
                 }
-
-
 
             }
         }
@@ -222,7 +252,19 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
 
         protected void chkModelo_CheckedChanged(object sender, EventArgs e)
         {
+            CheckBox idType = (CheckBox)sender;
+            GridViewRow row = (GridViewRow)idType.NamingContainer;
+            int contadorSeleccionados = 0;
+            foreach (GridViewRow rowe in tabla.Rows)
+            {
+                CheckBox chkType = (CheckBox)rowe.FindControl("chkModelo");
 
+                if (chkType.Checked)
+                {
+                    contadorSeleccionados++;
+                }
+            }
+            Session["ContadorSeleccionados"] = contadorSeleccionados;
         }
 
         protected void tabla_PreRender(object sender, EventArgs e)

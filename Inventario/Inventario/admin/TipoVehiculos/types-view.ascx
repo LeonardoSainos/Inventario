@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="types-view.ascx.cs" Inherits="Inventario.Inventario.admin.TipoVehiculos.tipos_view" %>
  <%@ Import Namespace="Inventario.Scripts" %>
-
 <div id="contenido">
     <div class="container">
         <div class="row">
@@ -51,7 +50,7 @@
      <div class="row">
          <div class="col-md-12">
              <div class="table-responsive">
-                 <form runat="server">
+                 <form runat="server" id="mostrar">
                      <asp:GridView ID="tabla" OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="false" class="table table-hover table-bordered" Height="100" AllowCustomPaging="true" AllowPaging="true" Width="100%" PageSize="50"  PageIndex="5">
                          <Columns>
                              <asp:TemplateField>
@@ -79,7 +78,7 @@
                                          NavigateUrl='<%# Eval("id_tipo","~/admin.aspx?view=typeEdit&idT={0}") %>'>
                                          <i class="fa fa-pencil" aria-hidden="true"></i>
                                      </asp:HyperLink>
-                                     <button type="button" class="dropbtn btn btn-sm btn-danger" data-toggle="modal" data-target="#pregunta" onclick='document.getElementById("borrar_id").value = "<%# Eval("id_tipo")%>";'>
+                                     <button type="button" class="dropbtn btn btn-sm btn-danger" data-toggle="modal" data-target="#pregunta" onclick='document.getElementById("borrar_idT").value = "<%# Eval("id_tipo")%>";'>
                                          <i class="fa fa-trash-o" aria-hidden="true"></i>
                                      </button>
                                  </ItemTemplate>
@@ -93,6 +92,7 @@
                             <SelectedRowStyle Font-Bold="true" ForeColor="Navy" />
                      </asp:GridView>
                       <asp:Button   runat="server"  form="mostrar" Style="display:none;" OnClick="btnEliminar_Click" CssClass="btnEliminarClass" />
+                     <asp:Button   runat="server"  form="mostrar" Style="display:none;" Onclick="btnPdf_Click"  CssClass="btnPdfClass" />
                       <button id="btnNuevo" type="button" style="display:none;" data-toggle='modal' data-target='#modal1'></button>
                  </form>
              </div>

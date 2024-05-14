@@ -63,7 +63,7 @@ namespace Inventario.Scripts
         }
 
 
-        public override void Eliminar(string server, string tabla, string condicion)
+        public override bool Eliminar(string server, string tabla, string condicion)
         {
             string texto = "";
             SqlConnection conexion = Conectar(ref texto);
@@ -78,11 +78,13 @@ namespace Inventario.Scripts
                     texto = "Registro eliminado";
                 }
                 conexion.Close();
+                return true;
             }
             catch(Exception t)
             {
                 conexion = null;
                 texto = "ERROR : " + t.Message;
+                return false;
             }
         }
 
