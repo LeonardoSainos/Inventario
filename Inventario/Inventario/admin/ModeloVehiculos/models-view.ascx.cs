@@ -14,8 +14,12 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
         CONEXION ModelsView = new CONEXION();
         MySql ModelsViewMysql = new MySql();
         Functions Funciones = new Functions();
-        private int numeropaginas = 0, paginaas = 0, r1 = 0,  inicio = 0;
-        string aler = "", consulta = "", mens = "", rol = "";
+        private int numeropaginas = 0, paginaas = 0, r1 = 0, inicio = 0;
+        private string aler = "", consulta = "", mens = "", rol = "", nombrepagina = "searchModels";
+        public string PaginaNombre
+        {
+            get { return nombrepagina; }
+        }
         public int inicializacion
         {
             set { inicio = value; }
@@ -31,23 +35,11 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
             set { paginaas = value; }
             get { return paginaas; }
         }
-
         public int row1
         {
             set { r1 = value; }
             get { return r1; }
         }
-
-        protected void Unnamed_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void Unnamed_Click1(object sender, EventArgs e)
-        {
-
-        }
-
         public string alerta
         {
             set { aler = value; }
@@ -73,7 +65,6 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
             string[] orderby = { "nombre", "fecha_creacion", "año" };
             string ordenamuestra = orderby[0];
             int tipoRol = 0;
-
             if ((Request.QueryString["view"] != "" || Request.QueryString["view"] != null) && Request.QueryString[rol] != null)
             {
                 string orden = Request.QueryString[rol];
@@ -136,10 +127,10 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
                 int regpagina = 50, acaba = pagina * regpagina;
                 inicio = (pagina * regpagina) - regpagina;
                 string mensaje = "";
-                consulta = "SELECT * FROM MODELO ORDER BY fecha_creacion OFFSET " + inicio + " ROWS FETCH NEXT " + acaba + " ROWS ONLY";
+                consulta = "SELECT * FROM MODELO ORDER BY nombre OFFSET " + inicio + " ROWS FETCH NEXT " + acaba + " ROWS ONLY";
                 Tuple<List<object[]>, int> res = ModelsView.Consulta(ref mensaje, consulta);
                 List<object[]> registros = res.Item1;
-                int contador = resultado.Item2;
+                int contador = row1;
 
                 numeropaginas = (int)Math.Ceiling((double)contador / regpagina);
                 tabla.DataBind();
@@ -179,7 +170,7 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
                             {
                                 DateTime fechaActual = DateTime.Now;
                                 string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
-                                ModelsViewMysql.ProcedimientoAlmacenado("registro_alteracionesCLiente", ModelsViewMysql.LinkedServer, "" + idActivo + ",\"Eliminar\",\"" + ahora + "\"," + "\"Modelo\"");
+                                ModelsViewMysql.ProcedimientoAlmacenado("registro_alteracionesCliente", ModelsViewMysql.LinkedServer, "" + idActivo + ",\"Eliminar\",\"" + ahora + "\"," + "\"Modelo\"");
 
                                 id = null;
                                 aler = @"<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z-index:10;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><h4 class='text-center'>Registro eliminado</h4><p class='text-center'>El modelo fue eliminado con éxito</p></div>";
@@ -213,8 +204,97 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
 
         protected void btnPdf_Click(object sender, EventArgs e)
         {
-
+            string consulta = "SELECT * FROM MODELO ORDER BY nombre";
+            Tuple<List<object[]>, int> exportPdf = ModelsView.Consulta(ref mens, consulta);
+            List<object[]> totalExport = exportPdf.Item1;
+            string html = $@"<!DOCTYPE html>  
+<html lang='es'> 
+<head>      
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />              
+    <title>Usuarios</title>  
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'/>                 
+    <style> ";
+            html += @" .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
         }
+        .table {
+            border-collapse: collapse;
+            text-align: center;
+            border: 1px solid #000;
+            width: 100%;
+            max-width: 800px; /* Ancho máximo para una hoja tamaño carta */
+            margin-bottom: 20px;
+        }
+        hr {
+            color: black;
+        }
+        .table thead {
+            border: 1px solid #000;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .table td {
+            border: 1px solid #000;
+            padding: 10px;
+            font-size: 8px;
+            font-family: Arial;
+            width: auto; /* Ajustamos el ancho a automático */
+        }
+        .table tr {
+            background: #fff;
+        }
+        p {
+            font-size: 10x;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <img style='float:right; padding:0;' src='https://i.pinimg.com/originals/1b/16/1f/1b161fa87cacc2f1bca21de412dbdfc1.png' width='50%' />
+        <br/>
+        <div>
+            <h2 style='text-align:center;'>Modelos de Vehículos</h2>
+            <br/>
+        </div>
+        <table class='table'>
+            <thead style='border: 1px solid #000;'>
+                <tr>
+                    <td>#</td>
+                
+                    <td>Modelo</td>
+                    <td>Descripción</td>
+                    <td>Año</td>
+ 
+                </tr>
+            </thead>
+            <tbody> ";
+            if (totalExport.Count > 0)
+            {
+                int i = 1;
+                foreach (object[] row in totalExport)
+                {
+                    html += $@"
+                                    <tr>
+                                        <td>{i}</td>
+                                        <td>{row[1]}</td>
+                                        <td>{row[2]}</td>
+                                        <td>{row[3]}</td>
+                                    </tr>";
+                    i++;
+                }
+            }
+            html += @"</tbody>
+                            </table>  
+                </div>
+            </body>
+            </html>";
+            Functions.CrearPdf(html, "ModeloVehiculos");
+    }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
@@ -252,14 +332,14 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
 
         protected void chkModelo_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox idType = (CheckBox)sender;
-            GridViewRow row = (GridViewRow)idType.NamingContainer;
+            CheckBox idModel = (CheckBox)sender;
+            GridViewRow row = (GridViewRow)idModel.NamingContainer;
             int contadorSeleccionados = 0;
             foreach (GridViewRow rowe in tabla.Rows)
             {
-                CheckBox chkType = (CheckBox)rowe.FindControl("chkModelo");
+                CheckBox chkModel = (CheckBox)rowe.FindControl("chkModelo");
 
-                if (chkType.Checked)
+                if (chkModel.Checked)
                 {
                     contadorSeleccionados++;
                 }

@@ -12,6 +12,7 @@ namespace Inventario.Inventario.admin.TipoVehiculos
     public partial class tipoEdit : System.Web.UI.UserControl
     {
         CONEXION UpdateType = new CONEXION();
+        MySql UpdateTypeMysql = new MySql();
         private string query = "", mens = "", alert = "";
  
         private string fechaText = "", nombreText = "", descripcionText="";
@@ -76,14 +77,14 @@ namespace Inventario.Inventario.admin.TipoVehiculos
                     string descripcionL = Functions.RequestPost(Request.Form["Tdescripcion"]);
                     string fechaL = Functions.RequestPost(Request.Form["Tfecha"]);
                     DateTime fechaL2 = DateTime.Parse(fechaL);
-                    fechaL = fechaL2.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    fechaL = fechaL2.ToString("yyyy-MM-ddTHH:mm:ss.fff");
                     try
                     {
                         if (UpdateType.Actualizar("", "TIPO", "nombre='" + nombreL + "',descripcion='" + descripcionL + "',fecha_creacion='" + fechaL + "'", "id_tipo=" + id_edit))
                         {
                             string fechaConvertida = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             //PENDIENTE
-                          //  UpdateType.ProcedimientoAlmacenado("registro_alteracionesCliente", UpdateType.LinkedServer, idActivo + ",\"Actualizar\",\"" + fechaConvertida + "\"," + "\"cliente\"");
+                          UpdateTypeMysql.ProcedimientoAlmacenado("registro_alteracionesCliente", UpdateType.LinkedServer, idActivo + ",\"Actualizar\",\"" + fechaConvertida + "\"," + "\"tipo\"");
                             alerta = @"<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z - index:10; '> <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>
                                  <h4 class='text-center'>Registro Actualizado</h4>
                                    <p class='text-center'>

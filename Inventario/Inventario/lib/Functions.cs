@@ -34,6 +34,7 @@ namespace Inventario.Inventario.lib
                 .Replace("LIKE", "")
                 .Replace("--", "")
                 .Replace("^", "")
+                .Replace("$", "")
                 .Replace("[", "")
                 .Replace("]", "")
                 .Replace("\\", "")

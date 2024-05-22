@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Año:</label>
+                            <label class="col-sm-2 control-label">Descripción:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">
                                     <input class="form-control"  type="text" name="Mdescripcion" value="<%=txtDescripcion %>" />
@@ -46,10 +46,10 @@
                             </div>
                         </div>
                           <div class="form-group">
-                            <label class="col-sm-2 control-label">Descripción:</label>
+                            <label class="col-sm-2 control-label">Año:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">
-                                    <input class="form-control"  type="text" name="Maño" value="<%=txtAño %>" />
+                                    <input class="form-control"  type="number"   name="Maño" min="0" max="2024" value="<%=txtAño %>" />
                                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                 </div>
                             </div>

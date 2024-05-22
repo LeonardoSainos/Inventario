@@ -27,16 +27,17 @@
         </div>
         <div style="display:flex; float:right;">
               <input id="busqueda" style="width: 80%; float:left;" placeholder="Buscar tipos de Vehículos"   name="busqueda" class="form-control mr-sm-2 alin" type="text" />
-             <a id="mt" href="javascript:void()" style="float:right;" placeholder="Buscar" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-search"></span></a>
+             <a id="st" href="javascript:void()" style="float:right;" placeholder="Buscar" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-search"></span></a>
          <div class='btn-group' style="display:flex; float:left">
           <button class='btn dropdown-toggle btn-success' data-toggle='dropdown' value='Más'><span class='fa fa-reorder'></span></button>
               <ul class='dropdown-menu'>
-                <li><a id="nombree" href='javascript:void();' class='btn btn-link ' type="submit" style='text-decoration:none;'>Nombre</a></li>  
-                  <li><a id="fechaa" href='javascript:void();' class='btn btn-link ' type="submit" style='text-decoration:none;'>Fecha</a></li>  
+                <li><a id="Typenombree" href='javascript:void();' class='btn btn-link ' type="submit" style='text-decoration:none;'>Nombre</a></li>  
+                  <li><a id="Typefechaa" href='javascript:void();' class='btn btn-link ' type="submit" style='text-decoration:none;'>Fecha</a></li>  
                  </ul>
          </div>        
       </div>            
          <input id="rol" type="hidden" value="<%=TipoRol%>" />
+            <input id="NombrePaginaActual" type="hidden" value="<%=PaginaNombre%>" />
 
         <div class="row">
             <div class="col-md-12 text-center">
@@ -126,7 +127,7 @@
                         }
                         else
                         {
-                            Response.Write("<li><a href='./admin.aspx?view=types&pagina=" + i + ">'" + i + "</a></li>");
+                            Response.Write("<li><a href='./admin.aspx?view=types&pagina=" + i + "'>" + i + "</a></li>");
                         }
                     }
                     if (pagina == numPagina)
@@ -153,6 +154,5 @@
 
     </div>
 </div>
-
 <uc:DeleteType runat="server" />
 <uc:InsertType runat="server" />

@@ -157,7 +157,7 @@ namespace Inventario.Inventario.admin.Actions
                                     Tuple<List<object[]>, int> tec = Acciones.Consulta(ref mens, consulta);
                                     List<object[]> arrayTec = tec.Item1; cu = tec.Item2;
                                 }
-                                if (cu>1)
+                                if (cu>=1)
                                 {
                                     int eliminar = ide;
                                     consulta = "SELECT * FROM " + Acciones.LinkedServer + " ... ticket WHERE idUsuario = " + eliminar;

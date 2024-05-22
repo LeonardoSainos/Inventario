@@ -89,7 +89,7 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
                     string descripcionL = Functions.RequestPost(Request.Form["Mdescripcion"]);
                     string fechaL = Functions.RequestPost(Request.Form["Mfecha"]);
                     DateTime fechaL2 = DateTime.Parse(fechaL);
-                    fechaL = fechaL2.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    fechaL = fechaL2.ToString("yyyy-MM-ddTHH:mm:ss.fff");
                     int añoL = Convert.ToInt32(Functions.RequestPost(Request.Form["Maño"]));
                     try
                     {

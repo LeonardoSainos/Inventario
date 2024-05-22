@@ -9,12 +9,17 @@ namespace Inventario.includes
 {
     public partial class admin : System.Web.UI.UserControl
     {
-        private string name = "", fullname = "", cont = "", res = "", last;
+        private string name = "", fullname = "", cont = "", res = "", last, urle="";
         private string[] viewd, whitel;
         public string lastVisitedUrl
         {
             get { return last; }
             set { last = value; }
+        }
+        public string url
+        {
+            set { urle = value; }
+            get { return urle; }
         }
         public string content
         {
@@ -61,11 +66,34 @@ namespace Inventario.includes
             nombre = Session["Nombre"] as string;
             completoName = Session["nombre_completo"] as string;
             ViewDiferent = new string[] { "searchUsers", "searchDepa", "searchTicket", "searchBrands", "searchModels", "searchTypes", "searchCars" };
-            WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "mecanico", "admin", "config", "almacenista", "depa", "depaedit", "userEdit", "acciones", "brands", "brandsEdit", "models", "modelEdit", "types", "typeEdit", "cars", "carEdit" };
+            WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "mecanico", "admin", "config", "almacenista", "depa", "depaedit", "userEdit", "acciones", "brands", "brandEdit", "models", "modelEdit", "types", "typeEdit", "cars", "carEdit" };
+
+            
+
 
             if (Request.QueryString["view"] != null && (Session["id"] != null || userIdCookie != null))
             {
                 content = Request.QueryString["view"];
+                url = content;
+                switch (content)
+                {
+                    case "searchTypes":
+                        {
+                            url = "TipoVehiculos/" + content;
+                            break;
+                        }
+                    case "searchModels":
+                        {
+                            url = "ModeloVehiculos/" + content;
+                            break;
+                        }
+                    case "searchBrands":
+                        {
+                            url = "Marcas/" + content;
+                            break;
+                        }
+                    
+                }
                 result = content.Substring(content.LastIndexOf('/') + 1);
                 string i = Request.Cookies["LastVisitedURL"]?.Value;
                 

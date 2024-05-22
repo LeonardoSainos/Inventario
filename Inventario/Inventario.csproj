@@ -349,6 +349,7 @@
     <Content Include="Inventario\img\1T.jpg" />
     <Content Include="Inventario\img\2T.jpg" />
     <Content Include="Inventario\img\3T.jpg" />
+    <Content Include="Inventario\img\brand.png" />
     <Content Include="Inventario\img\camion.jpg" />
     <Content Include="Inventario\img\camioneta.jpg" />
     <Content Include="Inventario\img\camioneta1.jpg" />
@@ -379,6 +380,7 @@
     <Content Include="Inventario\img\lupa.jpg" />
     <Content Include="Inventario\img\mapa.jpg" />
     <Content Include="Inventario\img\model.png" />
+    <Content Include="Inventario\img\model2.png" />
     <Content Include="Inventario\img\msj.png" />
     <Content Include="Inventario\img\new_ticket.png" />
     <Content Include="Inventario\img\old_ticket.png" />
@@ -396,6 +398,7 @@
     <Content Include="Inventario\img\track1.jpg" />
     <Content Include="Inventario\img\trailersAlcomex.jpg" />
     <Content Include="Inventario\img\Transp_ALCOMEX.png" />
+    <Content Include="Inventario\img\type.png" />
     <Content Include="Inventario\img\type_car.png" />
     <Content Include="Inventario\img\write_email.png" />
     <Content Include="Inventario\inc\footer.ascx" />
@@ -404,6 +407,7 @@
     <Content Include="Inventario\inc\linksJS.ascx" />
     <Content Include="Inventario\inc\linksJS2.ascx" />
     <Content Include="Inventario\js\ActionsUsersAdmin.js" />
+    <Content Include="Inventario\js\ActionTypesAdmin.js" />
     <Content Include="Inventario\process\Login.ascx" />
     <Content Include="Inventario\inc\navbar.ascx" />
     <Content Include="Inventario\inc\navbar2.ascx" />

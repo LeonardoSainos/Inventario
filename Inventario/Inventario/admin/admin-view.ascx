@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="admin-view.ascx.cs" Inherits="Inventario.Inventario.admin.WebUserControl1" %>
- <%@ Import Namespace="Inventario.Scripts" %>
-
+<%@ Import Namespace="Inventario.Scripts" %>
 <div id="contenido"> 
     <div class="container">
         <div class="row">
@@ -31,9 +30,8 @@
           <li><a href='#' class='btn btn-link'> <span class='glyphicon glyphicon-log-in'></span><input  onclick="ActivarBoton('Resetear');"  class='btn btn-link ' style='text-decoration:none;'  type="button" value=" Resetear contraseña" name="Resetear"/> </a></li>     
         </ul>
 </div> 
-
-             
-
+                <input id="NombrePaginaActual" type="hidden" value="<%=PaginaNombre%>" />
+          <input id="rol" type="hidden" value="<%=TipoRol%>" />
 <div style="display:flex; float:right;">
  <input id="busqueda" style="width: 80%; float:left;" placeholder="Buscar administradores"   name="busqueda" class="form-control mr-sm-2 alin" type="text" />
 <a id="mt" href="javascript:void()" style="float:right;" placeholder="Buscar" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-search"></span></a>
@@ -46,9 +44,7 @@
         <li><a id="estatuss" href='javascript:void();' class='btn btn-link ' type="submit" style='text-decoration:none;'>Estatus</a></li>  
      </ul>
  </div>
-   
-</div>            
-                                                    <input id="rol" type="hidden" value="<%=TipoRol%>" />
+</div><br/><br/>                       
 <div class="row">
   <div class="col-md-12 text-center">
    <ul class="nav nav-pills nav-justified">
@@ -58,13 +54,11 @@
    </ul>
    </div>
 </div>
-<br/>
-     
+<br/>   
 <div class="row">
     <div class="col-md-12">
-       <div class="table-responsive">
-         
-         
+       <div class="table-responsive"> 
+            
 <form runat="server" id="mostrar">
 <asp:GridView ID="tabla"    OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%" PageSize="50" PageIndex="5"   >
     <Columns>
@@ -73,17 +67,12 @@
        <asp:CheckBox ID="chkUsuario" runat="server"  OnCheckedChanged="chkUsuario_CheckedChanged"  />
        </ItemTemplate>
         </asp:TemplateField>
-
         <asp:TemplateField HeaderText="#">
             <ItemTemplate>
                 <%# (Container.DataItemIndex + 1) + inicializacion %>
             </ItemTemplate>
         </asp:TemplateField> 
-        <asp:BoundField DataField="id_cliente" HeaderText="ID Cliente" SortExpression="id_cliente" HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden" >
-<HeaderStyle CssClass="hidden"></HeaderStyle>
-
-<ItemStyle CssClass="hidden"></ItemStyle>
-        </asp:BoundField>
+        <asp:BoundField DataField="id_cliente" HeaderText="ID Cliente" SortExpression="id_cliente" HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden" ><HeaderStyle CssClass="hidden"></HeaderStyle><ItemStyle CssClass="hidden"></ItemStyle> </asp:BoundField>
         <asp:BoundField DataField="Fecha_creacion" HeaderText="Creado" SortExpression="Fecha_creacion" />
         <asp:BoundField DataField="nombre_completo" HeaderText="Nombre completo" SortExpression="nombre_completo" />
         <asp:BoundField DataField="nombre_usuario" HeaderText="Nombre de usuario" SortExpression="nombre_usuario" />
@@ -171,6 +160,4 @@
 </div>     
     </div>      
 <uc:DeleteUser runat="server" />
-<uc:InsertUser runat="server" />
- 
- 
+<uc:InsertUser runat="server" /> 

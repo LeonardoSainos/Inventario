@@ -7,7 +7,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Inventario.Inventario.lib;
 using System.Data;
-
 namespace Inventario.Inventario.admin
 {
     public partial class WebUserControl1 : System.Web.UI.UserControl
@@ -15,7 +14,11 @@ namespace Inventario.Inventario.admin
         MySql AdminView = new MySql();
         Functions Funciones = new Functions();
         private int numeropaginas = 0, paginaas = 0, r1 = 0, r2 = 0, r3 = 0, inicio= 0;
-        string aler = "",consulta="",mens="", rol="";
+        private string aler = "",consulta="",mens="", rol="", nombrepagina = "searchUsers";
+        public string PaginaNombre
+        {
+            get { return nombrepagina; }
+        }
         public int inicializacion
         {
             set { inicio = value; }
@@ -46,7 +49,6 @@ namespace Inventario.Inventario.admin
             set { r3 = value; }
             get { return r3; }
         }
-
         public string alerta
         {
             set { aler = value; }
@@ -72,7 +74,6 @@ namespace Inventario.Inventario.admin
             string[] orderby = { "c.nombre_completo", "c.email_cliente", "c.Fecha_creacion", "e.Nombre" };
             string ordenamuestra =  orderby[0];
             int tipoRol = 0;
-
             if((Request.QueryString["view"]!="" || Request.QueryString["view"] != null) && Request.QueryString[rol]!=null)
             {
                 string orden = Request.QueryString[rol];
@@ -105,7 +106,6 @@ namespace Inventario.Inventario.admin
             {
                 ordenamuestra = orderby[0];
             }
-
             switch (rol)
             {
                 case "admin":
@@ -122,10 +122,8 @@ namespace Inventario.Inventario.admin
                     {
                         tipoRol = 7845;
                         break;
-
                     }
-            }
-      
+            }      
             if (!IsPostBack)
               {
                 //***************************Codigo que cuenta usuarios *************************************//
@@ -153,11 +151,8 @@ namespace Inventario.Inventario.admin
                 }
                 //*********************************Codigo para mostrar*********************************// 
                 pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
-
                 int regpagina = 50, acaba = pagina * regpagina;
                 inicio = (pagina * regpagina) - regpagina;
-                
-
                 string mensaje = "";
                 consulta = "SELECT * FROM OPENQUERY(" + AdminView.LinkedServer + ", 'SELECT c.id_cliente,c.telefono_celular AS celular, c.nombre_completo,c.nombre_usuario,c.email_cliente,d.nombre AS Depa,e.Nombre AS Esta,c.Fecha_creacion,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus WHERE c.id_rol = " + tipoRol +  " ORDER BY " + ordenamuestra + " LIMIT " + inicio + "," + acaba + "')";
                 Tuple<List<object[]>, int> res = AdminView.Consulta(ref mensaje, consulta);
@@ -201,7 +196,7 @@ namespace Inventario.Inventario.admin
                                 Tuple<List<object[]>, int> tec = AdminView.Consulta(ref mens, consulta);
                                 List<object[]> arrayTec = tec.Item1; cu = tec.Item2;
                             }
-                            if (cu> 1)
+                            if (cu>=1)
                             {
                                 string eliminar = id;
                                 consulta = "SELECT * FROM " + AdminView.LinkedServer + " ... ticket WHERE idUsuario = " + eliminar;
@@ -222,7 +217,6 @@ namespace Inventario.Inventario.admin
 
                                 DateTime fechaActual = DateTime.Now;
                                 string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
-
                                 if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", AdminView.LinkedServer, "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
                                 {
                                     AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + idActivo + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
@@ -252,8 +246,7 @@ namespace Inventario.Inventario.admin
                                         No hemos podido eliminar el usuario porque es el único de su rol
                                     </p> </div>";
                             }
-                        }
-                      
+                        }         
                     }
                     catch (Exception c)
                     {
@@ -265,14 +258,11 @@ namespace Inventario.Inventario.admin
                     }
                 }
             }
-
         }
-       
         protected void btnBloquear_Click(object sender, EventArgs e)
         {
             int contador = (int)(Session["ContadorSeleccionados"] ?? 0);
             Session.Remove("ContadorSeleccionados");
-
             int[] bloqueados = new int[contador];
             int j= 0; // Variable para llevar la cuenta de los elementos válidos
             for (int i = 0; i < tabla.Rows.Count; i++)
@@ -401,7 +391,6 @@ namespace Inventario.Inventario.admin
             Session["Reseteados"] = filtrados;
             Response.Redirect("/Inventario/admin/Actions/Actions.aspx");
         }
-     
         protected void btnPdf_Click(object sender, EventArgs e)
         {
             int rol = 4046;
@@ -538,7 +527,5 @@ namespace Inventario.Inventario.admin
                 tabla.Controls[0].Controls.Add(newRow);
             }
         }
-      
-
     }
 }

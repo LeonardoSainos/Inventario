@@ -1,7 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="searchUsers-view.ascx.cs" Inherits="Inventario.Inventario.admin.Actions.searchUsers_view" %>
-
+<%@ Import Namespace="Inventario.Scripts" %>
 <div id="contenido">
     <div class="container">
+        <div class="row">
         <%Response.Write(alerta); %>
         <div class="row">
             <div class="col-sm-2">
@@ -9,6 +10,7 @@
             </div>
             <div class="col-sm-10">
                 <p class="lead text-info">Bienvenido administrador, en esta página se muestran todos los <strong>Usuarios </strong> registrados en Inventario Alcomex, usted podrá eliminarlos si lo desea.</p>
+            </div>
             </div>
         </div>
     </div>
@@ -19,7 +21,7 @@
         Más
         <span class="caret"></span>
     </button>   
- 
+
     <ul class="dropdown-menu">                                                        
        <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span><input class="btn btn-link" style='text-decoration:none;' onclick="ActivarBoton('Nuevo');" value="Nuevo usuario" type="button"/></li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button type="submit" class='btn btn-link'  onclick="ActivarBoton('Eliminar');" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
@@ -31,8 +33,7 @@
         </ul>
 </div> 
        <input id="rol" type="hidden" value="<%=TipoRol %>" />
-             
-
+    <input id="NombrePaginaActual" type="hidden" value="<%=PaginaNombre%>" />
 <div style="display:flex; float:right;">
  <input id="busqueda" style="width: 80%; float:left;" placeholder="Buscar administradores"  value="<%=Buscar %>"  name="busqueda" class="form-control mr-sm-2 alin" type="text" />
 <a id="mt" href="javascript:void()" style="float:right;" placeholder="Buscar" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-search"></span></a>
@@ -45,10 +46,7 @@
         <li><a id="estatuss" href='javascript:void()' class='btn btn-link ' type="submit" style='text-decoration:none;'>Estatus</a></li>  
      </ul>
  </div>
-   
-</div>            
-                                          <br/><br/>
-   
+</div><br/><br/>
 <div class="row">
   <div class="col-md-12 text-center">
    <ul class="nav nav-pills nav-justified">
@@ -59,18 +57,14 @@
    </div>
 </div>
 <br/>
-     
 <div class="row">
     <div class="col-md-12">
        <div class="table-responsive">
-          
         <% if (totalEncontrados > 0 && (Buscar!=null && Buscar !="")) { %>
     <div class="col-sm-10">
         <p class="lead text-info"><strong><%= totalEncontrados %></strong> registros coinciden con tu búsqueda</p>
     </div>
-<% } %>
-          
-         
+<% } %>     
 <form runat="server" id="mostrar">
 <asp:GridView ID="tabla"    OnPreRender="tabla_PreRender" runat="server" AutoGenerateColumns="False" class="table table-hover   table-bordered" Height="100%" AllowCustomPaging="True" AllowPaging="True" Width="100%" PageSize="50"   >
     <Columns>
@@ -120,12 +114,10 @@
        <asp:Button ID="btnExcel" runat="server"  form="mostrar" Style="display:none;" OnClick="btnExcel_Click" CssClass="btnExcelClass" />
         <button id="btnNuevo" type="button" style="display:none;" data-toggle='modal' data-target='#modal1'></button>
 </form>
-
                    </div>
      </div>
  </div>
-<% int i = 0;
-    if (numPagina >= 1) { %>
+<%    if (numPagina >= 1) { %>
     <nav arial-label="Page navigation" class="text-center">
         <ul class="pagination">
             <%if (pagina == 1)
@@ -138,19 +130,18 @@
             <%}
               else {%>
               <li>
-                  <% Response.Write("<a href='javascript:void();' id='retrocede' type='submit'  aria-label='Previous'> "); %>
+                  <% Response.Write("<a href='javascript:void()' id='retrocede' type='submit'  aria-label='Previous'> "); %>
                         <span aria-hidden="true">&laquo</span>
                       <% Response.Write("</a>"); %>
               </li>
               <%}
-                  for(i=1; i<=numPagina; i++)
+                  for(int i=1; i<=numPagina; i++)
                   {
-
                       if (pagina == i) {
                           Response.Write("<li class='active'><a id='paginador" + i + "' href='javascript:void()' type='submit'>" + i + "</a></li>");
                       }
                       else {
-                          Response.Write("<li><a id='paginador" + i +  "'  href='javascript:void()' type='submit'>" + i + "</a></li>");
+                          Response.Write("<li><a id='paginador" + i +  "' href='javascript:void()' type='submit'>" + i + "</a></li>");
                       }
                   }
                   if(pagina == numPagina) {%>
@@ -163,8 +154,7 @@
                   }
                   else {%>
                     <li>
-                        <% Response.Write("<a href='javascript:void();' id='incremento' type='submit'  aria-label='Previous'>");  %>
-                     
+                        <% Response.Write("<a href='javascript:void()' id='incremento' type='submit'  aria-label='Previous'>");  %>
                             <span aria-hidden="true">&raquo;</span>
                         <% Response.Write("</a>"); %>
                     </li>
@@ -179,4 +169,3 @@
 <input type="hidden" value ="<%=pagina %>" id="paginaActual" />
   <uc:DeleteUser runat="server" />
   <uc:InsertUser runat="server" />
- 

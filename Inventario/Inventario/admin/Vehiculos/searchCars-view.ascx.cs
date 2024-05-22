@@ -9,6 +9,12 @@ namespace Inventario.Inventario.admin.Vehiculos
 {
     public partial class searchVehiculo_view : System.Web.UI.UserControl
     {
+        private string  nombrepagina="";
+        public string PaginaNombre
+        {
+            set { nombrepagina = value; }
+            get { return nombrepagina; }
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
 

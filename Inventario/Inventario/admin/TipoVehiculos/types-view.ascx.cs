@@ -16,7 +16,11 @@ namespace Inventario.Inventario.admin.TipoVehiculos
         MySql TypesViewMysql = new MySql();
         Functions Funciones = new Functions();
         private int numeropaginas = 0, paginaas = 0, r1 = 0, r2 = 0, r3 = 0, inicio = 0;
-        string aler = "", consulta = "", mens = "", rol = "";
+        private string aler = "", consulta = "", mens = "", rol = "", nombrepagina = "searchTypes";
+        public string PaginaNombre
+        {
+            get { return nombrepagina; }
+        }
         public int inicializacion
         {
             set { inicio = value; }
@@ -32,9 +36,6 @@ namespace Inventario.Inventario.admin.TipoVehiculos
             set { paginaas = value; }
             get { return paginaas; }
         }
-
-       
-
         public int row1
         {
             set { r1 = value; }
@@ -46,46 +47,11 @@ namespace Inventario.Inventario.admin.TipoVehiculos
             get { return r2; }
         }
 
-        protected void btnEliminar_Click(object sender, EventArgs e)
-        {
-            int contador = (int)(Session["ContadorSeleccionados"] ?? 0);
-            Session.Remove("ContadorSeleccionados");
-            int[] eliminados = new int[contador];
-            int j = 0; // Variable para llevar la cuenta de los elementos válidos
-            for (int i = 0; i < tabla.Rows.Count; i++)
-            {
-                if (tabla.Rows[i].RowType == DataControlRowType.DataRow)
-                {
-                    CheckBox eliminar = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkTipo");
-                    if (eliminar.Checked && tabla.Rows[i].RowType != 0)
-                    {
-                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
-                        eliminados[j] = id;
-                        j++;
-                    }
-                    else if (contador == 0 || contador < 1)
-                    {
-                        eliminados = null;
-                        break;
-                    }
-                }
-            }
-            int[] filtrados = new int[j];
-            while (eliminados != null)
-            {
-                Array.Copy(eliminados, filtrados, j);
-                break;
-            }
-            Session["Eliminados"] = filtrados;
-            Response.Redirect("/Inventario/admin/Actions/ActionsTypes.aspx");
-        }
-
         public int row3
         {
             set { r3 = value; }
             get { return r3; }
         }
-
         public string alerta
         {
             set { aler = value; }
@@ -111,13 +77,10 @@ namespace Inventario.Inventario.admin.TipoVehiculos
             string[] orderby = { "nombre", "fecha_creacion" };
             string ordenamuestra = orderby[0];
             int tipoRol = 0;
-
-
             if((Request.QueryString["view"]!="" || Request.QueryString["view"]!=null) && Request.QueryString[rol] != null)
             {
                 string orden = Request.QueryString[rol];
                 orden = Functions.RequestGet(orden);
-
                 switch (orden)
                 {
                     case "Nombre":
@@ -171,10 +134,10 @@ namespace Inventario.Inventario.admin.TipoVehiculos
                 int regpagina = 50, acaba = pagina * regpagina;
                 inicio = (pagina * regpagina) - regpagina;
                 string mensaje = "";
-                consulta = "SELECT * FROM TIPO ORDER BY fecha_creacion OFFSET " + inicio + " ROWS FETCH NEXT " + acaba + " ROWS ONLY";
+                consulta = "SELECT * FROM TIPO ORDER BY nombre OFFSET " + inicio + " ROWS FETCH NEXT " + acaba + " ROWS ONLY";
                 Tuple<List<object[]>, int> res = TypesView.Consulta(ref mensaje, consulta);
                 List<object[]> registros = res.Item1;
-                int contador = resultado.Item2;
+                int contador = row1;
              
                 numeropaginas = (int)Math.Ceiling((double)contador / regpagina);
                 tabla.DataBind();
@@ -218,7 +181,6 @@ namespace Inventario.Inventario.admin.TipoVehiculos
                                 DateTime fechaActual = DateTime.Now;
                                 string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
                                 TypesViewMysql.ProcedimientoAlmacenado("registro_alteracionesCliente", TypesViewMysql.LinkedServer, "" + idActivo + ",\"Eliminar\",\"" + ahora + "\"," + "\"Tipo\"");
-
                                 id = null;
                                 aler = @"<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z-index:10;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><h4 class='text-center'>Registro eliminado</h4><p class='text-center'>El tipo de vehículo fue eliminado con éxito</p></div>";
                             }
@@ -232,7 +194,6 @@ namespace Inventario.Inventario.admin.TipoVehiculos
                                     </p> </div>";
                             }
                         }
-
                   }
                 }
                 catch(Exception c)
@@ -243,9 +204,7 @@ namespace Inventario.Inventario.admin.TipoVehiculos
                                     <p class='text-center'>
                                      " + c + " </p> </div>";
                 }
-
             }
-
         }
         protected void chkTipo_CheckedChanged(object sender, EventArgs e)
         {
@@ -264,7 +223,39 @@ namespace Inventario.Inventario.admin.TipoVehiculos
             Session["ContadorSeleccionados"] = contadorSeleccionados;
             
         }
-       
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            int contador = (int)(Session["ContadorSeleccionados"] ?? 0);
+            Session.Remove("ContadorSeleccionados");
+            int[] eliminados = new int[contador];
+            int j = 0; // Variable para llevar la cuenta de los elementos válidos
+            for (int i = 0; i < tabla.Rows.Count; i++)
+            {
+                if (tabla.Rows[i].RowType == DataControlRowType.DataRow)
+                {
+                    CheckBox eliminar = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkTipo");
+                    if (eliminar.Checked && tabla.Rows[i].RowType != 0)
+                    {
+                        int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);
+                        eliminados[j] = id;
+                        j++;
+                    }
+                    else if (contador == 0 || contador < 1)
+                    {
+                        eliminados = null;
+                        break;
+                    }
+                }
+            }
+            int[] filtrados = new int[j];
+            while (eliminados != null)
+            {
+                Array.Copy(eliminados, filtrados, j);
+                break;
+            }
+            Session["Eliminados"] = filtrados;
+            Response.Redirect("/Inventario/admin/Actions/ActionsTypes.aspx");
+        }
         protected void tabla_PreRender(object sender, EventArgs e)
         {
             if (tabla.Rows.Count > 0)
@@ -281,7 +272,7 @@ namespace Inventario.Inventario.admin.TipoVehiculos
 
         protected void btnPdf_Click(object sender, EventArgs e)
         {
-            string consulta = "SELECT * FROM TIPO";
+            string consulta = "SELECT * FROM TIPO ORDER BY nombre";
             Tuple<List<object[]>, int> exportPdf = TypesView.Consulta(ref mens, consulta);
             List<object[]> totalExport = exportPdf.Item1;
             string html = $@"<!DOCTYPE html>  
@@ -342,9 +333,9 @@ namespace Inventario.Inventario.admin.TipoVehiculos
             <thead style='border: 1px solid #000;'>
                 <tr>
                     <td>#</td>
-                    <td>Creado</td>
                     <td>Tipo</td>
                     <td>Descripción</td>
+                    <td>Creado</td>
  
                 </tr>
             </thead>
@@ -357,9 +348,9 @@ namespace Inventario.Inventario.admin.TipoVehiculos
                     html += $@"
                                     <tr>
                                         <td>{i}</td>
-                                        <td>{Convert.ToString(row[3])}</td>
                                         <td>{row[1]}</td>
                                         <td>{row[2]}</td>
+                                        <td>{Convert.ToString(row[0])}</td>       
                                     </tr>";
                     i++;
                 }

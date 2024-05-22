@@ -48,18 +48,24 @@
                                                               break;  }
                                                         case "userEdit": { %> <uc:UserEditAdmin runat="server" /> <% 
                                                             break; }
-                                                        case "brands" : { %> <uc:AdminBrandView runat="server" /> <%
+                                                        case "brands" : { %> <uc:AdminBrandView TipoRol="admin" runat="server" /> <%
                                                             break; }
-                                                        case "models": { %> <uc:AdminModelView runat="server" /> <%
+                                                        case "models": { %> <uc:AdminModelView TipoRol="admin" runat="server" /> <%
                                                             break; }
-                                                        case "types": { %> <uc:AdminTypeView runat="server" /> <% 
+                                                        case "types": { %> <uc:AdminTypeView TipoRol="admin" runat="server" /> <% 
                                                             break; }
-                                                        case "cars": { %> <uc:AdminCarView runat="server" /> <% 
+                                                        case "cars": { %> <uc:AdminCarView  TipoRol="admin" runat="server" /> <% 
                                                           break;      }
                                                         case "typeEdit": { %> <uc:TypeEditAdmin runat="server" /> <%
                                                           break;      }
                                                         case "modelEdit": {%> <uc:ModelEditAdmin runat="server" /> <%
-                                                        break;   }
+                                                          break;   }
+                                                        case "brandEdit":{ %> <uc:BrandEditAdmin runat="server" /> <%
+                                                          break;
+                                                        }      
+                                                        case "carEdit": { %> <uc:CarEditAdmin runat="server" /> <%
+                                                        break;
+                                                        }
                                                          default:  %> <script> window.history.go(-1); </script> <% 
                                                            break;
                                            }
@@ -73,7 +79,7 @@
                                 </html>
                <%
                        }
-                       else if ((content != null && ViewDiferent.Contains(result)) &&  System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + content + "-view.ascx"))){
+                       else if ((content != null && ViewDiferent.Contains(result)) &&  System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + url + "-view.ascx"))){
                        %>
                      <!DOCTYPE html>
                                 <html>
@@ -85,19 +91,19 @@
                                            <% 
                                                switch(result){
                                                   
-                                                     case "searchUsers": { %> <uc:SearchUsers  runat="server" />  <%
+                                                     case "searchUsers": { %> <uc:SearchUsers NamePagina="searchUsers" runat="server" />  <%
                                                         break;
                                                      }
-                                                     case "searchBrands": { %> <uc:SearchBrandsAdmin runat="server" /> <% 
+                                                     case "searchBrands": { %> <uc:SearchBrandsAdmin NamePagina="searchBrands" runat="server" /> <% 
                                                         break;
                                                      }
-                                                     case "searchModels": { %> <uc:SearchModelsAdmin runat="server" /> <% 
+                                                     case "searchModels": { %> <uc:SearchModelsAdmin NamePagina="searchModels" runat="server" /> <% 
                                                        break;
                                                      }
-                                                     case "searchTypes": { %> <uc:SearchTypesAdmin runat="server" /> <%
+                                                     case "searchTypes": { %> <uc:SearchTypesAdmin NamePagina="searchTypes" runat="server" /> <%
                                                        break;
                                                      }
-                                                     case "searchCars": { %> <uc:SearchCarsAdmin runat="server" /> <%
+                                                     case "searchCars": { %> <uc:SearchCarsAdmin NamePagina="searchCars" runat="server" /> <%
                                                        break;
                                                      }
                                                 default:

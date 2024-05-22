@@ -6,7 +6,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Inventario.Scripts;
 using Inventario.Inventario.lib;
-
 namespace Inventario.Inventario.admin.Actions
 {
     public partial class searchUsers_view : System.Web.UI.UserControl
@@ -14,7 +13,13 @@ namespace Inventario.Inventario.admin.Actions
         MySql AdminView = new MySql();
         Functions Funciones = new Functions();
         private int numeropaginas = 0, paginaas = 1, r1 = 0, r2 = 0, r3 = 0, encontrados =0, inicio = 0;
-        string aler = "", consulta = "", mens = "", busqueda="",rol="", tipo="";
+        private string aler = "", consulta = "", mens = "", busqueda="",rol="", tipo="", nombrepagina="searchUsers";
+
+        public string PaginaNombre
+        {
+            set { nombrepagina = value; }
+            get { return nombrepagina; }
+        }
         public int inicializacion
         {
             set { inicio = value; }
@@ -45,7 +50,6 @@ namespace Inventario.Inventario.admin.Actions
             set { r3 = value; }
             get { return r3; }
         }
-
         public string alerta
         {
             set { aler = value; }
@@ -82,10 +86,9 @@ namespace Inventario.Inventario.admin.Actions
             get { return rol; }
 
         }
-      
         protected void Page_Load(object sender, EventArgs e)
         {
-               if (Request.QueryString["busqueda"] == null || Request.QueryString["busqueda"] == "")
+            if (Request.QueryString["busqueda"] == null || Request.QueryString["busqueda"] == "")
             {
                 busqueda = "";//Functions.RequestPost(Request.Form["admin"]);
             }
@@ -146,8 +149,6 @@ namespace Inventario.Inventario.admin.Actions
 
                     }
             }
-
-           
             if (!IsPostBack)
             {  
                 //***************************Codigo que cuenta usuarios *************************************//
@@ -160,7 +161,6 @@ namespace Inventario.Inventario.admin.Actions
                 consulta = "SELECT COUNT(*) AS contador FROM " + AdminView.LinkedServer + " ...cliente WHERE id_rol = 7845 ";
                 Tuple<List<object[]>, int> resultado2 = AdminView.Consulta(ref mens, consulta);
                 List<object[]> registros2 = resultado2.Item1;
-
                 if (resultado2.Item2 > 0)
                 {
                     row2 = Convert.ToInt32(resultado2.Item1[0][0]);
@@ -168,7 +168,6 @@ namespace Inventario.Inventario.admin.Actions
                 consulta = "SELECT COUNT(*) AS contador FROM " + AdminView.LinkedServer + " ...cliente WHERE id_rol = 2736";
                 Tuple<List<object[]>, int> resultado3 = AdminView.Consulta(ref mens, consulta);
                 List<object[]> registros3 = resultado3.Item1;
-
                 if (resultado3.Item2 > 0)
                 {
                     row3 = Convert.ToInt32(resultado3.Item1[0][0]);
@@ -178,28 +177,22 @@ namespace Inventario.Inventario.admin.Actions
                 int regpagina = 50, acaba = pagina * regpagina;
                 string mensaje = "";
                 inicio = (pagina * regpagina) - regpagina;
-
                consulta = $"SELECT * FROM OPENQUERY({ AdminView.LinkedServer}, 'SELECT c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra +" LIMIT " + inicio + "," + acaba + "')";      
                 Tuple<List<object[]>, int> res = AdminView.Consulta(ref mensaje, consulta);
                 List<object[]> registros = res.Item1;
                 int contador = res.Item2;
-
-
                 Tuple<List<object[]>, int> tr = AdminView.Consulta(ref mensaje, $"SELECT COUNT(*) as total_resultados FROM OPENQUERY({ AdminView.LinkedServer}, 'SELECT c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra + "')");
                 List<object[]> totalregistros = tr.Item1;
                 int total = 0;
                 if (tr.Item2 > 0)
                 {
-                    
                     total = Convert.ToInt32(tr.Item1[0][0]);
                     encontrados = total;
                 }
                 numeropaginas = (int)Math.Ceiling((double)total / regpagina);
                 tabla.DataBind();
-                 AdminView.Mostrar(tabla, ref mensaje, consulta);
-               
+                AdminView.Mostrar(tabla, ref mensaje, consulta);
             }
-
             // ****************************Codigo que recibe el id de usuario para eliminar ***************************************** //
             if (Request.Form["id_dele"] != null || Request.Form["borrar_id"] != null)
             {
@@ -246,13 +239,11 @@ namespace Inventario.Inventario.admin.Actions
 
                             DateTime fechaActual = DateTime.Now;
                             string ahora = fechaActual.ToString("yyyy-MM-dd HH:mm:ss");
-
                             if (AdminView.ProcedimientoAlmacenado("EliminarUsuario", AdminView.LinkedServer, "" + eliminar + ",\"" + ahora + "\",\"" + ahora + "\"," + pendientes + "," + creados + "," + resueltos + "," + proceso))
                             {
                                 AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + idActivo + ",\"EliminarU\",\"" + ahora + "\"," + "\"cliente\"");
                                 AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + idActivo + ",\"EliminarU\",\"" + ahora + "\"," + "\"ticket\"");
                                 AdminView.ProcedimientoAlmacenado("registro_alteracionesCliente", AdminView.LinkedServer, "" + idActivo + ",\"EliminarU\",\"" + ahora + "\"," + "\"departamento\"");
-
                                 eliminar = null;
                                 id = null;
                                 aler = @"<div class='alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown' role='alert' style='position: fixed; top: 70px; right: 10px; z-index:10;'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><h4 class='text-center'>Usuario eliminado</h4><p class='text-center'>El usuario fue eliminado con éxito</p></div>";
@@ -277,7 +268,6 @@ namespace Inventario.Inventario.admin.Actions
                                     </p> </div>";
                         }
                     }
-
                 }
                 catch (Exception c)
                 {
@@ -288,7 +278,6 @@ namespace Inventario.Inventario.admin.Actions
                                      " + c + " </p> </div>";
                 }
             }
-
         }
         protected void tabla_PreRender(object sender, EventArgs e)
         {
@@ -307,7 +296,6 @@ namespace Inventario.Inventario.admin.Actions
         {
             int contador = (int)(Session["ContadorSeleccionados"] ?? 0);
             Session.Remove("ContadorSeleccionados");
-
             int[] bloqueados = new int[contador];
             int j = 0; // Variable para llevar la cuenta de los elementos válidos
             for (int i = 0; i < tabla.Rows.Count; i++)
@@ -559,5 +547,4 @@ namespace Inventario.Inventario.admin.Actions
         {
         }
     }
-   
 }
