@@ -146,7 +146,8 @@ namespace Inventario.Inventario.admin
 
             if (Request.QueryString["id"] != null)
             {
-                int user = Convert.ToInt32(Functions.RequestGet(Request.QueryString["id"]));
+                int user = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
+                (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
                 id_edit = user;
                 Tuple<List<object[]>, int> UserData = UpdateUser.Consulta(ref mensaje, $"SELECT * FROM OPENQUERY(" + UpdateUser.LinkedServer + ",'SELECT DISTINCT r.idRol,r.Nombre as Nrol, c.telefono_celular,c.Fecha_creacion,c.id_cliente,c.nombre_completo,c.email_cliente,c.nombre_usuario,e.Nombre as NombreE, e.idEstatus, d.nombre, d.idDepartamento, c.anydesk FROM cliente c INNER JOIN estatus e ON c.idEstatus = e.idEstatus INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN rol r ON c.id_rol = r.idRol WHERE c.id_cliente = " + user + "')");
                 int contador = UserData.Item2;

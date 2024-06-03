@@ -115,7 +115,6 @@ namespace Inventario.Inventario.admin.Marcas
 
                     }
             }
-
             if (!IsPostBack)
             {
                 consulta = "SELECT COUNT(*) AS brands FROM MARCA";
@@ -189,7 +188,6 @@ namespace Inventario.Inventario.admin.Marcas
                             }
                         }
                     }
-
                 }
                 catch (Exception c)
                 {
@@ -199,13 +197,8 @@ namespace Inventario.Inventario.admin.Marcas
                                     <p class='text-center'>
                                      " + c + " </p> </div>";
                 }
-
             }
-
-
-
         }
-
         protected void btnPdf_Click(object sender, EventArgs e)
         {
             string consulta = "SELECT * FROM MARCA ORDER BY nombre";

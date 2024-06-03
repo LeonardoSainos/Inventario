@@ -281,5 +281,22 @@ $(document).ready(function () {
     $("#Brandfechaa").click(function () {
         FiltroUsers('Fecha');
     });
-    
+   /*
+    $(function () {
+        $("#tipoo").on('change', function () {
+            var liga = "../admin/Actions/";
+            var id_tipo = $("#tipoo").val();
+            var url = liga + 'AddCar.aspx';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: 'id_tipo=' + id_tipo,
+                success: function (data) {
+                    $("#economico input").remove();
+                    $("#economico").append(data);
+                }
+            });
+            return false;
+        });
+    });*/
 });

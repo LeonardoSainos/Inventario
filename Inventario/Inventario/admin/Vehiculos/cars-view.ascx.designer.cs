@@ -13,5 +13,23 @@ namespace Inventario.Inventario.admin.Vehiculos
 
     public partial class Vehiculos_view
     {
+
+        /// <summary>
+        /// Control mostrar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlForm mostrar;
+
+        /// <summary>
+        /// Control tabla.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView tabla;
     }
 }

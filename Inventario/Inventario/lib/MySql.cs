@@ -205,7 +205,7 @@ namespace Inventario.Scripts
                 {
                     query.Connection = conexion;
                     query.CommandType = CommandType.Text;
-                    query.CommandText = $"EXEC('CALL {nombre}( " + parametros + ")') AT " + server;
+                    query.CommandText = $"EXEC('CALL {nombre}(" + parametros + ")') AT " + server;
                     query.ExecuteNonQuery();
                 }
                 conexion.Close();

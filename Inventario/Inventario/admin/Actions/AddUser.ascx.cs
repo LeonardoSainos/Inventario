@@ -6,8 +6,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Inventario.Inventario.lib;
- 
-
 namespace Inventario.Inventario.admin
 {
     public partial class AddUser : System.Web.UI.UserControl
@@ -83,7 +81,6 @@ namespace Inventario.Inventario.admin
         {
 
             // GUARDAR NUEVO USUARIO 
-
             if (Request.Form["Gnombre"]!= null && Request.Form["Gapellidos1"]!= null && Request.Form["Gcorreo"]!= null) 
             {
                 int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
@@ -158,7 +155,10 @@ namespace Inventario.Inventario.admin
                     ValDe[k] = Convert.ToString(depa.Item1[k][1]);
                     idDe[k] = Convert.ToInt32(depa.Item1[k][0]);
                 }
-            }   
+            }
+
+           
+
         }
     }
 }

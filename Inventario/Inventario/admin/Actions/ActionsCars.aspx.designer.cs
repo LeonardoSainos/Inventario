@@ -11,7 +11,7 @@ namespace Inventario.Inventario.admin.Actions
 {
 
 
-    public partial class ActionsVehiculo
+    public partial class ActionsCars
     {
     }
 }

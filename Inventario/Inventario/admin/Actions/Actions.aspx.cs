@@ -97,14 +97,12 @@ namespace Inventario.Inventario.admin.Actions
                     {
                         try
                         {
-
                             if (Acciones.Actualizar(Acciones.LinkedServer, "cliente", "idEstatus=31448", "id_cliente = " + id))
                             {
                                 Acciones.ProcedimientoAlmacenado("registro_alteracionesCliente", Acciones.LinkedServer, "" + SessionId + ",\"Actualizar\",\"" + ahora + "\"," + "\"cliente\"");
 
                                 texto = "Usuario desbloqueado exitosamente";
                                 asegura = true;
-
                             }
                             else
                             {
@@ -114,12 +112,9 @@ namespace Inventario.Inventario.admin.Actions
                         }
                         catch (Exception c)
                         {
-
                             texto = "ERROR: " + c.Message;
                             Response.Write("<script>alert('" + texto + "'); window.history.go(-1); </script>");
-
                         }
-
                     }
                     if (i > 1 && asegura == false)
                     {

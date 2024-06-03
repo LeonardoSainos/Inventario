@@ -33,10 +33,8 @@ namespace Inventario.Scripts
                 conexion = null;
                 mensaje = "ERROR: " + t.Message;
                 return false;
-            }
+             }
         }
-
-
         public override bool Actualizar(string server,String tabla, string campos , string condicion)
         {
             string texto = "";
@@ -61,8 +59,6 @@ namespace Inventario.Scripts
                 return false;
             }
         }
-
-
         public override bool Eliminar(string server, string tabla, string condicion)
         {
             string texto = "";
@@ -87,7 +83,6 @@ namespace Inventario.Scripts
                 return false;
             }
         }
-
         public override bool ProcedimientoAlmacenado (string nombre,  string server, string parametros)
         {
             string texto = "";
@@ -106,8 +101,6 @@ namespace Inventario.Scripts
                         query.Parameters.AddWithValue("@Parametro", parametro.Trim());
                     }
                     query.ExecuteNonQuery();
-
-
                 }
                 conexion.Close();
                 texto = "Procedimiento ejecutado de forma correcta";

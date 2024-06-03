@@ -129,8 +129,8 @@
   -->                                      <div class="modal-footer">
 
                                                    
-                                                  <input class="btn btn-warning" type="submit" value="Crear usuario">
-                                                <input class="btn btn-success"  onclick="funcion_reiniciar('add');" type="button" value="Restablecer">
+                                                  <input class="btn btn-warning" type="submit" value="Crear usuario"/>
+                                                <input class="btn btn-success"  onclick="funcion_reiniciar('add');" type="button" value="Restablecer"/>
                                                 <button class="btn btn-danger" data-dismiss="modal">Cancelar </button>
 
                                           </div>
