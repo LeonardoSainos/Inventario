@@ -41,7 +41,7 @@
                 <div class="row">
             <div class="col-md-12 text-center">
                 <ul class="nav nav-pills nav-justified">
-                    <li><a ><i class="fa fa-car"></i>&nbsp;&nbsp;Tipos de vehiculos&nbsp;&nbsp; <span class="badge"><%Response.Write(row1); %></span></a></li>
+                    <li><a ><i class="fa fa-car"></i>&nbsp;&nbsp;Todos los vehiculos&nbsp;&nbsp; <span class="badge"><%Response.Write(row1); %></span></a></li>
                 </ul>
             </div>
         </div>

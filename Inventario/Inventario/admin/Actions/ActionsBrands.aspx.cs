@@ -102,6 +102,11 @@ namespace Inventario.Inventario.admin.Actions
                     }
                 }            
             }
+            else
+            {
+                Response.Write("<script> alert('No haz seleccionado ninguna marca'); window.history.go(-1);</script>");
+
+            }
 
         }
     }

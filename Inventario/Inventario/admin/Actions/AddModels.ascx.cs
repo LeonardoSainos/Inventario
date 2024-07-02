@@ -35,7 +35,7 @@ namespace Inventario.Inventario.admin.Actions
             {
                 int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
                  (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
-                string nameModel = Functions.RequestPost(Request.Form["Gmodel"]);
+                string nameModel = Functions.RequestPost(Request.Form["Gmodel"]).ToUpper();
                 string description = Functions.RequestPost(Request.Form["Gdescription"]);
                 int año=Convert.ToInt32( Functions.RequestPost(Request.Form["Gaño"]));
                 consulta = "SELECT * FROM MODELO WHERE (nombre LIKE '" + nameModel + "%' AND descripcion LIKE '%" + description + "%') AND año =" + año + "";

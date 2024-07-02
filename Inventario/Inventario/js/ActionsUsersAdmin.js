@@ -46,11 +46,11 @@ function FiltroUsers(ordenador, pagina) {
     alert(nombrePagina);
     if (pagina <= 1) {
         URL = "./admin.aspx?view=" + nombrePagina + "&" + $("#rol").val() + "=" + ordenador;
-        alert(URL);
+       // alert(URL);
     }
     else if (pagina > 1) {
         URL = "./admin.aspx?view=" + nombrePagina + "&" + $("#rol").val() + "=" + ordenador + "&pagina=" + pagina;
-        alert(URL);
+      //  alert(URL);
     }
     $.get(URL, function (datos) {
         $("#contenido").html(datos);
@@ -108,7 +108,7 @@ function ActivarBoton(opcion) {
         }
         case "Pdf": {
             var boton = document.querySelector('.btnPdfClass');
-            alert(boton);
+         
             if (boton) {
                 boton.click();
             }
@@ -116,7 +116,7 @@ function ActivarBoton(opcion) {
         }
         case "Excel": {
             var boton = document.querySelector('.btnExcelClass');
-            alert(boton);
+    
             if (boton) {
                 boton.click();
             }

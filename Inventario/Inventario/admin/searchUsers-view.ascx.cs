@@ -12,14 +12,17 @@ namespace Inventario.Inventario.admin.Actions
     {
         MySql AdminView = new MySql();
         Functions Funciones = new Functions();
-        private int numeropaginas = 0, paginaas = 1, r1 = 0, r2 = 0, r3 = 0, encontrados =0, inicio = 0;
-        private string aler = "", consulta = "", mens = "", busqueda="",rol="", tipo="", nombrepagina="searchUsers";
-
+        private int numeropaginas = 0, paginaas = 1, r1 = 0, r2 = 0, r3 = 0, encontrados =0, inicio = 0, acaba= 0 , role = 0;
+        private string aler = "", consulta = "", mens = "", busqueda="",rol="", tipo="", nombrepagina="searchUsers", muestraOrden = "";
+        public int acabar {get { return acaba;  } set {acaba = value; } }
+        public int tipoRol { get { return role; } set {role = value; } }
+        public string ordenamuestra { get { return muestraOrden; } set { muestraOrden = value;  } }
         public string PaginaNombre
         {
             set { nombrepagina = value; }
             get { return nombrepagina; }
         }
+
         public int inicializacion
         {
             set { inicio = value; }
@@ -97,7 +100,7 @@ namespace Inventario.Inventario.admin.Actions
                 busqueda = Functions.RequestGet(Request.QueryString["busqueda"]);
             }
             string[] orderby = { "c.nombre_completo", "c.email_cliente", "c.Fecha_creacion", "e.Nombre" };
-            string ordenamuestra = orderby[0];
+             ordenamuestra = orderby[0];
             tipo = Request.QueryString["admin"] ?? Request.QueryString["mecanico"] ?? Request.QueryString["almacenista"] ?? "";
             string roles = Request.QueryString["admin"] != null ? "admin" : Request.QueryString["mecanico"] != null ? "mecanico" : Request.QueryString["almacenista"] != null ? "almacenista" : "";
             rol = roles;
@@ -129,7 +132,7 @@ namespace Inventario.Inventario.admin.Actions
                 }
             }
             encontrados = 0;
-            int tipoRol = 0;
+             tipoRol = 0;
             switch (roles)
             {
                 case "admin":
@@ -174,7 +177,8 @@ namespace Inventario.Inventario.admin.Actions
                 }
                 //*********************************Codigo para mostrar*********************************// 
                 pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
-                int regpagina = 50, acaba = pagina * regpagina;
+                int regpagina = 50;
+                acabar = pagina * regpagina;
                 string mensaje = "";
                 inicio = (pagina * regpagina) - regpagina;
                consulta = $"SELECT * FROM OPENQUERY({ AdminView.LinkedServer}, 'SELECT c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra +" LIMIT " + inicio + "," + acaba + "')";      
@@ -441,8 +445,9 @@ namespace Inventario.Inventario.admin.Actions
         }
         protected void btnPdf_Click(object sender, EventArgs e)
         {
-            int rol = 4046;
-            string consulta = $" SELECT * FROM OPENQUERY({AdminView.LinkedServer}, 'SELECT c.Anydesk,c.id_cliente, c.fecha_creacion, c.nombre_completo, c.email_cliente, c.telefono_celular, c.nombre_usuario, d.nombre as Depa,r.Nombre as Rol, e.Nombre as Esta FROM cliente c INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r on c.id_rol = r.idRol WHERE c.id_rol = {rol} ORDER BY c.nombre_completo')";
+            
+           string consulta =  $"SELECT * FROM OPENQUERY({ AdminView.LinkedServer}, 'SELECT c.id_cliente,c.nombre_completo, c.nombre_usuario, c.email_cliente, d.nombre as Depa, r.Nombre, c.telefono_celular as celular, c.Fecha_creacion, e.Nombre as Esta,c.anydesk,c.id_rol FROM cliente c INNER JOIN departamento d ON c.id_departamento = d.idDepartamento INNER JOIN estatus e ON e.idEstatus = c.idEstatus INNER JOIN rol r ON c.id_rol = r.idRol WHERE(c.id_cliente LIKE \"%{busqueda}%\" OR c.nombre_usuario LIKE \"%{busqueda}%\" OR c.nombre_completo LIKE \"%{busqueda}%\" OR c.email_cliente LIKE \"%{busqueda}%\" OR c.telefono_celular LIKE \"%{busqueda}%\" OR c.Fecha_creacion LIKE \"%{busqueda}%\" OR d.nombre LIKE \"%{busqueda}%\" OR r.Nombre LIKE \"%{busqueda}%\" OR e.Nombre LIKE \"%{busqueda}%\" OR c.anydesk LIKE \"%{busqueda}%\") AND c.id_rol = " + tipoRol + " ORDER BY " + ordenamuestra +  "')";
+
             Tuple<List<object[]>, int> exportPdf = AdminView.Consulta(ref mens, consulta);
             List<object[]> totalExport = exportPdf.Item1;
             string html = $@"<!DOCTYPE html>  
@@ -523,14 +528,14 @@ namespace Inventario.Inventario.admin.Actions
                     html += $@"
                                     <tr>
                                         <td>{i}</td>
-                                        <td>{Convert.ToString(row[2])}</td>
+                                        <td>{Convert.ToString(row[7])}</td>
+                                        <td>{row[1]}</td>
+                                        <td>{row[2]}</td>
                                         <td>{row[3]}</td>
                                         <td>{row[6]}</td>
                                         <td>{row[4]}</td>
-                                        <td>{row[5]}</td>
-                                        <td>{row[7]}</td>
+                                        <td>{row[10]}</td>
                                         <td>{row[8]}</td>
-                                        <td>{row[9]}</td>
                                 
                                     </tr>";
                     i++;

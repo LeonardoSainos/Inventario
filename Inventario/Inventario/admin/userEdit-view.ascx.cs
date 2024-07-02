@@ -146,10 +146,11 @@ namespace Inventario.Inventario.admin
 
             if (Request.QueryString["id"] != null)
             {
+
                 int user = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
                 (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
-                id_edit = user;
-                Tuple<List<object[]>, int> UserData = UpdateUser.Consulta(ref mensaje, $"SELECT * FROM OPENQUERY(" + UpdateUser.LinkedServer + ",'SELECT DISTINCT r.idRol,r.Nombre as Nrol, c.telefono_celular,c.Fecha_creacion,c.id_cliente,c.nombre_completo,c.email_cliente,c.nombre_usuario,e.Nombre as NombreE, e.idEstatus, d.nombre, d.idDepartamento, c.anydesk FROM cliente c INNER JOIN estatus e ON c.idEstatus = e.idEstatus INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN rol r ON c.id_rol = r.idRol WHERE c.id_cliente = " + user + "')");
+                id_edit = Convert.ToInt32(Functions.RequestGet(Request.QueryString["id"]));
+                Tuple<List<object[]>, int> UserData = UpdateUser.Consulta(ref mensaje, $"SELECT * FROM OPENQUERY(" + UpdateUser.LinkedServer + ",'SELECT DISTINCT r.idRol,r.Nombre as Nrol, c.telefono_celular,c.Fecha_creacion,c.id_cliente,c.nombre_completo,c.email_cliente,c.nombre_usuario,e.Nombre as NombreE, e.idEstatus, d.nombre, d.idDepartamento, c.anydesk FROM cliente c INNER JOIN estatus e ON c.idEstatus = e.idEstatus INNER JOIN departamento d ON d.idDepartamento = c.id_departamento INNER JOIN rol r ON c.id_rol = r.idRol WHERE c.id_cliente = " + id_edit + "')");
                 int contador = UserData.Item2;
 
                 idRolText = Convert.ToInt32(UserData.Item1[0][0]);
@@ -173,11 +174,11 @@ namespace Inventario.Inventario.admin
                 int estado = Convert.ToInt32(Functions.RequestPost(Request.Form["estado_cliente"]));
                 int departamento = Convert.ToInt32(Functions.RequestPost(Request.Form["departamento_cliente"]));
                 int role = Convert.ToInt32(Functions.RequestPost(Request.Form["rol_cliente"]));
-                string correo = Functions.RequestPost(Request.Form["email_cliente"]);
+                string correo = Functions.RequestPost(Request.Form["email_cliente"]).ToLower();
                 string telefono = Functions.RequestPost(Request.Form["telefono"]);
                 int anydesk = Convert.ToInt32(Functions.RequestPost(Request.Form["anydesk"]));
-                string nombre_completo = Functions.RequestPost(Request.Form["nombre_completo"]);
-                nombre_completo = nombre_completo.ToUpper();
+                string nombre_completo = Functions.RequestPost(Request.Form["nombre_completo"]).ToUpper();
+     
                 try
                 {
                     if (UpdateUser.Actualizar(UpdateUser.LinkedServer, "cliente", "anydesk=" + anydesk + ", nombre_completo='" + nombre_completo + "', telefono_celular=" + telefono + ", email_cliente='" + correo + "',id_departamento=" + departamento + ", id_rol=" + role + ",idEstatus =" + estado, "id_cliente = " + id_edit))
@@ -255,3 +256,5 @@ namespace Inventario.Inventario.admin
         }
     }
 }
+
+//  id_vehiculo,nombre_vehiculo,actualizado, fecha_creacion, operador asignado, placas, estatus, marca, tipo, num_Serie, poliza_seguro, vigencia_poliza, modelo, gps, provedorgps,fecharevision mecanica

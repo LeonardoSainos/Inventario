@@ -95,7 +95,7 @@
                                             
                                            
                                              <li>
-                                                <a href="#"><i class="fa fa-sitemap"></i>Tikets <span class="fa arrow"></span></a>
+                                                <a href="#"><i class="fa fa-sitemap"></i>Tickets <span class="fa arrow"></span></a>
                                                  <ul class="nav nav-second-level">
                                                     <li>
                                                         <a href="invoice.html"><i class="fa fa-send"></i>Mis Ticket</a>

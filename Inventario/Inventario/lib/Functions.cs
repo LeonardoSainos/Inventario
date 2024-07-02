@@ -19,6 +19,11 @@ namespace Inventario.Inventario.lib
     {
         public static string LimpiarCadena(string valor)
         {
+            if (valor == null)
+            {
+                return string.Empty; // O cualquier otro valor predeterminado que quieras usar
+            }
+
             valor = valor.Replace("SELECT", "")
                 .Replace("''", "")
                 .Replace("COPY", "")

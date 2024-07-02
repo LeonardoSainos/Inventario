@@ -28,7 +28,7 @@
                             <label class="col-sm-2 control-label">Nombre:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">
-                                    <input class="form-control"  readonly="" type="text" name="nombre_completo"   value="<%=txtNombre %>" />
+                                    <input class="form-control" required=""  type="text" name="nombre_completo"   value="<%=txtNombre %>" />
                                     <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                             <label class="col-sm-2 control-label">Correo:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">
-                                    <input class="form-control"   type="text" name="email_cliente"    value="<%=txtCorreo %>" />
+                                    <input class="form-control" required=""  type="text" name="email_cliente"    value="<%=txtCorreo %>" />
                                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                             <label class="col-sm-2 control-label">Nombre de usuario:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">
-                                    <input class="form-control" readonly=""   type="text" name="nombre"   value="<%=txtUsuario %>" />
+                                    <input class="form-control"   required="" type="text" name="nombre"   value="<%=txtUsuario %>" />
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                             <label class="col-sm-2 control-label">Estado:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">                            
-                                    <select class="form-control" name="estado_cliente">
+                                    <select class="form-control" required="" name="estado_cliente">
                                         <option  value="<%=txtIdEstatus%>"> <%=txtEstado%>   </option> 
                                         <%
                                             for(int j=0; j<Totest; j++)
@@ -74,7 +74,7 @@
                             <label class="col-sm-2 control-label">Departamento:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">                            
-                                    <select class="form-control" name="departamento_cliente">
+                                    <select class="form-control" required="" name="departamento_cliente">
                                            <option  value="<%=txtIdDepa %>"> <%=txtDepa%>   </option> 
                                       <%
                                             for(int j=0; j< TotalD; j++)
@@ -95,7 +95,7 @@
                             <label class="col-sm-2 control-label">Rol:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">                            
-                                    <select class="form-control" name="rol_cliente">
+                                    <select class="form-control" required="" name="rol_cliente">
                                          <option  value="<%=txtIdRol %>"> <%=txtRol%>   </option> 
                                       <%
                                             for(int j=0; j< TotR; j++)
@@ -111,16 +111,16 @@
                         </div>
 
                      <div class="form-group">
-                          <label for="inputEmail3" class="col-sm-2 control-label">Teléfono:</label>
+                          <label   class="col-sm-2 control-label">Teléfono:</label>
                           <div class="col-sm-10">
                               <div class='input-group'>
-                                  <input type="tel" class="form-control"  name="telefono"   value="<%=txtTelefono %>" />
+                                  <input type="tel" class="form-control"  required="" name="telefono"   value="<%=txtTelefono %>" />
                                 <span class="input-group-addon"><i class="fa fa-phone-square"></i></span>
                               </div> 
                           </div>
                         </div>
                         <div class="form-group">
-                          <label for="inputEmail3" class="col-sm-2 control-label">Anydesk:</label>
+                          <label  class="col-sm-2 control-label">Anydesk:</label>
                           <div class="col-sm-10">
                               <div class='input-group'>
                                   <input type="text" required="" maxlength="10" pattern="^[0-9]+$" class="form-control"  name="anydesk"   value="<%=txtAnydesk %>" />

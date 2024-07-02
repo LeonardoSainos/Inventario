@@ -335,7 +335,7 @@ namespace Inventario.Inventario.admin.TipoVehiculos
                     <td>#</td>
                     <td>Tipo</td>
                     <td>Descripción</td>
-                    <td>Creado</td>
+                  
  
                 </tr>
             </thead>
@@ -349,8 +349,7 @@ namespace Inventario.Inventario.admin.TipoVehiculos
                                     <tr>
                                         <td>{i}</td>
                                         <td>{row[1]}</td>
-                                        <td>{row[2]}</td>
-                                        <td>{Convert.ToString(row[0])}</td>       
+                                        <td>{row[2]}</td>  
                                     </tr>";
                     i++;
                 }

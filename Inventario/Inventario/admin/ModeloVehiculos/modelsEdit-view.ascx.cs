@@ -61,36 +61,27 @@ namespace Inventario.Inventario.admin.ModeloVehiculos
                 consulta = "SELECT * FROM MODELO WHERE id_modelo =" + id_edit;
                 Tuple<List<object[]>, int> ModelData = UpdateModel.Consulta(ref mens, consulta);
                 int contador = ModelData.Item2;
-
                 //  descripcionText = Convert.ToString(ModelData.Item1[0][2])
                 nombreText = !string.IsNullOrEmpty(Convert.ToString(ModelData?.Item1?[0][1])) ? Convert.ToString(ModelData.Item1[0][1]) : nombreText;
                 descripcionText = !string.IsNullOrEmpty(Convert.ToString(ModelData?.Item1?[0][2])) ? Convert.ToString(ModelData.Item1[0][2]) : descripcionText;
                 object valor = ModelData.Item1[0][3];  
                 añoText = valor != DBNull.Value ? Convert.ToInt32(valor) : 0;
-
                 //variable = condición ? valor_si_verdadero : valor_si_falso;
-
-
                 fechaText = !string.IsNullOrEmpty(Convert.ToString(ModelData?.Item1[0][4])) ? Convert.ToString(ModelData.Item1[0][4]) : fechaText;
-                
-                if(!string.IsNullOrEmpty(fechaText))
-                {
                     DateTime fechaHora = DateTime.Parse(fechaText);
                     fechaText = fechaHora.ToString("yyyy-MM-dd HH:mm:ss.fff");
-                }
-   
-
                 if (Request.Form["id_edit"] != null & Request.Form["Mnombre"] != null)
                 {
                     int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
                     (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
-
-                    string nombreL = Functions.RequestPost(Request.Form["Mnombre"]);
+                    string nombreL = Functions.RequestPost(Request.Form["Mnombre"]).ToUpper();
                     string descripcionL = Functions.RequestPost(Request.Form["Mdescripcion"]);
                     string fechaL = Functions.RequestPost(Request.Form["Mfecha"]);
                     DateTime fechaL2 = DateTime.Parse(fechaL);
                     fechaL = fechaL2.ToString("yyyy-MM-ddTHH:mm:ss.fff");
-                    int añoL = Convert.ToInt32(Functions.RequestPost(Request.Form["Maño"]));
+                    string añoTexto = Functions.RequestPost(Request.Form["Maño"]) ?? "0";
+                    int añoL = int.TryParse(añoTexto, out int result) ? result : 0;
+
                     try
                     {
                         if (UpdateModel.Actualizar("", "MODELO", "nombre='" + nombreL + "',descripcion='" + descripcionL + "',fecha_creacion='" + fechaL + "',año=" + añoL +""  , "id_modelo=" + id_edit))

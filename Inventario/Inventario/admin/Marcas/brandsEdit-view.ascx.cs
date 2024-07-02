@@ -71,10 +71,7 @@ namespace Inventario.Inventario.admin.Marcas
                 {
                     int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
                    (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
-
-
-
-                    string nombreL = Functions.RequestPost(Request.Form["Bnombre"]);
+                    string nombreL = Functions.RequestPost(Request.Form["Bnombre"]).ToUpper();
                     string descripcionL = Functions.RequestPost(Request.Form["Bdescripcion"]);
                     string fechaL = Functions.RequestPost(Request.Form["Bfecha"]);
                     DateTime fechaL2 = DateTime.Parse(fechaL);

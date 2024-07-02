@@ -34,7 +34,7 @@ namespace Inventario.Inventario.admin.Actions
              {
                 int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
                      (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
-                string nameTipo = Functions.RequestPost(Request.Form["Gtype"]);
+                string nameTipo = Functions.RequestPost(Request.Form["Gtype"]).ToUpper();
                 string description = Functions.RequestPost(Request.Form["Gdescription"]);
                 consulta = "SELECT * FROM TIPO WHERE nombre LIKE '" + nameTipo + "%' OR descripcion LIKE '%" + description + "%'";
                 Tuple<List<object[]>, int> verifica = Addtypes.Consulta(ref mens, consulta);

@@ -88,8 +88,8 @@ namespace Inventario.Inventario.admin
                 string n = Functions.RequestPost(Request.Form["Gnombre"]);
                 string a1 = Functions.RequestPost(Request.Form["Gapellidos1"]);
                 string a2 = Functions.RequestPost(Request.Form["Gapellidos2"]);
-                string GNcompleto = n + " " + a1 + " " + a2;
-                string Gcorreo = Functions.RequestPost(Request.Form["Gcorreo"]);
+                string GNcompleto = (n + " " + a1 + " " + a2).ToUpper();
+                string Gcorreo = Functions.RequestPost(Request.Form["Gcorreo"]).ToLower();
                 int Gdepartamento = Convert.ToInt32(Functions.RequestPost(Request.Form["Gdepartamento"]));
                 int Grol = Convert.ToInt32(Functions.RequestPost(Request.Form["Grol"]));
                 int Gestatus = Convert.ToInt32(Functions.RequestPost(Request.Form["Gestatus"]));
@@ -128,7 +128,7 @@ namespace Inventario.Inventario.admin
                     idEs[i] = Convert.ToInt32(estatus.Item1[i][0]);
                 }
             }
-            query = "SELECT * FROM " + AddUsers.LinkedServer + " ... rol";
+            query = "SELECT * FROM " + AddUsers.LinkedServer + " ... rol ORDER by Nombre";
             Tuple<List<object[]>, int> rol = AddUsers.Consulta(ref mens, query);
             //List<object[]> arrayRol = rol.Item1;
             if (rol.Item2 >= 1)
@@ -142,7 +142,7 @@ namespace Inventario.Inventario.admin
                     idR[j] = Convert.ToInt32(rol.Item1[j][0]);
                 }
             }
-            query = "SELECT idDepartamento,nombre FROM " + AddUsers.LinkedServer + " ... departamento";
+            query = "SELECT idDepartamento,nombre FROM " + AddUsers.LinkedServer + " ... departamento ORDER BY nombre";
             Tuple<List<object[]>, int> depa = AddUsers.Consulta(ref mens, query);
             //List<object[]> arrayDepa = depa.Item1;
             if (depa.Item2 >= 1)

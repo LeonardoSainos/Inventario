@@ -21,7 +21,7 @@
                             <label class="col-sm-2 control-label">Fecha:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">
-                                    <input class="form-control"  type="datetime-local" name="Bfecha"  value="<%=txtFecha %>" />
+                                    <input class="form-control" required=""  type="datetime-local" name="Bfecha"  value="<%=txtFecha %>" />
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </div>
@@ -30,7 +30,7 @@
                             <label class="col-sm-2 control-label">Nombre:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">
-                                    <input class="form-control"  type="text" name="Bnombre"   value="<%=txtNombre %>" />
+                                    <input class="form-control"  required="" type="text" name="Bnombre"   value="<%=txtNombre %>" />
                                     <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                             <label class="col-sm-2 control-label">Descripción:</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">
-                                    <input class="form-control" type="text" name="Bdescripcion" value="<%=txtDescripcion %>" />
+                                    <input class="form-control" required="" type="text" name="Bdescripcion" value="<%=txtDescripcion %>" />
                                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                 </div>
                             </div>

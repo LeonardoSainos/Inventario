@@ -35,7 +35,7 @@ namespace Inventario.Inventario.admin.Actions
             {
                 int idActivo = Session["id"] != null ? Convert.ToInt32(Session["id"]) :
                 (Request.Form["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
-                string nameBrand = Functions.RequestPost(Request.Form["Gbrand"]);
+                string nameBrand = Functions.RequestPost(Request.Form["Gbrand"]).ToUpper();
                 string description = Functions.RequestPost(Request.Form["Gdescription"]);
                 consulta = "SELECT * FROM MARCA WHERE (nombre LIKE '" + nameBrand + "%' AND descripcion LIKE '%" + description + "%')";
                 Tuple<List<object[]>, int> verifica = Addbrands.Consulta(ref mens, consulta);

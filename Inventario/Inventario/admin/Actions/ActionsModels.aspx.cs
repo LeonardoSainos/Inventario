@@ -93,6 +93,11 @@ namespace Inventario.Inventario.admin.Actions
                         Response.Write("<script>alert('" + texto + "');window.history.go(-1);</script>");
                     }
                 }
+                else
+                {
+                    Response.Write("<script> alert('No haz seleccionado ningún modelo'); window.history.go(-1);</script>");
+
+                }
             }
         }
     }

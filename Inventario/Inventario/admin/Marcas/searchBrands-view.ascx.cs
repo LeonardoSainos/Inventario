@@ -293,7 +293,7 @@ namespace Inventario.Inventario.admin.Marcas
             {
                 if (tabla.Rows[i].RowType == DataControlRowType.DataRow)
                 {
-                    CheckBox eliminar = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkMarca");
+                    CheckBox eliminar = (CheckBox)tabla.Rows[i].Cells[0].FindControl("chkBrand");
                     if (eliminar.Checked && tabla.Rows[i].RowType != 0)
                     {
                         int id = Convert.ToInt32(tabla.Rows[i].Cells[2].Text);

@@ -73,11 +73,15 @@ namespace Inventario.Inventario.admin.TipoVehiculos
 
 
 
-                    string nombreL = Functions.RequestPost(Request.Form["Tnombre"]);
+                    string nombreL = Functions.RequestPost(Request.Form["Tnombre"]).ToUpper();
                     string descripcionL = Functions.RequestPost(Request.Form["Tdescripcion"]);
                     string fechaL = Functions.RequestPost(Request.Form["Tfecha"]);
-                    DateTime fechaL2 = DateTime.Parse(fechaL);
-                    fechaL = fechaL2.ToString("yyyy-MM-ddTHH:mm:ss.fff");
+                    if(!string.IsNullOrEmpty(fechaL))
+                    {
+                        DateTime fechaL2 = DateTime.Parse(fechaL);
+                        fechaL = fechaL2.ToString("yyyy-MM-ddTHH:mm:ss.fff");
+                    }
+              
                     try
                     {
                         if (UpdateType.Actualizar("", "TIPO", "nombre='" + nombreL + "',descripcion='" + descripcionL + "',fecha_creacion='" + fechaL + "'", "id_tipo=" + id_edit))

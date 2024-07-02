@@ -71,7 +71,7 @@
                                                     <label class="col-sm-2 control-label">Estatus:</label>
                                                       <div class='col-sm-10'>
                                                         <div class="input-group">
-                                                          <%  Response.Write("<select REQUIRED  class='formu form-control' name='Gestatus'>");  
+                                                          <%  Response.Write("<select required='' class='formu form-control' name='Gestatus'>");  
                                                                 for(int j=0; j< Totest; j++) 
                                                                 {
                                                                      Response.Write("<option value='" + ideEstatus[j] +  "'>" + valorEst[j]  + "</option>");   
@@ -86,7 +86,7 @@
                                                     <label class="col-sm-2 control-label">Rol:</label>
                                                       <div class='col-sm-10'>
                                                         <div class="input-group">
-                                                             <%  Response.Write("<select REQUIRED  class='formu form-control' name='Grol'>");  
+                                                             <%  Response.Write("<select required=''  class='formu form-control' name='Grol'>");  
                                                                 for(int j=0; j< TotR; j++) 
                                                                 {
                                                                      Response.Write("<option value='" + ideRol[j] +  "'>" + valorRol[j]  + "</option>");   
@@ -103,7 +103,7 @@
                                                     <label class="col-sm-2 control-label">Departamento: </label>
                                                       <div class='col-sm-10'>
                                                         <div class="input-group">
-                                                             <%  Response.Write("<select REQUIRED  class='formu form-control' name='Gdepartamento'>");  
+                                                             <%  Response.Write("<select required=''  class='formu form-control' name='Gdepartamento'>");  
                                                                 for(int j=0; j< TotalD; j++) 
                                                                 {
                                                                      Response.Write("<option value='" + ideDepa[j] +  "'>" + valorDepa[j]  + "</option>");   
@@ -119,7 +119,7 @@
                                                     <label class="col-sm-2 control-label">Teléfono:</label>
                                                       <div class='col-sm-10'>
                                                         <div class="input-group">
-                                                              <input  required=""  class="formu form-control" type="tel" name="Gtelefono" placeholder="Número de celular"  maxlength="10"/>
+                                                              <input  required=''  class="formu form-control" type="tel" name="Gtelefono" placeholder="Número de celular"  maxlength="10"/>
                                                              <span class="input-group-addon"><i class="fa fa-phone-square"></i></span>
                                                         </div>
                                                       </div>

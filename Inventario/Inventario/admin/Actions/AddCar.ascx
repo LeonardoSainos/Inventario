@@ -15,26 +15,16 @@
                                 <label class="col-sm-2 control-label">Tipo:</label>
                                   <div class='col-sm-10'>
                                       <div class="input-group">
-                                          <%Response.Write("<select id='tipoo' required='' class='formu form-control' name='Gtype'");
-                                              for (int j = 0; j < TotTy; j++)
+                                          <%Response.Write("<select   required='' class='formu form-control' name='Gtypee'>");
+                                              for (int i = 0;i<TotTy; i++)
                                               {
-                                                  Response.Write("<option value='" + idTipos[j] + "'>" + valorTi[j] + "</option>");
+                                                  Response.Write("<option value='" + idTipos[i] + "'>" + valorTi[i] + "</option>");
                                               }
                                               Response.Write("</select>");
                                           %>
                                       <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                       </div>
                                   </div>
-                            </div>
-                            <br /><br /> 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Número económico:</label>
-                                 <div class='col-sm-10'>
-                                  <div class="input-group">
-                                               <input id="economico" value="<%  %>" required=""  class="formu form-control" type="text" name="Geconomico" maxlength="70"/>
-                                              <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                        </div>
-                                 </div>
                             </div>
                             <br />
                             <br /> 
@@ -43,7 +33,7 @@
                                 <div class="col-sm-10">
                                     <div class="input-group">
                                           <%Response.Write("<select required='' class='formu form-control' name='Gmarca'>");
-                                              for (int j = 0; j < TotalMa; j++)
+                                              for (int j = 0;j<TotalMa; j++)
                                               {
                                                   Response.Write("<option value='" + idMarcas[j] + "'>" + valorMa[j] + "</option>");
                                               }
@@ -59,9 +49,9 @@
                                 <div class="col-sm-10">
                                     <div class="input-group">
                                           <%Response.Write("<select required='' class='formu form-control' name='Gmodelo'>");
-                                              for (int j = 0; j < TotalMa; j++)
+                                              for (int k = 0; k< TotalMode; k++)
                                               {
-                                                  Response.Write("<option value='" + idModelo[j] + "'>" + valModelo[j] + "</option>");
+                                                  Response.Write("<option value='" + idModelo[k] + "'>" + valModelo[k] + "</option>");
                                               }
                                               Response.Write("</select>");
                                           %>
@@ -69,12 +59,23 @@
                                     </div>
                                 </div>
                             </div>
+                              <br /><br /> 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Número económico:</label>
+                                 <div class='col-sm-10'>
+                                  <div class="input-group">
+                                               <input id="economico" value="<%  %>" required=""  class="formu form-control" type="text" name="Geconomico" maxlength="70"/>
+                                              <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                        </div>
+                                 </div>
+                            </div>
                             <br /><br /> 
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Placas:</label>
                                  <div class='col-sm-10'>
                                   <div class="input-group">
-                                               <input  required=""  placeholder="Placas" class="formu form-control" type="text" name="Gplacas" maxlength="70"/>
+                                               <input  placeholder="Placas" class="formu form-control" type="text" name="Gplacas" maxlength="70"/>
                                               <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                         </div>
                                  </div>
@@ -83,7 +84,7 @@
                                 <label class="col-sm-2 control-label">Serie:</label>
                                  <div class='col-sm-10'>
                                   <div class="input-group">
-                                               <input  required="" placeholder="Número de serie" class="formu form-control" type="text" name="Gserie" maxlength="70"/>
+                                               <input  placeholder="Número de serie" class="formu form-control" type="text" name="Gserie" maxlength="70"/>
                                               <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                         </div>
                                  </div>
@@ -93,7 +94,7 @@
                                 <label class="col-sm-2 control-label">Póliza:</label>
                                  <div class='col-sm-10'>
                                   <div class="input-group">
-                                               <input  required="" placeholder="Póliza de seguro" class="formu form-control" type="text" name="Gpoliza" maxlength="70"/>
+                                               <input  placeholder="Póliza de seguro" class="formu form-control" type="text" name="Gpoliza" maxlength="70"/>
                                               <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                         </div>
                                  </div>
@@ -102,7 +103,7 @@
                                 <label class="col-sm-2 control-label">Vigencia:</label>
                                  <div class='col-sm-10'>
                                   <div class="input-group">
-                                               <input  required=""  class="formu form-control" type="date" name="Gvigencia" maxlength="70"/>
+                                               <input   class="formu form-control" type="date" name="Gvigencia" maxlength="70"/>
                                               <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                         </div>
                                  </div>
@@ -159,7 +160,9 @@
                                 <label class="col-sm-2 control-label">Asignar a:</label>
                                  <div class='col-sm-10'>
                                   <div class="input-group">
-                                                <%Response.Write("<select required='' class='formu form-control' name='Goperador'>");
+                                                <%Response.Write("<select  class='formu form-control' name='Goperador'> <option value='N/A' >NO ASIGNAR</option>");
+                                                 
+
                                               for (int j = 0; j < TotalOper; j++)
                                               {
                                                   Response.Write("<option value='" +  idOperador[j] + "'>" + valOper[j] + "</option>");
