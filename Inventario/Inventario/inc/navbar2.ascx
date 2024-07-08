@@ -23,10 +23,38 @@
                                                 </div>
                                             </li>
                                             <%          
-                                                if (Session["rol"]?.ToString() == "4046" || rolCookie != null)
+                                                if (Session["rol"]?.ToString() != "99999" || rolCookie != null){
+                                                for (int a = 0; a < TotalModulos; a++) { %>
+    <li class="dropdown">
+        <a href="<%= RutaM[a] %>"><i class="<%= IconM[a] %>" aria-hidden="true"></i><span class="<%= SpanM[a] %>"></span> <%= NombreModulo[a] %></a>
+        <% if (idSubModulosList.Count > a) { %>
+            <ul class="nav nav-second-level">
+                <% for (int b = 0; b < idSubModulosList[a].Count; b++) { %>
+                    <li><a href="<%= RutaSubModulosList[a][b] %>"><i class="<%= IconSubModulosList[a][b] %>" aria-hidden="true"></i> <span class="<%= SpanSubModulosList[a][b] %>"></span> <%= NombreSubModulosList[a][b] %></a>
+                        <% if (idSubSubModulosList.Count > a && idSubSubModulosList[a].Count > b) { %>
+                            <ul class="nav nav-second-level">
+                                <% for (int c = 0; c < idSubSubModulosList[a][b].Count; c++) { %>
+                                    <li><a href="<%= RutaSubSubModulosList[a][b][c] %>"><i class="<%= IconSubSubModulosList[a][b][c] %>" aria-hidden="true"></i> <%= NombreSubSubModulosList[a][b][c] %></a></li>
+                                <% } %>
+                            </ul>
+                        <% } %>
+                    </li>
+                <% } %>
+            </ul>
+        <% } %>
+    </li>
+<% } %>
 
-                                                { %>
-                                            <li class="dropdown">
+                                              
+                                                    
+                                                    
+                                                    
+                                                    
+                                                 
+                                                    
+                                                    
+                                     
+                                          <!--  <li class="dropdown">
                                                  <a href="#"><i class="fa fa-cog"  aria-hidden="true"> </i> <span class="fa arrow" ></span> Configuración </a>
                                             </li>
                                             <li class="dropdown">
@@ -82,19 +110,7 @@
                                                      <li><a href="../../admin.aspx?view=Marcas/brands"><i class="fa fa-ambulance" aria-hidden="true"></i>Marcas</a></li>
                                                  </ul>
                                             </li>
-                                         
-                                            <%
-                                                    }
-                                                    else if (Session["rol"]?.ToString() == "7845" || rolCookie!=null){
-                                             
-                                             }
-                                            else if (Session["rol"]?.ToString() =="2736" || rolCookie!=null)
-                                            {
-                                            }   
-                                             %>
-                                            
-                                           
-                                             <li>
+                                          <li>
                                                 <a href="#"><i class="fa fa-sitemap"></i>Tickets <span class="fa arrow"></span></a>
                                                  <ul class="nav nav-second-level">
                                                     <li>
@@ -111,6 +127,13 @@
                                                     </li>      
                                                      </ul>
                                             </li>      
+                                            <%
+                                                }
+                                        
+                                             %>
+                                            
+                                           
+                                            -->
                                         </ul>          
                                         </div>
                                 </nav>

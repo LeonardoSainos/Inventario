@@ -80,7 +80,7 @@
                                 </html>
                <%
                        }
-                       else if ((content != null && ViewDiferent.Contains(result)) &&  System.IO.File.Exists(Server.MapPath("~/Inventario/admin/" + url + "-view.ascx"))){
+                       else if ((content != null && ViewDiferent.Contains(result)) &&  System.IO.File.Exists(Server.MapPath("~/Inventario/" + url + "-view.ascx"))){
                        %>
                      <!DOCTYPE html>
                                 <html>

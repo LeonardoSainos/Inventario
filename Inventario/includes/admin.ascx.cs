@@ -59,7 +59,7 @@ namespace Inventario.includes
             HttpCookie emailCookie = Functions.ObtenerCookie("Email");
             HttpCookie userCookie = Functions.ObtenerCookie("UserName");
             HttpCookie fullnameCookie = Functions.ObtenerCookie("CompletoName");
-            if (idObject != 4046 && Convert.ToString(rolIdCookie.Value) != "4046")
+            if (idObject == 999999 && (Convert.ToString(rolIdCookie.Value)=="" || Convert.ToString(rolIdCookie.Value)==null))
             {
                 HttpContext.Current.Response.Redirect("~/Inventario/process/logout.aspx");
             }
@@ -79,17 +79,17 @@ namespace Inventario.includes
                 {
                     case "searchTypes":
                         {
-                            url = "TipoVehiculos/" + content;
+                            url = "admin/TipoVehiculos/" + content;
                             break;
                         }
                     case "searchModels":
                         {
-                            url = "ModeloVehiculos/" + content;
+                            url = "admin/ModeloVehiculos/" + content;
                             break;
                         }
                     case "searchBrands":
                         {
-                            url = "Marcas/" + content;
+                            url = "admin/Marcas/" + content;
                             break;
                         }
                     
