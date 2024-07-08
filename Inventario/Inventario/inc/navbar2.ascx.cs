@@ -13,56 +13,45 @@ namespace Inventario.Inventario.inc
         MySql MysqlNavBar2 = new MySql();
         private HttpCookie fullNameCook, rolCook, emailCook, userCook;
         private string query = "", mensaje = "";
-        private int userIdCook = 0, totalModulo=0, totalSubmodulo = 0, totalSubsubmodulo=0;
-        private int[] id_modulo, id_submodulo,id_subsubmodulo;
-        private string[] nombreModulo,nombreSubModulo,nombreSubsubmodulo, rutaModulo, rutaSubModulo,rutaSubsubmodulo, iconModulo,iconSubmodulo,iconSubsubmodulo, spanModulo, spanSubmodulo, spanSubsubmodulo;
-        public HttpCookie fullNameCookie  { get { return fullNameCook; } set { fullNameCook = value; } }
+        private int userIdCook = 0, totalModulo = 0, totalSubmodulo = 0, totalSubsubmodulo = 0;
+        private int[] id_modulo;
+        private string[] nombreModulo, rutaModulo, iconModulo, spanModulo;
+        private int[][] id_submodulo;
+        private int[][][] id_subsubmodulo;
+        private string[][] nombreSubModulo, rutaSubModulo, iconSubmodulo, spanSubmodulo;
+        private string[][][] nombreSubsubmodulo, rutaSubsubmodulo, iconSubsubmodulo, spanSubsubmodulo;
+
+        public HttpCookie fullNameCookie { get { return fullNameCook; } set { fullNameCook = value; } }
         public HttpCookie rolCookie { get { return rolCook; } set { rolCook = value; } }
-        public HttpCookie emailCookie  { get { return emailCook; } set { emailCook = value; } }
-        public HttpCookie userCookie { get { return userCook; } set { userCook = value; }}
+        public HttpCookie emailCookie { get { return emailCook; } set { emailCook = value; } }
+        public HttpCookie userCookie { get { return userCook; } set { userCook = value; } }
         public int userIdCookie { get { return userIdCook; } set { userIdCook = value; } }
-        public string consulta { get { return query; }set { query = value; } }
+        public string consulta { get { return query; } set { query = value; } }
         public string mens { get { return mensaje; } set { mensaje = value; } }
         public int TotalModulos { get { return totalModulo; } set { totalModulo = value; } }
         public int TotalSubModulos { get { return totalSubmodulo; } set { totalSubmodulo = value; } }
         public int TotalSubSubModulos { get { return totalSubsubmodulo; } set { totalSubsubmodulo = value; } }
-
-
-
-        public List<List<int>> idSubModulosList = new List<List<int>>();
-        public List<List<string>> NombreSubModulosList = new List<List<string>>();
-        public List<List<string>> RutaSubModulosList = new List<List<string>>();
-        public List<List<string>> IconSubModulosList = new List<List<string>>();
-        public List<List<string>> SpanSubModulosList = new List<List<string>>();
-
-        public List<List<List<int>>> idSubSubModulosList = new List<List<List<int>>>();
-        public List<List<List<string>>> NombreSubSubModulosList = new List<List<List<string>>>();
-        public List<List<List<string>>> RutaSubSubModulosList = new List<List<List<string>>>();
-        public List<List<List<string>>> IconSubSubModulosList = new List<List<List<string>>>();
-        public List<List<List<string>>> SpanSubSubModulosList = new List<List<List<string>>>();
-
-
-
         //MODULO PROPIEDADES
-        public int [] idModulo { get { return id_modulo; } set { id_modulo = value; } }
-        public string [] NombreModulo { get { return nombreModulo; } set { nombreModulo = value; } }
+        public int[] idModulo { get { return id_modulo; } set { id_modulo = value; } }
+        public string[] NombreModulo { get { return nombreModulo; } set { nombreModulo = value; } }
         public string[] RutaM { get { return rutaModulo; } set { rutaModulo = value; } }
         public string[] IconM { get { return iconModulo; } set { iconModulo = value; } }
         public string[] SpanM { get { return spanModulo; } set { spanModulo = value; } }
         ///SUBMODULO PROPIEDADES
-        public int[] idSubModulo { get { return id_submodulo; } set { id_submodulo = value; } }
-        public string[] NombreSubModulo { get { return nombreSubModulo; } set { nombreSubModulo = value; } }
-        public string[] RutaSM { get { return  rutaSubModulo; } set { rutaSubModulo = value; } }
-        public string[] IconSM { get { return iconSubmodulo; } set { iconSubmodulo = value; } }
-        public string[] SpanSM { get { return spanSubmodulo; } set { spanSubmodulo = value; } }
+        public int[][] idSubModulo { get { return id_submodulo; } set { id_submodulo = value; } }
+        public string[][] NombreSubModulo { get { return nombreSubModulo; } set { nombreSubModulo = value; } }
+        public string[][] RutaSM { get { return rutaSubModulo; } set { rutaSubModulo = value; } }
+        public string[][] IconSM { get { return iconSubmodulo; } set { iconSubmodulo = value; } }
+        public string[][] SpanSM { get { return spanSubmodulo; } set { spanSubmodulo = value; } }
         // SUBSUBMODULO PROPIEDADES
-        public int[] idSubSubModulo { get { return id_subsubmodulo; } set { id_subsubmodulo = value; } }
-        public string[] NombreSubSubModulo { get { return nombreSubsubmodulo; } set { nombreSubsubmodulo = value; } }
-        public string[] RutaSSM { get { return rutaSubsubmodulo; } set { rutaSubsubmodulo = value; } }
-        public string[] IconSSM { get { return iconSubsubmodulo; } set { iconSubsubmodulo = value; } }
-        public string[] SpanSSM { get { return spanSubsubmodulo; } set { spanSubsubmodulo = value; } }
+        public int[][][] idSubSubModulo { get { return id_subsubmodulo; } set { id_subsubmodulo = value; } }
+        public string[][][] NombreSubSubModulo { get { return nombreSubsubmodulo; } set { nombreSubsubmodulo = value; } }
+        public string[][][] RutaSSM { get { return rutaSubsubmodulo; } set { rutaSubsubmodulo = value; } }
+        public string[][][] IconSSM { get { return iconSubsubmodulo; } set { iconSubsubmodulo = value; } }
+        public string[][][] SpanSSM { get { return spanSubsubmodulo; } set { spanSubsubmodulo = value; } }
         protected void Page_Load(object sender, EventArgs e)
         {
+
             Tuple<List<object[]>, int> Modulos, Submodulos, Subsubmodulos;
 
             int userIdCookie = Session["id"] != null ? Convert.ToInt32(Session["id"]) : (Request.Cookies["UserId"] != null ? Convert.ToInt32(Request.Cookies["UserId"].Value) : 0);
@@ -84,6 +73,19 @@ namespace Inventario.Inventario.inc
                 IconM = new string[TotalModulos];
                 SpanM = new string[TotalModulos];
 
+                // Inicializa las matrices para los submódulos y subsubmódulos
+                idSubModulo = new int[TotalModulos][];
+                NombreSubModulo = new string[TotalModulos][];
+                RutaSM = new string[TotalModulos][];
+                IconSM = new string[TotalModulos][];
+                SpanSM = new string[TotalModulos][];
+
+                idSubSubModulo = new int[TotalModulos][][];
+                NombreSubSubModulo = new string[TotalModulos][][];
+                RutaSSM = new string[TotalModulos][][];
+                IconSSM = new string[TotalModulos][][];
+                SpanSSM = new string[TotalModulos][][];
+
                 for (int i = 0; i < TotalModulos; i++)
                 {
                     idModulo[i] = Convert.ToInt32(Modulos.Item1[i][0]);
@@ -99,67 +101,48 @@ namespace Inventario.Inventario.inc
                     if (Submodulos.Item2 >= 1)
                     {
                         TotalSubModulos = Submodulos.Item2;
-                        List<int> idSubModulo = new List<int>();
-                        List<string> NombreSubModulo = new List<string>();
-                        List<string> RutaSM = new List<string>();
-                        List<string> IconSM = new List<string>();
-                        List<string> SpanSM = new List<string>();
-
-                        List<List<int>> idSubSubModuloList = new List<List<int>>();
-                        List<List<string>> NombreSubSubModuloList = new List<List<string>>();
-                        List<List<string>> RutaSubSubModuloList = new List<List<string>>();
-                        List<List<string>> IconSubSubModuloList = new List<List<string>>();
-                        List<List<string>> SpanSubSubModuloList = new List<List<string>>();
+                        //DECLARACION ARREGLO DE JAGGED 2
+                        idSubModulo[i] = new int[TotalSubModulos];
+                        NombreSubModulo[i] = new string[TotalSubModulos];
+                        RutaSM[i] = new string[TotalSubModulos];
+                        IconSM[i] = new string[TotalSubModulos];
+                        SpanSM[i] = new string[TotalSubModulos];
+                        //DECLARACION ARREGLO DE JAGGED 3
+                        idSubSubModulo[i] = new int[TotalSubModulos][];
+                        NombreSubSubModulo[i] = new string[TotalSubModulos][];
+                        RutaSSM[i] = new string[TotalSubModulos][];
+                        IconSSM[i] = new string[TotalSubModulos][];
+                        SpanSSM[i] = new string[TotalSubModulos][];
 
                         for (int j = 0; j < TotalSubModulos; j++)
                         {
-                            idSubModulo.Add(Convert.ToInt32(Submodulos.Item1[j][0]));
-                            NombreSubModulo.Add(Convert.ToString(Submodulos.Item1[j][1]));
-                            RutaSM.Add(Convert.ToString(Submodulos.Item1[j][2]));
-                            IconSM.Add(Convert.ToString(Submodulos.Item1[j][3]));
-                            SpanSM.Add(Convert.ToString(Submodulos.Item1[j][4]));
-
+                            idSubModulo[i][j] = Convert.ToInt32(Submodulos.Item1[j][0]);
+                            NombreSubModulo[i][j] = Convert.ToString(Submodulos.Item1[j][1]);
+                            RutaSM[i][j] = Convert.ToString(Submodulos.Item1[j][2]);
+                            IconSM[i][j] = Convert.ToString(Submodulos.Item1[j][3]);
+                            SpanSM[i][j] = Convert.ToString(Submodulos.Item1[j][4]);
                             // SUBSUBMODULOS
-                            consulta = "SELECT DISTINCT ss.id_subsubmodulo, ss.nombre as Subsubmodulo, ss.ruta, ss.iconSubsubmodulo, ss.spansubsubmodulo FROM " + MysqlNavBar2.LinkedServer + " ... subsubmodulo ss INNER JOIN " + MysqlNavBar2.LinkedServer + " ... permisos p ON p.id_subsubmodulo = ss.id_subsubmodulo INNER JOIN " + MysqlNavBar2.LinkedServer + " ... cliente c ON p.id_usuario = c.id_cliente WHERE p.id_submodulo = " + idSubModulo[j] + " AND c.id_cliente =" + userIdCookie;
+                            consulta = "SELECT DISTINCT ss.id_subsubmodulo, ss.nombre as Subsubmodulo, ss.ruta, ss.iconSubsubmodulo, ss.spansubsubmodulo FROM " + MysqlNavBar2.LinkedServer + " ... subsubmodulo ss INNER JOIN " + MysqlNavBar2.LinkedServer + " ... permisos p ON p.id_subsubmodulo = ss.id_subsubmodulo INNER JOIN " + MysqlNavBar2.LinkedServer + " ... cliente c ON p.id_usuario = c.id_cliente WHERE (p.id_submodulo = " + idSubModulo[i][j] + " AND ss.id_subsubmodulo <>99999) AND c.id_cliente =" + userIdCookie;
                             Subsubmodulos = MysqlNavBar2.Consulta(ref mensaje, consulta);
-
                             if (Subsubmodulos.Item2 >= 1)
                             {
                                 TotalSubSubModulos = Subsubmodulos.Item2;
-                                List<int> idSubSubModulo = new List<int>();
-                                List<string> NombreSubSubModulo = new List<string>();
-                                List<string> RutaSSM = new List<string>();
-                                List<string> IconSSM = new List<string>();
-                                List<string> SpanSSM = new List<string>();
+                                idSubSubModulo[i][j] = new int[TotalSubSubModulos];
+                                NombreSubSubModulo[i][j] = new string[TotalSubSubModulos];
+                                RutaSSM[i][j] = new string[TotalSubSubModulos];
+                                IconSSM[i][j] = new string[TotalSubSubModulos];
+                                SpanSSM[i][j] = new string[TotalSubSubModulos];
 
                                 for (int k = 0; k < TotalSubSubModulos; k++)
                                 {
-                                    idSubSubModulo.Add(Convert.ToInt32(Subsubmodulos.Item1[k][0]));
-                                    NombreSubSubModulo.Add(Convert.ToString(Subsubmodulos.Item1[k][1]));
-                                    RutaSSM.Add(Convert.ToString(Subsubmodulos.Item1[k][2]));
-                                    IconSSM.Add(Convert.ToString(Subsubmodulos.Item1[k][3]));
-                                    SpanSSM.Add(Convert.ToString(Subsubmodulos.Item1[k][4]));
+                                    idSubSubModulo[i][j][k] = Convert.ToInt32(Subsubmodulos.Item1[k][0]);
+                                    NombreSubSubModulo[i][j][k] = Convert.ToString(Subsubmodulos.Item1[k][1]);
+                                    RutaSSM[i][j][k] = Convert.ToString(Subsubmodulos.Item1[k][2]);
+                                    IconSSM[i][j][k] = Convert.ToString(Subsubmodulos.Item1[k][3]);
+                                    SpanSSM[i][j][k] = Convert.ToString(Subsubmodulos.Item1[k][4]);
                                 }
-
-                                idSubSubModuloList.Add(idSubSubModulo);
-                                NombreSubSubModuloList.Add(NombreSubSubModulo);
-                                RutaSubSubModuloList.Add(RutaSSM);
-                                IconSubSubModuloList.Add(IconSSM);
-                                SpanSubSubModuloList.Add(SpanSSM);
                             }
                         }
-
-                        idSubModulosList.Add(idSubModulo);
-                        NombreSubModulosList.Add(NombreSubModulo);
-                        RutaSubModulosList.Add(RutaSM);
-                        IconSubModulosList.Add(IconSM);
-                        SpanSubModulosList.Add(SpanSM);
-
-                        idSubSubModulosList.Add(idSubSubModuloList);
-                        NombreSubSubModulosList.Add(NombreSubSubModuloList);
-                        RutaSubSubModulosList.Add(RutaSubSubModuloList);
-                        IconSubSubModulosList.Add(IconSubSubModuloList);
-                        SpanSubSubModulosList.Add(SpanSubSubModuloList);
                     }
                 }
             }

@@ -24,26 +24,26 @@
                                             </li>
                                             <%          
                                                 if (Session["rol"]?.ToString() != "99999" || rolCookie != null){
-                                                for (int a = 0; a < TotalModulos; a++) { %>
-    <li class="dropdown">
-        <a href="<%= RutaM[a] %>"><i class="<%= IconM[a] %>" aria-hidden="true"></i><span class="<%= SpanM[a] %>"></span> <%= NombreModulo[a] %></a>
-        <% if (idSubModulosList.Count > a) { %>
-            <ul class="nav nav-second-level">
-                <% for (int b = 0; b < idSubModulosList[a].Count; b++) { %>
-                    <li><a href="<%= RutaSubModulosList[a][b] %>"><i class="<%= IconSubModulosList[a][b] %>" aria-hidden="true"></i> <span class="<%= SpanSubModulosList[a][b] %>"></span> <%= NombreSubModulosList[a][b] %></a>
-                        <% if (idSubSubModulosList.Count > a && idSubSubModulosList[a].Count > b) { %>
-                            <ul class="nav nav-second-level">
-                                <% for (int c = 0; c < idSubSubModulosList[a][b].Count; c++) { %>
-                                    <li><a href="<%= RutaSubSubModulosList[a][b][c] %>"><i class="<%= IconSubSubModulosList[a][b][c] %>" aria-hidden="true"></i> <%= NombreSubSubModulosList[a][b][c] %></a></li>
-                                <% } %>
-                            </ul>
-                        <% } %>
-                    </li>
-                <% } %>
-            </ul>
-        <% } %>
-    </li>
-<% } %>
+                                                  for (int a = 0; a < TotalModulos; a++) { %>
+                                                    <li class="dropdown">
+                                                        <a href="<%= RutaM[a] %>"><i class="<%= IconM[a] %>" aria-hidden="true"></i><span class="<%= SpanM[a] %>"></span> <%= NombreModulo[a] %></a>
+                                                        <% if (idSubModulo[a] != null) { %>
+                                                            <ul class="nav nav-second-level">
+                                                                <% for (int b = 0; b < idSubModulo[a].Length; b++) { %>
+                                                                    <li><a href="<%= RutaSM[a][b] %>"><i class="<%= IconSM[a][b] %>" aria-hidden="true"></i> <span class="<%= SpanSM[a][b] %>"></span> <%= NombreSubModulo[a][b] %></a>
+                                                                        <% if (idSubSubModulo[a][b] != null) { %>
+                                                                            <ul class="nav nav-third-level">
+                                                                                <% for (int c = 0; c < idSubSubModulo[a][b].Length; c++) { %>
+                                                                                    <li><a href="<%= RutaSSM[a][b][c] %>"><i class="<%= IconSSM[a][b][c] %>" aria-hidden="true"></i> <%= NombreSubSubModulo[a][b][c] %></a></li>
+                                                                                <% } %>
+                                                                            </ul>
+                                                                        <% } %>
+                                                                    </li>
+                                                                <% } %>
+                                                            </ul>
+                                                        <% } %>
+                                                    </li>
+                                                <% } %>
 
                                               
                                                     
