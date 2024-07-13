@@ -10,6 +10,8 @@
     }
 }
 var vistaGlobal = new GlobalVista("");
+
+
 function NombrePaginaActual() {
     let nombre = document.getElementById("NombrePaginaActual").value;
     return nombre ? nombre : "No";
@@ -43,7 +45,7 @@ function FiltroUsers(ordenador, pagina) {
     }
 
     let nombrePagina = NombrePaginaActual();
-    alert(nombrePagina);
+ //    alert(nombrePagina);
     if (pagina <= 1) {
         URL = "./admin.aspx?view=" + nombrePagina + "&" + $("#rol").val() + "=" + ordenador;
        // alert(URL);

@@ -1,45 +1,42 @@
-  if ('serviceWorker' in navigator) {
-     navigator.serviceWorker.register('./Inventario/sw/sw.js')
-      .then(
-         function (registration) {
-             console.log('Reg. satisfactorio del sw en el ámbito: ', registration.scope);
-         }
-     ).catch(
-       function (err) {
-       console.log('El SW no se registró', err);
-         }
-     );
-  }
-                             
-function PasarValor()
-{
-   document.getElementById("fecha").value = document.getElementById("fech").value;
+ï»¿if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./Inventario/sw/sw.js')
+        .then(
+            function (registration) {
+                console.log('Reg. satisfactorio del sw en el Ã¡mbito: ', registration.scope);
+            }
+        ).catch(
+            function (err) {
+                console.log('El SW no se registrÃ³', err);
+            }
+        );
 }
-const MarcarCheckBox = (validar) =>{
-  var checkBox = document.getElementsByTagName('input');
-  for( i=0;i<=checkBox.length; i++)
-    {
-        if(checkBox[i].type == "checkbox"){
-            checkBox[i].checked= validar.checked;
+
+function PasarValor() {
+    document.getElementById("fecha").value = document.getElementById("fech").value;
+}
+const MarcarCheckBox = (validar) => {
+    var checkBox = document.getElementsByTagName('input');
+    for (i = 0; i <= checkBox.length; i++) {
+        if (checkBox[i].type == "checkbox") {
+            checkBox[i].checked = validar.checked;
         }
     }
 }
 
-function funcion_reiniciar( x)
-{
-	document.getElementById(x).reset();
+function funcion_reiniciar(x) {
+    document.getElementById(x).reset();
 }
 
-var container= document.getElementById('container');
-setTimeout(function(){
-container.classList.add('cerrar');
-},9000);
+var container = document.getElementById('container');
+setTimeout(function () {
+    container.classList.add('cerrar');
+}, 9000);
 
-var loadFile = function(event) {
+var loadFile = function (event) {
     var reader = new FileReader();
-    reader.onload = function(){
-      var output = document.getElementById('output');
-      output.src = reader.result;
+    reader.onload = function () {
+        var output = document.getElementById('output');
+        output.src = reader.result;
     };
     reader.readAsDataURL(event.target.files[0]);
 };
@@ -76,11 +73,11 @@ $(document).ready(function () {
 
     ModificaUrl();
 
-    
-        $("#carousel-example-generic").carousel({
-            interval: 2500,
-        });
-    
+
+    $("#carousel-example-generic").carousel({
+        interval: 2500,
+    });
+
     ////////////////////////////////////////// FUNCIONES PARA VALIDAR ADMIN 
     $("#input_user").keyup(function () {
         $.ajax({
@@ -100,26 +97,26 @@ $(document).ready(function () {
     });
 
     $(".configuracion-link").click(function (e) {
-        e.preventDefault(); // Evita la acción predeterminada del enlace
+        e.preventDefault(); // Evita la acciÃ³n predeterminada del enlace
         var dropdownMenu = $(this).closest(".dropdown").find(".dropdown-menu");
         dropdownMenu.toggleClass("show");
     });
-    // Evento clic para cerrar el menú desplegable al hacer clic fuera de él
+    // Evento clic para cerrar el menÃº desplegable al hacer clic fuera de Ã©l
     $(".nombre").click(function (e) {
-        e.preventDefault(); // Evita la acción predeterminada del enlace
+        e.preventDefault(); // Evita la acciÃ³n predeterminada del enlace
         //    var dropdownMenu = $(this).closest(".dropdown").find(".dropdown-menu");
         dropdownMenu.toggleClass("open");
     });
-    // Evitar que se cierre el menú al hacer clic en un enlace interno
+    // Evitar que se cierre el menÃº al hacer clic en un enlace interno
     $(".dropdown-menu").on("click", function (e) {
         e.stopPropagation();
     });
-    $(".inventario").click(function(e) {
+    $(".inventario").click(function (e) {
         e.preventDefault();
         $(".principal, .secundario, .terciario").removeClass("show");
     });
     $(".principal, .secundario, .terciario").click(function (e) {
-        e.preventDefault();
+     
         $(this).addClass("show");
     });
 });

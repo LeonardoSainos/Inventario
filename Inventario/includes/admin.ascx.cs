@@ -68,9 +68,6 @@ namespace Inventario.includes
             ViewDiferent = new string[] { "searchUsers", "searchDepa", "searchTicket", "searchBrands", "searchModels", "searchTypes", "searchCars" };
             WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "mecanico", "admin", "config", "almacenista", "depa", "depaedit", "userEdit", "acciones", "brands", "brandEdit", "models", "modelEdit", "types", "typeEdit", "cars", "carEdit" };
 
-            
-
-
             if (Request.QueryString["view"] != null && (Session["id"] != null || userIdCookie != null))
             {
                 content = Request.QueryString["view"];

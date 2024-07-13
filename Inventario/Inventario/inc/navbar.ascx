@@ -6,7 +6,7 @@
 <%
      string nombreCompleto = Session["nombre"] as string;
 
-    string rolC = ""; 
+ 
        nombreCompleto = (!string.IsNullOrEmpty(nombreCompleto)) ? nombreCompleto : 
                         (userCookie!= null && !string.IsNullOrEmpty(userCookie.Value)) ? userCookie.Value : 
                         string.Empty;
@@ -31,37 +31,84 @@
                     <a id="expanded" href="#"  class="dropdown-toggle nombre" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-user"></span> &nbsp; <%= nombreCompleto %><b class="caret"></b>
                     </a>
-                    <ul class="dropdown-menu">
-                        <!-- usuarios -->
-                        <% rolC = Convert.ToString(rolCookie.Value);
-
-                            if(Session["rol"]?.ToString() == "2736" || rolC=="2736") { %>
-                        <li>
-                            <a href="./index.php?view=configuracion"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Configuración</a>
-                        </li> 
-                        <li>
-                            <a href="./index.php?view=ticketClient"><span class="glyphicon glyphicon-envelope"></span> &nbsp; Tus Tickets</a>
-                        </li>
+                 <ul class="dropdown-menu">
+    <% 
+        string rolC = Convert.ToString(rolCookie.Value); 
+        if (Session["rol"]?.ToString() != "99999" || rolC != null) {
+            for (int a = 0; a < TotalModulos; a++) { 
+    %>
+                <li class="dropdown notdisplay">
+                    <a href="<%= RutaM[a] %>" class="inventario dropdown-toggle configuracion-link" data-toggle="dropdown">
+                        &nbsp;&nbsp;<i class="<%= IconM[a] %>" aria-hidden="true"></i>&nbsp;<%= NombreModulo[a] %><b class="caret"></b>
+                    </a>
+                    <% if (idSubModulo[a] != null) { %>
+                        <ul class="dropdown-menu">
+                            <% for (int b = 0; b < idSubModulo[a].Length; b++) { %>
+                                <li class="dropdown notdisplay">
+                                    <a href="<%= RutaSM[a][b] %>" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="<%= IconSM[a][b] %>"></i>&nbsp;<%= NombreSubModulo[a][b] %>
+                                    </a>
+                                    <% if (idSubSubModulo[a][b] != null) { %>
+                                        <ul class="dropdown-menu <%=ClasesCSS[b] %>">
+                                            <% for (int c = 0; c < idSubSubModulo[a][b].Length; c++) { %>
+                                                <li>
+                                                    <a class="data" href="<%= RutaSSM[a][b][c] %>">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="<%= IconSSM[a][b][c] %>" aria-hidden="true"></i> <%= NombreSubSubModulo[a][b][c] %>
+                                                    </a>
+                                                </li>
+                                            <% } %>
+                                        </ul>
+                                    <% } %>
+                                </li>
                             <% } %>
-                        <!-- tecnico -->
-                            <% if(Session["rol"]?.ToString() == "7845" || rolC=="7845") { %>
-                        <li>
-                            <a href="tecni.php?view=ticketTecni"><span class="glyphicon glyphicon-envelope"></span> &nbsp; Tus Tickets</a>
-                        </li>
-                        <li>
-                            <a href="tecni.php?view=users"><span class="glyphicon glyphicon-user"></span> &nbsp;Usuarios</a>
-                        </li>
-                        <li>
-                            <a href="tecni.php?view=config"><i class="fa fa-cogs"></i> &nbsp; Configuración</a>
-                        </li>
+                        </ul>
+                    <% } %>
+                </li>
+    <% 
+            } 
+    %>             <!-- Inventario  
+                                    <li class="dropdown notdisplay">
+                                        <a href="#" class="inventario dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                            &nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i>&nbsp;Inventario <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <!-- Inventario general 
+                                            <li class="dropdown notdisplay">
+                                                <a   href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-wpforms" aria-hidden="true"></i>&nbsp;Inventario general <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu principal"  >
+                                                    <li><a class="data" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
+                                                    <li><a class="data" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
+                                                    <li><a class="data" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
+                                                </ul>
+                                            </li>
+                                            <!-- B2 Taller 
+                                            <li class="dropdown notdisplay">
+                                                <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-wpforms" aria-hidden="true"></i>&nbsp;B2 Taller <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu secundario">
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
+                                                </ul>
+                                            </li>
+                                            <!-- B3 Encierro 
+                                            <li class="dropdown notdisplay">
+                                                <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-wpforms" aria-hidden="true"></i>&nbsp;B3 Encierro <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu terciario">
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
+                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
 
-                            <% } %>
-                         <!-- admins -->
-
-                    <% 
-                        if(Session["rol"]?.ToString() == "4046" || rolC == "4046") { %>
-                 
-                                    <!-- Configuracion  -->
+                                                                             <!-- Configuracion        
                                     <li class="dropdown notdisplay" >
                                         <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
                                             &nbsp;&nbsp;<i class="fa fa-cog" aria-hidden="true"></i>&nbsp;Configuración<b class="caret"></b>
@@ -79,48 +126,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                                                       <!-- Inventario -->
-                                    <li class="dropdown notdisplay">
-                                        <a href="#" class="inventario dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                            &nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i>&nbsp;Inventario <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <!-- Inventario general -->
-                                            <li class="dropdown notdisplay">
-                                                <a   href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-wpforms" aria-hidden="true"></i>&nbsp;Inventario general <b class="caret"></b>
-                                                </a>
-                                                <ul class="dropdown-menu principal"  >
-                                                    <li><a class="data" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
-                                                    <li><a class="data" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
-                                                    <li><a class="data" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
-                                                </ul>
-                                            </li>
-                                            <!-- B2 Taller -->
-                                            <li class="dropdown notdisplay">
-                                                <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-wpforms" aria-hidden="true"></i>&nbsp;B2 Taller <b class="caret"></b>
-                                                </a>
-                                                <ul class="dropdown-menu secundario">
-                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
-                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
-                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
-                                                </ul>
-                                            </li>
-                                            <!-- B3 Encierro -->
-                                            <li class="dropdown notdisplay">
-                                                <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-wpforms" aria-hidden="true"></i>&nbsp;B3 Encierro <b class="caret"></b>
-                                                </a>
-                                                <ul class="dropdown-menu terciario">
-                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrows-h" aria-hidden="true"></i>Tipo de entrada </a></li>
-                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-left" aria-hidden="true"></i>Entrada de material</a></li>
-                                                    <li><a class="data" data-toggle="dropdown" href="ruta_a_configuracion">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>Salida de material</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                   <!-- Material -->
+                                   <!-- Material  
                                     <li  class="dropdown notdisplay">
                                       <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
                                              &nbsp;&nbsp;<i class="fa fa-wrench" aria-hidden="true"></i> Material<b class="caret"></b>
@@ -138,13 +144,13 @@
                                             </li>
                                         </ul>
                                     </li>
-                                   <!-- Familia de material -->
+                                   <!-- Familia de material  
                                     <li  class="dropdown notdisplay">
                                           <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
                                             &nbsp;&nbsp;<i class="fa fa-tags" aria-hidden="true"></i>&nbsp;Familia<b class="caret"></b>
                                         </a>
                                     </li>
-                                   <!--  Usuarios -->
+                                   <!--  Usuarios  
                                     <li  class="dropdown notdisplay">
                                           <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
                                              &nbsp;&nbsp;<i class="fa fa-users" aria-hidden="true"></i>&nbsp;Usuarios<b class="caret"></b>
@@ -157,13 +163,13 @@
                                               </li>
                                           </ul>
                                     </li>
-                                    <!--  Proveedores -->
+                                    <!--  Proveedores  
                                      <li  class="dropdown notdisplay">
                                            <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
                                              &nbsp;&nbsp;<i class="fa fa-handshake-o" aria-hidden="true"></i>&nbsp;Proveedores<b class="caret"></b>
                                         </a>
                                      </li>
-                                     <!-- Vehiculos -->
+                                     <!-- Vehiculos  
                                         <li  class="dropdown notdisplay">
                                         <a href="#" class="dropdown-toggle configuracion-link" data-toggle="dropdown">
                                              &nbsp;&nbsp;<i class="fa fa-bus" aria-hidden="true"></i>&nbsp;Vehiculos<b class="caret"></b>
@@ -193,7 +199,7 @@
                                                  </ul>
                                          </ul>
                                      </li>
-                       </li>
+                       </li>-->
 <% } %>
                         <li class="divider"></li>
                         <li>
@@ -225,6 +231,3 @@
           <% if ((Session["rol"] == null || Session["nombre"] == null) && (rolCookie==null || userCookie==null)){ %>
                     <uc:Login runat="server" /><%}
           %>
-                  
-                  
- 
