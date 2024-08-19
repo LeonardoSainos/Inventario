@@ -65,8 +65,8 @@ namespace Inventario.includes
             }
             nombre = Session["Nombre"] as string;
             completoName = Session["nombre_completo"] as string;
-            ViewDiferent = new string[] { "searchUsers", "searchDepa", "searchTicket", "searchBrands", "searchModels", "searchTypes", "searchCars" };
-            WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "mecanico", "admin", "config", "almacenista", "depa", "depaedit", "userEdit", "acciones", "brands", "brandEdit", "models", "modelEdit", "types", "typeEdit", "cars", "carEdit" };
+            ViewDiferent = new string[] { "searchUsers", "searchDepa", "searchTicket", "searchBrands", "searchModels", "searchTypes", "searchCars","searchPermissions" };
+            WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "admin", "config", "depa", "depaedit", "userEdit", "acciones", "brands", "brandEdit", "models", "modelEdit", "types", "typeEdit", "cars", "carEdit", "permissions" };
 
             if (Request.QueryString["view"] != null && (Session["id"] != null || userIdCookie != null))
             {
@@ -89,11 +89,31 @@ namespace Inventario.includes
                             url = "admin/Marcas/" + content;
                             break;
                         }
-                    
+                
+                    case "searchUsers":
+                        {
+                            url = "admin/" + content;
+                            break;
+                        }
+                    case "searchCars":
+                        {
+                            url = "admin/Vehiculos/" + content;
+                            break;
+                        }
+                    case "searchPermissions":
+                        {
+                            url = "admin/Configuracion/" + content;
+                            break;
+                        }
+                    case "admin":
+                        {
+                            url = "admin/" + content;
+                            break;
+                        }
+                   
                 }
                 result = content.Substring(content.LastIndexOf('/') + 1);
-                string i = Request.Cookies["LastVisitedURL"]?.Value;
-                
+                string i = Request.Cookies["LastVisitedURL"]?.Value;                
                 
                 HttpCookie urlCookie = Functions.CrearCookie("", "LastVisitedURL", Response);   
                 if (content != result)

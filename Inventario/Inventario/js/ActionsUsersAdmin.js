@@ -12,6 +12,9 @@
 var vistaGlobal = new GlobalVista("");
 
 
+
+ 
+
 function NombrePaginaActual() {
     let nombre = document.getElementById("NombrePaginaActual").value;
     return nombre ? nombre : "No";
@@ -35,6 +38,8 @@ function BuscarInformacion(vista, pagina) {
         $("#contenido").html(datos);
     });
 }
+ 
+ 
 function FiltroUsers(ordenador, pagina) {
     var URL;
     if (typeof ordenador === 'undefined') {
@@ -70,6 +75,7 @@ function ValidaId() {
         incremento.id = "incrementoOrder";
     }
 }
+
 function ActivarBoton(opcion) {
     // Activar el botón dentro del formulario
     switch (opcion) {
@@ -283,8 +289,47 @@ $(document).ready(function () {
     $("#Brandfechaa").click(function () {
         FiltroUsers('Fecha');
     });
-   /*
-    $(function () {
+
+    $('.permisosbtn').on('click', function () {
+
+        let liga = "./admin?view=Configuracion/";
+        // Encuentra la fila más cercana del botón que fue clickeado
+        var $tr = $(this).closest('tr');
+
+        // Captura los datos de las celdas especificando sus índices
+        var idCliente = $tr.children('td').eq(1).text().trim(); // Índice 1 para id_cliente
+        var nombre = $tr.children('td').eq(2).text().trim();    // Índice 2 para nombre_completo
+        var email = $tr.children('td').eq(3).text().trim();     // Índice 3 para email_cliente
+
+        // Asigna los valores a los campos de entrada del formulario
+        $("#update_id").val(idCliente);
+        $("#nombres").val(nombre);
+        $('#correos').val(email);
+
+        var id_clientePermission = idCliente; // Obtener el valor del input con ID update_id
+        var url = liga + 'AddPermission.ascx'; // Definir la URL del recurso
+
+        $.ajax({
+            type: 'POST', // Tipo de solicitud: POST
+            url: url, // URL a la que se envía la solicitud
+            data: 'id_clientePermission='+ id_clientePermission ,
+            success: function (data) {
+                // Aquí puedes manejar la respuesta del servidor si es necesario
+                console.log("Datos enviados con éxito");
+            },
+            error: function (error) {
+                console.log("Error al enviar la solicitud AJAX" + error); // Manejar errores
+                
+            }
+        });
+    });
+
+
+
+    
+
+
+  /* $(function () {
         $("#tipoo").on('change', function () {
             var liga = "../admin/Actions/";
             var id_tipo = $("#tipoo").val();

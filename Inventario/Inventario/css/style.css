@@ -66,3 +66,11 @@ nav ul li a:hover{
 	width: 600px;
 	height: 250px;
 }
+
+.details {
+	display: none;
+	 
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin-top: 5px;
+}

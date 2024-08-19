@@ -13,5 +13,14 @@ namespace Inventario.Inventario.admin.Actions
 
     public partial class AddTypes
     {
+
+        /// <summary>
+        /// Control DeleteUser.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::Inventario.Inventario.admin.DeleteUser DeleteUser;
     }
 }

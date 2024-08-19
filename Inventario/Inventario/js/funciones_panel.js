@@ -14,6 +14,7 @@
 function PasarValor() {
     document.getElementById("fecha").value = document.getElementById("fech").value;
 }
+//pasar valor checkbox
 const MarcarCheckBox = (validar) => {
     var checkBox = document.getElementsByTagName('input');
     for (i = 0; i <= checkBox.length; i++) {
@@ -22,7 +23,7 @@ const MarcarCheckBox = (validar) => {
         }
     }
 }
-
+//reiniciar formulario
 function funcion_reiniciar(x) {
     document.getElementById(x).reset();
 }
@@ -41,29 +42,33 @@ var loadFile = function (event) {
     reader.readAsDataURL(event.target.files[0]);
 };
 
-
+//quitar carpeta en url
 function ModificaUrl() {
     let currentUrl = window.location.href;
-
+    let newUrl;
     if (currentUrl.includes("TipoVehiculos/")) {
-        var newUrl = currentUrl.replace("TipoVehiculos/", "");
+        newUrl = currentUrl.replace("TipoVehiculos/", "");
         window.history.replaceState({}, document.title, newUrl);
     } else if (currentUrl.includes("Marcas/")) {
-        var newUrl = currentUrl.replace("Marcas/", "");
+        newUrl = currentUrl.replace("Marcas/", "");
         window.history.replaceState({}, document.title, newUrl);
     } else if (currentUrl.includes("ModeloVehiculos/")) {
-        var newUrl = currentUrl.replace("ModeloVehiculos/", "");
+        newUrl = currentUrl.replace("ModeloVehiculos/", "");
         window.history.replaceState({}, document.title, newUrl);
     } else if (currentUrl.includes("Vehiculos/")) {
-        var newUrl = currentUrl.replace("Vehiculos/", "");
+        newUrl = currentUrl.replace("Vehiculos/", "");
         window.history.replaceState({}, document.title, newUrl);
-    } else {
+    } else if (currentUrl.includes("Configuracion/", "")) {
+        newUrl = currentUrl.replace("Configuracion/", "");
+        window.history.replaceState({}, document.title, newUrl);
+    }
+    else {
         console.log("URL no modificada:", currentUrl);
     }
 }
 
 
-
+//nombre de la pagina actual
 function PaginaActual() {
     var pagina = document.getElementById("paginaActual").value;
     return pagina;
@@ -72,7 +77,6 @@ $(document).ready(function () {
     // /////////////////////////////////Carousel
 
     ModificaUrl();
-
 
     $("#carousel-example-generic").carousel({
         interval: 2500,

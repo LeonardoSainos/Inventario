@@ -33,7 +33,7 @@
                 <input id="NombrePaginaActual" type="hidden" value="<%=PaginaNombre%>" />
           <input id="rol" type="hidden" value="<%=TipoRol%>" />
 <div style="display:flex; float:right;">
- <input id="busqueda" style="width: 80%; float:left;" placeholder="Buscar administradores"   name="busqueda" class="form-control mr-sm-2 alin" type="text" />
+ <input id="busqueda" style="width: 80%; float:left;" placeholder="Buscar usuarios"   name="busqueda" class="form-control mr-sm-2 alin" type="text" />
 <a id="mt" href="javascript:void()" style="float:right;" placeholder="Buscar" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-search"></span></a>
  <div class='btn-group' style="display:flex; float:left">
   <button class='btn dropdown-toggle btn-success' data-toggle='dropdown' value='Más'><span class='fa fa-reorder'></span></button>

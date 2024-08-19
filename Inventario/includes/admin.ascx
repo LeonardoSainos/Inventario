@@ -54,6 +54,9 @@
                                                             break; }
                                                         case "types": { %> <uc:AdminTypeView TipoRol="admin" runat="server" /> <% 
                                                             break; }
+                                                        case "permissions": {  %> <uc:AdminPermissionsView  TipoRol="admin" runat="server"  /> <% 
+                                                             break;}                                                                                        
+
                                                         case "cars": { %> <uc:AdminCarView  TipoRol="admin" runat="server" /> <% 
                                                           break;      }
                                                         case "typeEdit": { %> <uc:TypeEditAdmin runat="server" /> <%

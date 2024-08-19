@@ -11,7 +11,8 @@ using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
- 
+using System.Web.Configuration;
+using System.Configuration;
 
 namespace Inventario.Inventario.lib
 {
@@ -49,13 +50,11 @@ namespace Inventario.Inventario.lib
                 .Replace("&", "");
             return valor;
         }
-
         public static string RequestGet(string val)
         {
             string datos = LimpiarCadena(val);
             return datos;
         }
-
         public static string RequestPost(string val)
         {
             string datos = LimpiarCadena(val);
