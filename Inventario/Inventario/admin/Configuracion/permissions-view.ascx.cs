@@ -130,7 +130,7 @@ namespace Inventario.Inventario.admin.Configuracion
                     }
 
                     // Esto asegura que solo el UpdatePanel se actualiza sin causar un postback completo.
-                  
+                    updatePanelSubmodulo.Update();
                 }
             }
         }

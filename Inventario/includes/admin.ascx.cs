@@ -1,146 +1,88 @@
 ﻿using Inventario.Inventario.lib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+
 namespace Inventario.includes
 {
-    public partial class admin : System.Web.UI.UserControl
+    public partial class admin : UserControl
     {
-        private string name = "", fullname = "", cont = "", res = "", last, urle="";
-        private string[] viewd, whitel;
-        public string lastVisitedUrl
-        {
-            get { return last; }
-            set { last = value; }
-        }
-        public string url
-        {
-            set { urle = value; }
-            get { return urle; }
-        }
-        public string content
-        {
-            set { cont = value; }
-            get { return cont; }
-        }
-        public string result
-        {
-            set { res = value; }
-            get { return res; }
-        }
-        public string nombre
-        {
-            set { name = value; }
-            get { return name; }
-        }
-        public string completoName
-        {
-            set { fullname = value; }
-            get { return fullname; }
-        }
-        public string[] ViewDiferent
-        {
-            set { viewd = value; }
-            get { return viewd; }
-        }
-        public string[] WhiteList
-        {
-            set { whitel = value; }
-            get { return whitel; }
-        }
         protected void Page_Load(object sender, EventArgs e)
         {
-            int idObject = Convert.ToInt32(Session["rol"]);
-            HttpCookie userIdCookie = Functions.ObtenerCookie("UserId");
-            HttpCookie rolIdCookie = Functions.ObtenerCookie("RolId");
-            HttpCookie emailCookie = Functions.ObtenerCookie("Email");
-            HttpCookie userCookie = Functions.ObtenerCookie("UserName");
-            HttpCookie fullnameCookie = Functions.ObtenerCookie("CompletoName");
-            if (idObject == 999999 && (Convert.ToString(rolIdCookie.Value)=="" || Convert.ToString(rolIdCookie.Value)==null))
+            if (!IsPostBack)
             {
-                HttpContext.Current.Response.Redirect("~/Inventario/process/logout.aspx");
-            }
-            nombre = Session["Nombre"] as string;
-            completoName = Session["nombre_completo"] as string;
-            ViewDiferent = new string[] { "searchUsers", "searchDepa", "searchTicket", "searchBrands", "searchModels", "searchTypes", "searchCars","searchPermissions" };
-            WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "admin", "config", "depa", "depaedit", "userEdit", "acciones", "brands", "brandEdit", "models", "modelEdit", "types", "typeEdit", "cars", "carEdit", "permissions" };
+                string content = Request.QueryString["view"];
+                if (Session["id"] != null || Functions.ObtenerCookie("UserId") != null)
+                {
+                    content = content?.ToLower();
 
-            if (Request.QueryString["view"] != null && (Session["id"] != null || userIdCookie != null))
-            {
-                content = Request.QueryString["view"];
-                url = content;
-                switch (content)
-                {
-                    case "searchTypes":
-                        {
-                            url = "admin/TipoVehiculos/" + content;
-                            break;
-                        }
-                    case "searchModels":
-                        {
-                            url = "admin/ModeloVehiculos/" + content;
-                            break;
-                        }
-                    case "searchBrands":
-                        {
-                            url = "admin/Marcas/" + content;
-                            break;
-                        }
-                
-                    case "searchUsers":
-                        {
-                            url = "admin/" + content;
-                            break;
-                        }
-                    case "searchCars":
-                        {
-                            url = "admin/Vehiculos/" + content;
-                            break;
-                        }
-                    case "searchPermissions":
-                        {
-                            url = "admin/Configuracion/" + content;
-                            break;
-                        }
-                    case "admin":
-                        {
-                            url = "admin/" + content;
-                            break;
-                        }
-                   
-                }
-                result = content.Substring(content.LastIndexOf('/') + 1);
-                string i = Request.Cookies["LastVisitedURL"]?.Value;                
-                
-                HttpCookie urlCookie = Functions.CrearCookie("", "LastVisitedURL", Response);   
-                if (content != result)
-                {
-                    urlCookie.Value = content;
-                    lastVisitedUrl = urlCookie.Value;
-                }
-                else if (content == result && !content.Contains("/") && content != i)
-                {
-                    if (content == result && !content.Contains("/") && i != null)
+                    if (IsValidContent(content))
                     {
-                        urlCookie.Value = i;
-                        lastVisitedUrl = i;
-                    }
-                    else
-                    {
-                        urlCookie.Value = content;
-                        lastVisitedUrl = urlCookie.Value;
-                       urlCookie.Expires = DateTime.MinValue;
+                        string controlPath = GetControlPath(content);
+                        if (!string.IsNullOrEmpty(controlPath))
+                        {
+                            Control userControl = LoadControl(controlPath);
+                            phContent.Controls.Add(userControl);
+                        }
+                        else
+                        {
+                            Response.Redirect("~/Inventario/process/logout.aspx");
+                        }
                     }
                 }
                 else
                 {
-                    urlCookie.Value = content;
-                    lastVisitedUrl = Request.Cookies["LastVisitedURL"]?.Value;
+                    Response.Redirect("~/Inventario/process/logout.aspx");
                 }
             }
+        }
+
+        private bool IsValidContent(string content)
+        {
+            string[] whiteList = { "admin", "almacenista", "mecanico", "useredit", "brands", "models", "types", "permissions", "cars", "typeedit", "modeledit", "brandedit", "caredit" };
+            string[] viewDiferent = { "searchusers", "searchdepa", "searchticket", "searchbrands", "searchmodels", "searchtypes", "searchcars", "searchpermissions" };
+
+            return Array.Exists(whiteList, element => element == content) ||
+                   Array.Exists(viewDiferent, element => element == content);
+        }
+
+        private string GetControlPath(string content)
+        {
+            string controlPath = string.Empty;
+
+            switch (content)
+            {
+                case "admin":
+                case "almacenista":
+                case "mecanico":
+                    controlPath = $"~/Inventario/admin/{content}-view.ascx";
+                    break;
+                case "useredit":
+                case "brands":
+                case "models":
+                case "types":
+                case "permissions":
+                case "cars":
+                case "typeedit":
+                case "modeledit":
+                case "brandedit":
+                case "caredit":
+                    controlPath = $"~/Inventario/admin/{content}-view.ascx";
+                    break;
+                case "searchusers":
+                case "searchbrands":
+                case "searchmodels":
+                case "searchtypes":
+                case "searchcars":
+                case "searchpermissions":
+                    controlPath = $"~/Inventario/admin/{content}.ascx";
+                    break;
+                default:
+                    Response.Redirect("~/Inventario/process/logout.aspx");
+                    break;
+            }
+
+            return controlPath;
         }
     }
 }
