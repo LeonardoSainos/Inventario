@@ -84,7 +84,7 @@
                             <asp:TemplateField HeaderText="Opciones">
                                 <ItemTemplate>
                                     <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-sm btn-success"
-                                        NavigateUrl='<%#Eval("id_marca","~/admin.aspx?view=brandEdit&idB={0}") %>'>
+                                        NavigateUrl='<%#Eval("id_marca","~/admin.aspx?view=brandsEdit&idB={0}") %>'>
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </asp:HyperLink>
                                    <button type="button" class="dropbtn btn btn-sm btn-danger" data-toggle="modal" data-target="#pregunta" onclick='document.getElementById("borrar_idB").value="<%# Eval("id_marca")%>";'>

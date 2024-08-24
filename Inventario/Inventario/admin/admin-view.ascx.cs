@@ -14,7 +14,7 @@ namespace Inventario.Inventario.admin
         MySql AdminView = new MySql();
         Functions Funciones = new Functions();
         private int numeropaginas = 0, paginaas = 0, r1 = 0, r2 = 0, r3 = 0, inicio= 0;
-        private string aler = "",consulta="",mens="", rol="", nombrepagina = "searchUsers";
+        private string aler = "", consulta = "", mens = "", rol = "", nombrepagina = "searchUsers";
         public string PaginaNombre
         {
             get { return nombrepagina; }

@@ -7,18 +7,18 @@ using System.Web.UI.WebControls;
 using Inventario.Inventario.lib;
 using System.Data;
 using Inventario.Scripts;
-
 namespace Inventario.Inventario.admin.Configuracion
 {
     public partial class permissions_view : System.Web.UI.UserControl
     {
         MySql PermisosMysql = new MySql();
         CONEXION Permisos = new CONEXION();
-        private int numeropaginas = 0, paginaas = 0, r1 = 0, r2 = 0, r3 = 0, inicio = 0, totalModulo, totalSubdmodulo, totalSubsubmodulo;
+        private int numeropaginas = 0, paginaas = 0, r1 = 0, r2 = 0, r3 = 0, inicio = 0, totalModulo, totalSubdmodulo, totalSubsubmodulo, permissionUser=0;
         private string aler = "", consulta = "", mens = "", rol = "", nombrepagina = "searchPermissions";
         private int[] idModuloUser, idSubmoduloUser, idSubsubmodulouser;
         private string[] valModuloUser, valSubmoduloUser, valSubsubmodulouser;
         public string PaginaNombre { get { return nombrepagina; } }
+        public int PermissionsId { get { return permissionUser; } set { permissionUser = value; } }
         public int inicializacion { set { inicio = value; } get { return inicio; } }
         public int numPagina { set { numeropaginas = value; } get { return numeropaginas; } }
         public int pagina { set { paginaas = value; } get { return paginaas; } }
@@ -47,12 +47,16 @@ namespace Inventario.Inventario.admin.Configuracion
                 row1 = Convert.ToInt32(usuarios.Item1[0][0]);
             }
             if (!IsPostBack)
-            {
-             BindModulosGrid();
+            { BindModulosGrid();
             }
         }
         private void BindModulosGrid()
         {
+            if (!String.IsNullOrEmpty(Request.Form["id_clientePermission"]))
+            {
+                PermissionsId = Convert.ToInt32(Functions.RequestPost(Request.Form["id_clientePermission"]));
+            }
+
             string[] orderby = { "c.nombre_completo", "c.email_cliente" };
             string ordenamuestra = orderby[0];
             int tipoRol = 0;
@@ -91,7 +95,6 @@ namespace Inventario.Inventario.admin.Configuracion
                         }
                 }
             }
-
             ///// MOSTRAR RESULTADOS
             pagina = HttpContext.Current.Request.QueryString["pagina"] != null ? Convert.ToInt32(HttpContext.Current.Request.QueryString["pagina"]) : 1;
             int regpagina = 50, acaba = pagina * regpagina;
@@ -115,7 +118,8 @@ namespace Inventario.Inventario.admin.Configuracion
                 Panel panelSubmodulo = (Panel)row.FindControl("PanelSubmodulo");
                 GridView gridViewSubmodulos = (GridView)row.FindControl("GridViewSubmodulos");
                 UpdatePanel updatePanelSubmodulo = (UpdatePanel)row.FindControl("UpdatePanelSubmodulo");
-
+                Button idUser = (Button)row.FindControl("btnMostrarSubmodulo");
+              
                 if (panelSubmodulo != null && gridViewSubmodulos != null && updatePanelSubmodulo != null)
                 {
                     BindSubmodulosGrid(gridViewSubmodulos, index);
@@ -136,7 +140,8 @@ namespace Inventario.Inventario.admin.Configuracion
         }
         private void BindSubmodulosGrid(GridView gridViewSubmodulos, int moduloId)
         {
-            consulta = "SELECT DISTINCT m.id_modulo, m.nombre, a.nombre  FROM " + PermisosMysql.LinkedServer + " ... cliente c INNER JOIN " + PermisosMysql.LinkedServer + "... permisos p ON c.id_cliente = p.id_usuario INNER JOIN " + PermisosMysql.LinkedServer + "... modulo m ON m.id_modulo = p.id_modulo INNER JOIN " + PermisosMysql.LinkedServer + " ... AccionesPermiso a ON a.id_accion = p.id_accionespermiso WHERE  m.id_modulo <> 99999";
+       
+            consulta = "SELECT DISTINCT m.id_modulo, m.nombre, a.nombre  FROM " + PermisosMysql.LinkedServer + " ... cliente c INNER JOIN " + PermisosMysql.LinkedServer + "... permisos p ON c.id_cliente = p.id_usuario INNER JOIN " + PermisosMysql.LinkedServer + "... modulo m ON m.id_modulo = p.id_modulo INNER JOIN " + PermisosMysql.LinkedServer + " ... AccionesPermiso a ON a.id_accion = p.id_accionespermiso WHERE  m.id_modulo <> 99999  AND c.id_cliente=" + PermissionsId;
             Tuple<List<object[]>, int> PermisosUser = PermisosMysql.Consulta(ref mens, consulta);
             TM = PermisosUser.Item2;
             valdModuloUserArray = new string[TM];

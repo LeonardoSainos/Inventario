@@ -74,7 +74,7 @@
                                     <asp:BoundField DataField="email_cliente" HeaderText="Correo" />
                                     <asp:TemplateField HeaderText="Seguridad">
                                         <ItemTemplate>
-                                            <asp:Button   CssClass="btn btn-warning" ID="btnMostrarSubmodulo" runat="server" Text="+"  CommandName="ShowSubmodulo" CommandArgument='<%#Container.DataItemIndex %>' />
+                                            <asp:Button  CssClass="btnMostrarSubmoduloClient btn btn-warning" ID="btnMostrarSubmodulo" runat="server" Text="+"  CommandName="ShowSubmodulo" CommandArgument='<%#Container.DataItemIndex %>' />
                                             <asp:UpdatePanel ID="UpdatePanelSubmodulo" runat="server"   UpdateMode="Conditional" >
                                               <ContentTemplate>  
                                                 <asp:Panel ID="PanelSubmodulo" runat="server" CssClass="details" >
