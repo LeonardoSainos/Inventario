@@ -17,6 +17,8 @@ namespace Inventario.Inventario.admin.Configuracion
         private string aler = "", consulta = "", mens = "", rol = "", nombrepagina = "searchPermissions";
         private int[] idModuloUser, idSubmoduloUser, idSubsubmodulouser;
         private string[] valModuloUser, valSubmoduloUser, valSubsubmodulouser;
+        private string[] valAccion;
+        private int[] IdAccion;
         public string PaginaNombre { get { return nombrepagina; } }
         public int PermissionsId { get { return permissionUser; } set { permissionUser = value; } }
         public int inicializacion { set { inicio = value; } get { return inicio; } }
@@ -33,6 +35,8 @@ namespace Inventario.Inventario.admin.Configuracion
         public string[] valdModuloUserArray { set { valModuloUser = value; } get { return valModuloUser; } }
         public string[] valSubmoduloUserArray { set { valSubmoduloUser = value; } get { return valSubmoduloUser; } }
         public string[] valSubsubmoduloUserArray { set { valSubsubmodulouser = value; } get { return valSubsubmodulouser; } }
+         public string [] valAccionUserArray { set { valAccion = value; } get { return valAccion; } }
+        public int [] idAccionUserArray { set { IdAccion = value; } get { return IdAccion; } }
         public int row3 { set { r3 = value; } get { return r3; } }
         public string alerta { set { aler = value; } get { return aler; } }
         public string query { set { consulta = value; } get { return consulta; } }
@@ -50,13 +54,7 @@ namespace Inventario.Inventario.admin.Configuracion
             { BindModulosGrid();
             }
         }
-        private void BindModulosGrid()
-        {
-            if (!String.IsNullOrEmpty(Request.Form["id_clientePermission"]))
-            {
-                PermissionsId = Convert.ToInt32(Functions.RequestPost(Request.Form["id_clientePermission"]));
-            }
-
+        private void BindModulosGrid()        {
             string[] orderby = { "c.nombre_completo", "c.email_cliente" };
             string ordenamuestra = orderby[0];
             int tipoRol = 0;
@@ -113,35 +111,60 @@ namespace Inventario.Inventario.admin.Configuracion
         {
             if (e.CommandName == "ShowSubmodulo")
             {
-                int index = Convert.ToInt32(e.CommandArgument);
+                string[] args = e.CommandArgument.ToString().Split(',');
+                int idUsuarioPermisos = Convert.ToInt32(args[1]);
+                int index = Convert.ToInt32(args[0]);
                 GridViewRow row = GridViewModulos.Rows[index];
                 Panel panelSubmodulo = (Panel)row.FindControl("PanelSubmodulo");
                 GridView gridViewSubmodulos = (GridView)row.FindControl("GridViewSubmodulos");
                 UpdatePanel updatePanelSubmodulo = (UpdatePanel)row.FindControl("UpdatePanelSubmodulo");
                 Button idUser = (Button)row.FindControl("btnMostrarSubmodulo");
-              
-                if (panelSubmodulo != null && gridViewSubmodulos != null && updatePanelSubmodulo != null)
-                {
-                    BindSubmodulosGrid(gridViewSubmodulos, index);
+                if (panelSubmodulo != null && gridViewSubmodulos != null && updatePanelSubmodulo != null){
+                    BindSubmodulosGrid(gridViewSubmodulos, index,idUsuarioPermisos);
 
-                    if (panelSubmodulo.Style["display"] == "none" || string.IsNullOrEmpty(panelSubmodulo.Style["display"]))
-                    {
+                    if (panelSubmodulo.Style["display"] == "none" || string.IsNullOrEmpty(panelSubmodulo.Style["display"])) {
                         panelSubmodulo.Style["display"] = "block";
                     }
-                    else
-                    {
+                    else{
                         panelSubmodulo.Style["display"] = "none";
                     }
-
-                    // Esto asegura que solo el UpdatePanel se actualiza sin causar un postback completo.
                     updatePanelSubmodulo.Update();
                 }
             }
         }
-        private void BindSubmodulosGrid(GridView gridViewSubmodulos, int moduloId)
-        {
        
-            consulta = "SELECT DISTINCT m.id_modulo, m.nombre, a.nombre  FROM " + PermisosMysql.LinkedServer + " ... cliente c INNER JOIN " + PermisosMysql.LinkedServer + "... permisos p ON c.id_cliente = p.id_usuario INNER JOIN " + PermisosMysql.LinkedServer + "... modulo m ON m.id_modulo = p.id_modulo INNER JOIN " + PermisosMysql.LinkedServer + " ... AccionesPermiso a ON a.id_accion = p.id_accionespermiso WHERE  m.id_modulo <> 99999  AND c.id_cliente=" + PermissionsId;
+        protected void GridViewSubmodulos_RowCommand(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {   
+                DropDownList SelectAccion = (DropDownList)e.Row.FindControl("SelectNombre");
+                if (SelectAccion != null)
+                {
+                    SelectAccion.Items.Clear();
+                    for (int i = 0; i < valAccionUserArray.Length; i++)
+                    {
+                        string accionNombre = valAccionUserArray[i];  // El texto que será visible
+                        string accionId = idAccionUserArray[i].ToString();  // El valor oculto (id)
+
+                        // Añadir el ítem al DropDownList
+                        SelectAccion.Items.Add(new ListItem(accionNombre, accionId));
+                    }
+                    string AccionNombre = DataBinder.Eval(e.Row.DataItem, "AccionNombre")?.ToString();
+                   /* if (!string.IsNullOrEmpty(AccionNombre))
+                    {
+                        // Seleccionar el valor correcto en el DropDownList
+                        ListItem selectedItem = SelectAccion.Items.FindByText(AccionNombre);
+                        if (selectedItem != null)
+                        {
+                            SelectAccion.SelectedValue = selectedItem.Value;
+                        }
+                    }*/
+                }
+            }
+        }
+        private void BindSubmodulosGrid(GridView gridViewSubmodulos, int moduloId, int cliente)
+        {
+            consulta = "SELECT DISTINCT m.id_modulo, m.nombre as Modulo FROM " + PermisosMysql.LinkedServer + " ...  modulo m INNER JOIN " + PermisosMysql.LinkedServer + "... permisos p ON p.id_modulo = m.id_modulo INNER JOIN " + PermisosMysql.LinkedServer + "... cliente c On p.id_usuario = c.id_cliente WHERE(p.id_app = 5470 AND m.id_modulo <> 99999) ORDER BY m.nombre";
             Tuple<List<object[]>, int> PermisosUser = PermisosMysql.Consulta(ref mens, consulta);
             TM = PermisosUser.Item2;
             valdModuloUserArray = new string[TM];
@@ -151,24 +174,23 @@ namespace Inventario.Inventario.admin.Configuracion
                 valModuloUser[a] = Convert.ToString(PermisosUser.Item1[a][1]);
                 idModuloUserArray[a] = Convert.ToInt32(PermisosUser.Item1[a][0]);
             }
-
-            // GridView gridViewSubmodulos = (GridView)panelSubmodulo.FindControl("GridViewSubmodulos");
-            gridViewSubmodulos.DataSource = PermisosUser.Item1.Select(x => new { ModuloId = x[0], ModuloNombre = x[1], AccionNombre = x[2] });
-            gridViewSubmodulos.DataBind();
-        }
-        protected void GridViewSubmodulos_RowCommand(object sender, GridViewRowEventArgs e)
-        {
-
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            consulta = "SELECT DISTINCT id_accion, nombre FROM mysql_ticket... AccionesPermiso order by nombre DESC";
+            Tuple<List<object[]>, int> Acciones = PermisosMysql.Consulta(ref mens, consulta);
+            valAccionUserArray = new string[Acciones.Item2];
+            idAccionUserArray = new int[Acciones.Item2];
+            for (int b = 0; b < Acciones.Item2 ; b++)
             {
-                DropDownList SelectAccion = (DropDownList)e.Row.FindControl("SelectNombre");
-                if (SelectAccion != null)
-                {
-                    string AccionNombre = DataBinder.Eval(e.Row.DataItem, "AccionNombre").ToString();
-                    SelectAccion.Items.Add(new ListItem(AccionNombre));
-
-                }
+                valAccionUserArray[b] = Convert.ToString(Acciones.Item1[b][1]);
+                idAccionUserArray[b] = Convert.ToInt32(Acciones.Item1[b][0]);
             }
-        }
+            //GridView gridViewSubmodulos = (GridView)panelSubmodulo.FindControl("GridViewSubmodulos");
+            gridViewSubmodulos.DataSource = PermisosUser.Item1.Select((x, index) => new
+            {
+                ModuloId = x[0],
+                ModuloNombre = x[1],
+                AccionNombre =valAccionUserArray.Length > index ? valAccionUserArray[index] : null
+            });
+            gridViewSubmodulos.DataBind();
+        }   
     }
 }

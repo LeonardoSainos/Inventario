@@ -74,11 +74,11 @@
                                     <asp:BoundField DataField="email_cliente" HeaderText="Correo" />
                                     <asp:TemplateField HeaderText="Seguridad">
                                         <ItemTemplate>
-                                            <asp:Button  CssClass="btnMostrarSubmoduloClient btn btn-warning" ID="btnMostrarSubmodulo" runat="server" Text="+"  CommandName="ShowSubmodulo" CommandArgument='<%#Container.DataItemIndex %>' />
+                                            <asp:Button  CssClass="btnMostrarSubmoduloClient btn btn-warning" ID="btnMostrarSubmodulo" runat="server" Text="+"  CommandName="ShowSubmodulo" CommandArgument='<%#Container.DataItemIndex + "," + Eval("id_cliente") %>' />
                                             <asp:UpdatePanel ID="UpdatePanelSubmodulo" runat="server"   UpdateMode="Conditional" >
                                               <ContentTemplate>  
                                                 <asp:Panel ID="PanelSubmodulo" runat="server" CssClass="details" >
-                                                    <asp:GridView class="table table-bordered" OnRowDataBound="GridViewSubmodulos_RowCommand" ID="GridViewSubmodulos" runat="server" AutoGenerateColumns="False">
+                                                    <asp:GridView class="table table-bordered" OnRowDataBound="GridViewSubmodulos_RowCommand" ID="GridViewSubmodulos" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="true">
                                                          <Columns>
                                                                 <asp:TemplateField HeaderText="#">
                                                                     <ItemTemplate>
@@ -95,11 +95,10 @@
                                                                         <asp:DropDownList ID="SelectNombre" runat="server" />
                                                                     </ItemTemplate>
                                                                </asp:TemplateField>
-                                                               <asp:TemplateField HeaderText="Subsubmodulos">
+                                                               <asp:TemplateField HeaderText="Submodulos">
                                                                    <ItemTemplate>
                                                                        <asp:Button CssClass="btn btn-warning" ID="btnMostrarSubsubmodulo" runat="server" Text="+"  CommandName="ShowSubsubmodulo" CommandArgument='<%#Container.DataItemIndex %>'/>
                                                                         <asp:Panel ID="PanelSubsubmodulo" runat="server" CssClass="details">
-
                                                                         </asp:Panel>
                                                                    </ItemTemplate>
                                                                </asp:TemplateField>
@@ -177,4 +176,3 @@
 </div>
 
 <uc:InsertUser runat="server" />
-

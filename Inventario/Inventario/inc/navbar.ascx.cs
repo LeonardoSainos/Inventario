@@ -67,7 +67,6 @@ namespace Inventario.Inventario.inc
             // MODULOS
             consulta = "SELECT DISTINCT m.id_modulo, m.nombre as Modulo, m.ruta, m.iconModulo, m.spanModulo, m.classenlace FROM " + MysqlNavBar.LinkedServer + " ...  modulo m INNER JOIN " + MysqlNavBar.LinkedServer + " ... permisos p ON p.id_modulo = m.id_modulo INNER JOIN " + MysqlNavBar.LinkedServer + "... cliente c On p.id_usuario = c.id_cliente WHERE (p.id_app = 5470 AND m.id_modulo <>99999) AND p.id_usuario =" + userIdCookie + " ORDER BY m.nombre";
             Modulos = MysqlNavBar.Consulta(ref mensaje, consulta);
-
             if (Modulos.Item2 >= 1)
             {
                 TotalModulos = Modulos.Item2;

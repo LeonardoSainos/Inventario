@@ -289,7 +289,7 @@ $(document).ready(function () {
     $("#Brandfechaa").click(function () {
         FiltroUsers('Fecha');
     });
-
+    /*
     $('.btnMostrarSubmoduloClient').on('click', function () {
         let liga = "./admin?view=permissions";
         // Encuentra la fila más cercana del botón que fue clickeado
@@ -299,7 +299,7 @@ $(document).ready(function () {
         var nombre = $tr.children('td').eq(2).text().trim();    // Índice 2 para nombre_completo
         var email = $tr.children('td').eq(3).text().trim();     // Índice 3 para email_cliente
         // Asigna los valores a los campos de entrada del formulario
-     /*   $("#update_id").val(idCliente);   $("#nombres").val(nombre); $('#correos').val(email);   */
+     //  $("#update_id").val(idCliente);   $("#nombres").val(nombre); $('#correos').val(email);   
         var id_clientePermission = idCliente; // Obtener el valor del input con ID update_id
         $.ajax({
             type: 'POST', // Tipo de solicitud: POST
@@ -317,7 +317,7 @@ $(document).ready(function () {
     });
 
 
-
+*/
     
 
 

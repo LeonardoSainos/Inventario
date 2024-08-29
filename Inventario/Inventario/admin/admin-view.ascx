@@ -18,8 +18,7 @@
     <button class="btn dropdown-toggle btn-warning" data-toggle="dropdown" value="Más">
         Más
         <span class="caret"></span>
-    </button>   
- 
+    </button>    
     <ul class="dropdown-menu">                                                        
        <li><span style='margin-left:22px' class='glyphicon glyphicon-user'></span><input class="btn btn-link" style='text-decoration:none;' onclick="ActivarBoton('Nuevo');" value="Nuevo usuario" type="button"/></li>
         <li><span style='margin-left:22px;' class='glyphicon glyphicon-trash'></span> <button type="submit" class='btn btn-link'  onclick="ActivarBoton('Eliminar');" style='text-decoration:none;' name="Eliminar">Eliminar</button></li>
