@@ -29,7 +29,7 @@ namespace Inventario.includes
             WhiteList = new string[] { "ticketadmin", "interno", "ticketedit", "admin", "mecanico","almacenista","config", "depa", "depaedit", "userEdit", "acciones", "brands", "brandsEdit", "models", "modelEdit", "types", "typeEdit", "cars", "carEdit", "permissions" };
             ViewDiferent = new string[] { "searchUsers", "searchDepa", "searchTicket", "searchBrands", "searchModels", "searchTypes", "searchCars", "searchPermissions" };
            
-            if (Request.QueryString["view"] != null && (Session["id"] != null || userIdCookie.Value != null)){
+            if (Request.QueryString["view"] != null && (Session["id"] != null ||  !string.IsNullOrEmpty(userIdCookie.Value))){
                 LoadContent(); 
             }
             else if (idObject == 999999 && (Convert.ToString(rolIdCookie.Value) == "" || Convert.ToString(rolIdCookie.Value) == null)) {

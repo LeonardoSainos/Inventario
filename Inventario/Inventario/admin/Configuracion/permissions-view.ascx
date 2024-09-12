@@ -22,7 +22,7 @@
             <button class="btn dropdown-toggle btn-warning" data-toggle="dropdown" value="Más">Más<span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li>
-                    <span style='margin-left:22px' class='glyphicon glyphicon-user'></span>
+                    <span style='margin-left:22px' class='glyphicon gly1phicon-user'></span>
                     <input class="btn btn-link" style='text-decoration:none;' onclick="ActivarBoton('Nuevo');" value="Nuevo usuario" type="button" />
                 </li>
             </ul>
@@ -78,23 +78,33 @@
                                             <asp:UpdatePanel ID="UpdatePanelSubmodulo" runat="server"   UpdateMode="Conditional" >
                                               <ContentTemplate>  
                                                 <asp:Panel ID="PanelSubmodulo" runat="server" CssClass="details" >
-                                                    <asp:GridView class="table table-bordered" OnRowDataBound="GridViewSubmodulos_RowCommand" ID="GridViewSubmodulos" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="true">
+                                                    <asp:GridView class="table table-bordered" OnRowDataBound="GridViewSubmodulos_RowCommand" ID="GridViewSubmodulos" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="true" >
                                                          <Columns>
+                                                             <asp:BoundField DataField="ModuloId" HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden" />
                                                                 <asp:TemplateField HeaderText="#">
                                                                     <ItemTemplate>
                                                                         <%# (Container.DataItemIndex + 1) %>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                     <asp:TemplateField HeaderText="Submódulo">
-                                                                        <ItemTemplate>
+                                                                <asp:TemplateField HeaderText="Submódulo">
+                                                                        <ItemTemplate >
                                                                             <%# Eval("ModuloNombre") %> 
                                                                         </ItemTemplate>
+
                                                                 </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="Tipo de Acceso">
-                                                                    <ItemTemplate>
-                                                                        <asp:DropDownList ID="SelectNombre" runat="server" />
-                                                                    </ItemTemplate>
-                                                               </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Tipo de Acceso">
+                                                                <ItemTemplate>
+                                                                    <asp:UpdatePanel ID="UpdatePanelSelectNombre" runat="server">
+                                                                        <ContentTemplate>
+                                                                            <asp:DropDownList ID="SelectNombre" AutoPostBack="true" OnSelectedIndexChanged="SelectNombre_SelectedIndexChanged"    runat="server" />
+                                                                        </ContentTemplate>
+                                                                        <Triggers>
+                                                                            <asp:AsyncPostBackTrigger ControlID="SelectNombre" EventName="SelectedIndexChanged" />
+                                                                        </Triggers>
+                                                                    </asp:UpdatePanel>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+
                                                                <asp:TemplateField HeaderText="Submodulos">
                                                                    <ItemTemplate>
                                                                        <asp:Button CssClass="btn btn-warning" ID="btnMostrarSubsubmodulo" runat="server" Text="+"  CommandName="ShowSubsubmodulo" CommandArgument='<%#Container.DataItemIndex %>'/>
@@ -109,6 +119,7 @@
                                             </ContentTemplate>   
                                              <Triggers>
                                                  <asp:AsyncPostBackTrigger ControlID="btnMostrarSubmodulo" EventName="Click" />
+                         
                                              </Triggers> 
                                             </asp:UpdatePanel>
                                         </ItemTemplate>
