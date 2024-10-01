@@ -106,7 +106,7 @@
 
                                                                <asp:TemplateField HeaderText="Subsubmódulos">
                                                                    <ItemTemplate>
-                                                                       <asp:Button CssClass="btn btn-warning" ID="btnMostrarSubsubmodulo" runat="server" Text="+"  CommandName="ShowSubsubmodulo"  Visible="false" CommandArgument='<%#Container.DataItemIndex %>'/>
+                                                                       <asp:Button CssClass="btn btn-warning" ID="btnMostrarSubsubmodulo" runat="server" Text="+"  CommandName="ShowSubsubmodulo"  Visible="false" CommandArgument='<%#Container.DataItemIndex + "," + Eval("ModuloId") %>'/>
                                                                          <asp:UpdatePanel ID="UpdatePanelSubSubmodulo" runat="server" UpdateMode="Conditional">
                                                                              <ContentTemplate>
                                                                                  <asp:Panel ID="PanelSubsubmodulo" runat="server" CssClass="details">

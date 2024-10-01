@@ -197,13 +197,12 @@ namespace Inventario.Inventario.admin.Configuracion
                 MensajeAlerta = "ERROR:" + c.Message;
             }
         }
-        private void BindSubSubmodulosGrid(GridView gridViewSubSubmodulos)
+        private void BindSubSubmodulosGrid(GridView gridViewSubSubmodulos, int Modulo)
         {
             try
             {
                 Tuple<List<object[]>, int> PermisosUser, Extras, Submodulos;
-
-                consulta = "SELECT DISTINCT m.id_modulo, m.nombre as Modulo FROM " + PermisosMysql.LinkedServer + " ...  modulo m INNER JOIN " + PermisosMysql.LinkedServer + "... permisos p ON p.id_modulo = m.id_modulo INNER JOIN " + PermisosMysql.LinkedServer + "... cliente c On p.id_usuario = c.id_cliente WHERE(p.id_app = 5470 AND m.id_modulo <> 99999) ORDER BY m.nombre";
+                consulta = "SELECT DISTINCT m.id_modulo, m.nombre as Modulo FROM " + PermisosMysql.LinkedServer + " ...  modulo m INNER JOIN " + PermisosMysql.LinkedServer + "... permisos p ON p.id_modulo = m.id_modulo INNER JOIN " + PermisosMysql.LinkedServer + "... cliente c On p.id_usuario = c.id_cliente WHERE(p.id_app = 5470 AND(m.id_modulo <> 99999 AND m.id_modulo = " + Modulo + ")) ORDER BY m.nombre";
                 PermisosUser = PermisosMysql.Consulta(ref mens, consulta);
                 Submodulos = PermisosUser; // parche 
                 if (PermisosUser.Item2 >= 1)
@@ -245,8 +244,18 @@ namespace Inventario.Inventario.admin.Configuracion
                                         tempValAcciones.Add(Convert.ToString(Extras.Item1[c][1]));
                                     }
                                 }
-                                idAccionUserArray[a] = idAccionUserArray[a].Concat(tempIdAcciones.ToArray()).ToArray();
-                                valAccionUserArray[a] = valAccionUserArray[a].Concat(tempValAcciones.ToArray()).ToArray();
+                                // Limpia los valores nulos o en 0 en idAccionUserArray[a]
+                                idAccionUserArray[a] = idAccionUserArray[a]
+                                    .Where(x => x != null && x != 0) // Filtra elementos no nulos y diferentes de 0
+                                    .Concat(tempIdAcciones.ToArray()) // Concatena los nuevos valores
+                                    .ToArray();
+
+                                // Limpia los valores nulos en valAccionUserArray[a]
+                                valAccionUserArray[a] = valAccionUserArray[a]
+                                    .Where(x => x != null) // Filtra elementos no nulos
+                                    .Concat(tempValAcciones.ToArray()) // Concatena los nuevos valores
+                                    .ToArray();
+
                                 tempIdAcciones.Clear();
                                 tempValAcciones.Clear();
                             }
@@ -305,9 +314,10 @@ namespace Inventario.Inventario.admin.Configuracion
                 if (e.CommandName == "ShowSubsubmodulo")
                 {
                     string[] args = e.CommandArgument.ToString().Split(',');
-                    if (args.Length == 1)
+                    if (args.Length == 2)
                     {
                         int indexHijo = Convert.ToInt32(args[0]);
+                        int moduloId = Convert.ToInt32(args[1]);
                         int indexPadre = (int)ViewState["IndexModulos"];
                         PermissionsId = (int)ViewState["PermissionsId"];
                         GridViewRow rowPadre = GridViewModulos.Rows[indexPadre];
@@ -316,9 +326,9 @@ namespace Inventario.Inventario.admin.Configuracion
                         Panel panelSubsubmodulo = (Panel)rowHijo.FindControl("PanelSubSubmodulo");
                         GridView gridViewSubsubmodulos = (GridView)rowHijo.FindControl("GridViewSubSubmodulos");
                         UpdatePanel updatePanelSubsubmodulo = (UpdatePanel)rowHijo.FindControl("UpdatePanelSubSubmodulo");
-                        if (panelSubsubmodulo!= null && gridViewSubsubmodulos!=null && updatePanelSubsubmodulo != null)
+                        if (panelSubsubmodulo != null && gridViewSubsubmodulos != null && updatePanelSubsubmodulo != null)
                         {
-                            BindSubSubmodulosGrid(gridViewSubsubmodulos);
+                           BindSubSubmodulosGrid(gridViewSubsubmodulos, moduloId);
                             if (panelSubsubmodulo.Style["display"] == "none" || string.IsNullOrEmpty(panelSubsubmodulo.Style["display"])){
                                 panelSubsubmodulo.Style["display"] = "block";
 
@@ -363,7 +373,7 @@ namespace Inventario.Inventario.admin.Configuracion
                             string accionId = idAccionUserArray[rowIndex][i].ToString();
                             SelectAccion.Items.Add(new ListItem(accionNombre, accionId));
                             SelectAccion.Attributes["data-nombreModulo"] = Modulonombre;
-                            ViewState["idModulo"] = IdModulo;
+                            ViewState["idModulo_" + rowIndex] = IdModulo;
                         }
                     }
                 }
@@ -373,7 +383,6 @@ namespace Inventario.Inventario.admin.Configuracion
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-              
                 DropDownList SelectActionSubsubmodulo = (DropDownList)e.Row.FindControl("SelectNombre2");
                 string SubmoduloNombre = DataBinder.Eval(e.Row.DataItem, "SubModuloNombre").ToString();
                 int IdSubmodulo = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem,"SubModuloId"));
@@ -384,28 +393,17 @@ namespace Inventario.Inventario.admin.Configuracion
                     int rowIndex = e.Row.RowIndex;
                     if (valAccionUserArray.Length > rowIndex)
                     {
-                       /* for (int i = 0; i < valAccionUserArray[rowIndex].Length; i++)
+                        for (int i = 0; i < valAccionUserArray[rowIndex].Length; i++)
                         {
-                            if (idAccionUserArray[rowIndex][0] == 567 || valAccionUserArray[rowIndex][0].Contains("NO PERMITIDO"))
-                            {
-                                btnSubsubmodulo.Visible = false;
-                            }
-                            else
-                            {
-                                btnSubsubmodulo.Visible = true;
-                            }
                             string accionNombre = valAccionUserArray[rowIndex][i];
                             string accionId = idAccionUserArray[rowIndex][i].ToString();
                             SelectActionSubsubmodulo.Items.Add(new ListItem(accionNombre, accionId));
                             SelectActionSubsubmodulo.Attributes["data-nombreModulo"] = SubmoduloNombre;
-                            ViewState["idSubModulo_" + rowIndex] = IdSubmodulo;
-                        }*/
+                            ViewState["idSubSubModulo_" + rowIndex] = IdSubmodulo;
+                        }
                     }
                 }
-            
             }
-           
-
         }
         protected void SelectNombre_SelectedIndexChanged(object sender, EventArgs e)
         {    
@@ -419,7 +417,7 @@ namespace Inventario.Inventario.admin.Configuracion
                 int rowIndex = row.RowIndex;   // Obtener el índice de la fila actual
                 int selectedValue = Convert.ToInt32(SelectAction.SelectedValue);
                 string nombreM = SelectAction.Attributes["data-nombreModulo"];
-                int idModulo = (int)ViewState["idModulo"];
+                int idModulo = (int)ViewState["idModulo_" + rowIndex];
                 if (ViewState["PermissionsId"] != null){
                     PermissionsId = (int)ViewState["PermissionsId"];
                 }
@@ -473,7 +471,6 @@ namespace Inventario.Inventario.admin.Configuracion
                                     updatePanelSubmodulo.Update();
                                 }
                            }
-
                     }
                 }
             }
@@ -483,7 +480,6 @@ namespace Inventario.Inventario.admin.Configuracion
         }
         protected void SelectNombre2_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
     }
 }
